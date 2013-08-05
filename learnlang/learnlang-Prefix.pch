@@ -1,0 +1,66 @@
+//
+// Prefix header for all source files of the 'learnlang' target in the 'learnlang' project
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_4_0
+#warning "This project uses features only available in iOS SDK 4.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+    #import <CoreData/CoreData.h>
+#endif
+
+
+//添加的预编译
+#import "ASIHTTPRequest.h"
+#import "ASIFormDataRequest.h"
+#import "ASIHTTPRequestDelegate.h"
+#import "ASIHTTPRequestConfig.h"
+
+#import "Config.h"
+#import "DataManager.h"
+
+#import "EGORefreshTableHeaderView.h"
+
+
+#import "MBProgressHUD.h"
+#import "GCDiscreetNotificationView.h"
+
+
+#import "AFHTTPClient.h"
+#import "AFHTTPRequestOperation.h"
+#import "AFXMLRequestOperation.h"
+#import "AFCustomClient.h"
+
+#import "DataSingleton.h"
+#import "LoadingCell.h"
+
+#define api_news_list @"http://learn.china.cn/api/list.do"
+
+#define api_post_list @"http://www.oschina.net/action/api/post_list"
+
+
+
+
+
+#define NewsTableViewCellIdentifier @"NewsTableViewCellIdentifier"
+
+
+#define loadNext20Tip @"下面 20 项 . . ."
+#define loadingTip @"正在加载 . . ."
+#define networkError @"网络无连接"
+#define noNetworkTip @"网络无连接"
+
+#define kDownloadFileName @"voice_download_file_"
+
+#define newsPageSize 10
+
+#define kNewsToolBarHeight 60
+
+
+
+
