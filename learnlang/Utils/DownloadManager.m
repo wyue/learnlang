@@ -353,4 +353,26 @@ static DownloadManager * managerinstance = nil;
     [request release];
 }
 
+
+#pragma 下载更新界面的委托
+-(void)startDownload:(ASIHTTPRequest *)request;
+{
+    NSLog(@"-------开始下载!");
+}
+
+-(void)updateCellProgress:(ASIHTTPRequest *)request;
+{
+    FileModel *fileInfo=[request.userInfo objectForKey:@"File"];
+    [self performSelectorOnMainThread:@selector(updateCellOnMainThread:) withObject:fileInfo waitUntilDone:YES];
+}
+
+-(void)finishedDownload:(ASIHTTPRequest *)request;
+{
+//    FileModel *fileInfo=[request.userInfo objectForKey:@"File"];
+//    [self.downingList removeObject:request];
+//    [self.finishedList addObject:fileInfo];
+//    [self.downloadingTable reloadData];
+//    [self.finishedTable reloadData];
+}
+
 @end

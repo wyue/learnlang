@@ -534,7 +534,7 @@ VoiceUILabel *l =    (VoiceUILabel*) gestureRecognizer.view;
     
      PopoverView*   pv = [PopoverView showPopoverAtPoint:button.center
                                       inView:button
-                             withStringArray:[NSArray arrayWithObjects:@"YES", @"NO", nil]
+                             withStringArray:[NSArray arrayWithObjects:@"收藏", @"下载", nil]
                                     delegate:self]; // Show the string array defined at top of this file
     [pv retain];
    
@@ -579,7 +579,12 @@ VoiceUILabel *l =    (VoiceUILabel*) gestureRecognizer.view;
             if (news.voiceUrl&&![news.voiceUrl isEqualToString:@""]) {
                 [Config ToastNotification:@"开始下载" andView:self.view andLoading:NO andIsBottom:NO];
                 FileModel *selectFileInfo=[[FileModel alloc]init];
-                selectFileInfo.fileName=[NSString stringWithFormat:@"%@%d",kDownloadFileName,news._id];
+                
+                NSString * fileExtension = [news.voiceUrl pathExtension];
+                
+                
+                selectFileInfo.fileName=[NSString stringWithFormat:@"%@%d.%@",kDownloadFileName,news._id,fileExtension];
+                selectFileInfo.fileExtension=fileExtension;
                 selectFileInfo.fileURL=news.voiceUrl;
                 
                 
@@ -629,7 +634,7 @@ VoiceUILabel *l =    (VoiceUILabel*) gestureRecognizer.view;
             
         }else{
             //取消保存
-            [Config ToastNotification:@"停止下载" andView:self.view andLoading:NO andIsBottom:NO];
+            [Config ToastNotification:@"下载" andView:self.view andLoading:NO andIsBottom:NO];
             [[DownloadManager Instance] loadTempfiles];
              [[DownloadManager Instance] loadFinishedfiles];
             NSMutableDictionary*finishedList=[DownloadManager Instance].finishedlist;
@@ -639,7 +644,7 @@ VoiceUILabel *l =    (VoiceUILabel*) gestureRecognizer.view;
             
             NSFileManager *fileManager=[NSFileManager defaultManager];
             NSError *error;
-            if(TRUE)//正在下载的表格
+            if(FALSE)//正在下载的表格
             {
                 ASIHTTPRequest *theRequest=[downingList objectForKey:[NSString stringWithFormat:@"%@%d",kDownloadFileName,news._id]];
                 if([theRequest isExecuting])

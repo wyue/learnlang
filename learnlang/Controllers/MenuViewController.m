@@ -98,25 +98,43 @@
     // Configure the cell...
     switch (indexPath.row) {
         case 0:
+        {
             [cell.imageView setImage:[UIImage imageNamed:@""]];
+        }
             break;
         case 1:
-            [cell.imageView setImage:[UIImage imageNamed:@""]];
+        {
+           [cell.imageView setImage:[UIImage imageNamed:@""]];
+            cell.textLabel.text=@"首页";
+        }
+           
             break;
         case 2:
+        {
             [cell.imageView setImage:[UIImage imageNamed:@""]];
+             cell.textLabel.text=@"我的收藏";
+        }
             break;
         case 3:
-             [cell.imageView setImage:[UIImage imageNamed:@""]];
+        {
+            [cell.imageView setImage:[UIImage imageNamed:@""]];
+             cell.textLabel.text=@"我的下载";
+        }
             break;
         case 4:
-             [cell.imageView setImage:[UIImage imageNamed:@""]];
+        {
+            [cell.imageView setImage:[UIImage imageNamed:@""]];
+        }
             break;
         case 5:
-             [cell.imageView setImage:[UIImage imageNamed:@""]];
+        {
+            [cell.imageView setImage:[UIImage imageNamed:@""]];
+        }
             break;
         default:
-             [cell.imageView setImage:[UIImage imageNamed:@""]];
+        {
+            [cell.imageView setImage:[UIImage imageNamed:@""]];
+        }
             break;
     }
     return cell;

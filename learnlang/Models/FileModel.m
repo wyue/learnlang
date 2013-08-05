@@ -12,6 +12,7 @@
 @synthesize news;
 @synthesize fileID;
 @synthesize fileName;
+@synthesize fileExtension;
 @synthesize fileSize;
 @synthesize isFistReceived;
 @synthesize fileReceivedData;
