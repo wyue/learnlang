@@ -8,6 +8,7 @@
 
 #import "DownloadViewController.h"
 #import "DownloadCell.h"
+#import "NewsDetailViewController.h"
 #define kType 1
 @interface DownloadViewController ()
 
@@ -142,6 +143,16 @@
 //    detailViewController.news = [array objectAtIndex:indexPath.row];
     
    // [self.navigationController pushViewController:detailViewController animated:YES];
+    News *n = [array objectAtIndex:indexPath.row];
+    if (n)
+    {
+        
+        NewsDetailViewController *newsDetailViewController = [[[NewsDetailViewController alloc] initWithNibName:@"NewsDetailViewController" bundle:nil] autorelease];
+        
+        newsDetailViewController.news = n;
+        [self.navigationController pushViewController:newsDetailViewController animated:YES];
+    }
+
 }
 
 

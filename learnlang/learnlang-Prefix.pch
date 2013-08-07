@@ -57,10 +57,19 @@
 
 #define kDownloadFileName @"voice_download_file_"
 
+#define kSaveType 0
+#define kDownloadType 1
+
 #define newsPageSize 10
 
 #define kNewsToolBarHeight 60
 
 
+
+//notify
+
+#define LOCALASStatusChangedNotification  @"LOCALASStatusChangedNotification"
+
+#define StatusFinishNotificationForAudio  @"StatusFinishNotificationForAudio"
 
 

@@ -76,7 +76,8 @@ __strong News *_news;
     //[self.imageView setImageWithURL:[NSURL URLWithString:_news.imgUrl] placeholderImage:[UIImage imageNamed:@"profile-image-placeholder"]];
     if (!imageView.imageURL  ) {
        imageView.imageURL = [NSURL URLWithString:_news.imgUrl];
-    }else{
+    }
+    else{
         
         
         if(_news.imgUrl&&![[imageView.imageURL absoluteString] isEqualToString:_news.imgUrl]){

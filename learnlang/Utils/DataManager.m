@@ -11,6 +11,7 @@
 #import "News.h"
 #import "Voice.h"
 #import "SBJson.h"
+#import "DownloadsManager.h"
 
 @implementation DataManager
 
@@ -480,6 +481,121 @@
     
     return isInsert;
 }
++ (void)removeNews:(int)type andNews:(News*)news
+{
+    
+    
+    NSString *idStr = [NSString stringWithFormat:@"%d",news._id ];
+    
+    
+    
+    NSUserDefaults * setting = [NSUserDefaults standardUserDefaults];
+    NSString *dickey = [NSString stringWithFormat:@"save-news-dic-%d",type];
+    NSString *arykey = [NSString stringWithFormat:@"save-news-ary-%d",type];
+    NSDictionary *dic = [setting objectForKey:dickey];
+    NSArray *ary = [setting objectForKey:arykey];
+   
+    if (dic&&[dic objectForKey:idStr]) {
+        NSMutableDictionary *dictMutable = [dic mutableCopy];
+        
+        NSMutableArray *arrayMutable = [ary mutableCopy];
+        
+        [dictMutable removeObjectForKey:idStr];
+        [arrayMutable removeObject:idStr];
+        [setting setObject:dictMutable forKey:dickey];
+        [setting setObject:arrayMutable forKey:arykey];
+        [setting synchronize];
+        
+        [[DownloadsManager Instance] removeFile:news isDownloading:FALSE];
+
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  
+    
+    
+}
+
+
+
++ (Boolean)isSaved:(int)_id 
+{
+    
+    
+    NSString *idStr = [NSString stringWithFormat:@"%d",_id ];
+    
+    Boolean isSaved =FALSE;
+    
+    NSUserDefaults * setting = [NSUserDefaults standardUserDefaults];
+    NSString *dickey = [NSString stringWithFormat:@"save-news-dic-%d",kSaveType];
+    NSString *arykey = [NSString stringWithFormat:@"save-news-ary-%d",kSaveType];
+    NSDictionary *dic = [setting objectForKey:dickey];
+    NSArray *ary = [setting objectForKey:arykey];
+    if (dic==nil) {
+       
+        isSaved=FALSE;
+    }else{
+        
+        
+        if ([dic objectForKey:idStr]) {//已经有值说明删除
+            isSaved=TRUE;
+        }else{
+            isSaved=FALSE;
+        }
+        
+        
+        
+    }
+
+    
+  
+    
+    return isSaved;
+}
+
++ (Boolean)isDownload:(int)_id 
+{
+    
+    
+    NSString *idStr = [NSString stringWithFormat:@"%d",_id ];
+    
+    Boolean isDOWN =FALSE;
+    
+    NSUserDefaults * setting = [NSUserDefaults standardUserDefaults];
+    NSString *dickey = [NSString stringWithFormat:@"save-news-dic-%d",kDownloadType];
+    NSString *arykey = [NSString stringWithFormat:@"save-news-ary-%d",kDownloadType];
+    NSDictionary *dic = [setting objectForKey:dickey];
+    NSArray *ary = [setting objectForKey:arykey];
+    if (dic==nil) {
+        
+        isDOWN=FALSE;
+    }else{
+        
+        
+        if ([dic objectForKey:idStr]) {//已经有值
+            isDOWN=TRUE;
+        }else{
+            isDOWN=FALSE;
+        }
+        
+        
+        
+    }
+    
+    
+    
+    
+    return isDOWN;
+}
+
 
 + (NSMutableDictionary *)getNewss:(int)type
 {
@@ -549,6 +665,49 @@
         }
     }
     return NO;
+}
+
+
+
+
+
++(NSURL*)isDownloadFile:(Voice *)voice andNew:(News *)news
+{
+    
+    //NSFileManager *fileManager=[NSFileManager defaultManager];
+    
+    
+    
+    if (voice) {
+        FileModel *fileInfo=[[FileModel alloc]init];
+        
+        NSString * fileExtension = [voice.voiceUrl pathExtension];
+        
+        
+        fileInfo.fileName=[NSString stringWithFormat:@"%@%d_%d.%@",kDownloadFileName,news._id,voice.id,fileExtension];
+        fileInfo.fileExtension=fileExtension;
+        fileInfo.fileURL=voice.voiceUrl;
+        
+        
+        
+        
+        
+        //因为是重新下载，则说明肯定该文件已经被下载完，或者有临时文件正在留着，所以检查一下这两个地方，存在则删除掉
+        NSString *targetPath=[[Config getTargetFloderPath]stringByAppendingPathComponent:fileInfo.fileName];
+        if([Config isExistFile:targetPath])//已经下载过一次该音乐
+        {
+            return [NSURL fileURLWithPath:targetPath];
+            
+        }
+        
+        
+    }
+    
+    return nil;
+    
+    
+    
+    
 }
 
 @end

@@ -11,6 +11,8 @@
 @implementation VoiceUILabel
 @synthesize voiceName;
 @synthesize voiceUrl;
+@synthesize indexl;
+@synthesize voice;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -32,6 +34,7 @@
 -(void)dealloc{
     [voiceName   release];
     [voiceUrl release];
+    [voice release];
     [super dealloc];
 }
 

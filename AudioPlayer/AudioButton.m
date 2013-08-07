@@ -56,7 +56,7 @@ NSString *stopImage = @"stop.png";
 // set the component's value
 -(void) setProgress:(CGFloat) newProgress
 {
-	_progress = newProgress;
+	//_progress = newProgress;//关闭按钮本身的进度条，modify by 王岳 20130807
     
 	[self setNeedsDisplay];
 }

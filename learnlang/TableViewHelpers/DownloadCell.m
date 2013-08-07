@@ -7,6 +7,8 @@
 //
 
 #import "DownloadCell.h"
+#import "DownloadsManager.h"
+#import "ASINetworkQueue.h"
 #define kNewsTableViewCellHeight 100
 
 @implementation DownloadCell{
@@ -20,6 +22,7 @@
 	[progressView release];
     [clickCountLabel release];
     [titleLabel release];
+    [_downloadProgress release];
     [super dealloc];
 }
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -40,6 +43,12 @@
         clickCountLabel.numberOfLines = 0;
         clickCountLabel.frame = CGRectMake(10.0f, 25.0f, 100.0f, 25.0f);
         [self.contentView addSubview:clickCountLabel];
+        
+        
+        _downloadProgress = [[UIProgressView alloc]initWithProgressViewStyle:UIProgressViewStyleDefault];
+        _downloadProgress.frame= CGRectMake(0, 0, 320.0f, 5.0f);
+        [self.contentView addSubview:_downloadProgress];
+        
 
     }
     return self;
@@ -59,14 +68,20 @@
     //[self.imageView setImageWithURL:[NSURL URLWithString:_news.imgUrl] placeholderImage:[UIImage imageNamed:@"profile-image-placeholder"]];
   
         
+  NSMutableDictionary* downinglist=  [DownloadsManager Instance].downinglist;
+    if (downinglist&&[downinglist objectForKey:[NSString stringWithFormat:@"%d",news._id]]) {
+      ASINetworkQueue	*networkQueue =   [downinglist objectForKey:[NSString stringWithFormat:@"%d",news._id]];
+        [networkQueue setUploadProgressDelegate:_downloadProgress];
+    }
+    
+    if([[DownloadsManager Instance] isReDownload:news]){
         
-        if(_news.voiceUrl &&![_news.voiceUrl  isEqualToString:@""]){
-           
-            
-            
-            
-        }
         
+        //[[DownloadsManager Instance] removeFile:news isDownloading:FALSE];
+        
+        [[DownloadsManager Instance] beginRequest:news isBeginDown:YES];
+        
+    }
     
     
     

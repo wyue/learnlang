@@ -16,8 +16,9 @@
     UILabel * titleLabel;
     UILabel* clickCountLabel;
     AMProgressView *progressView;
+    UIProgressView *_downloadProgress;
 }
-
+@property (retain, nonatomic) IBOutlet UIProgressView *downloadProgress;
 @property (nonatomic, strong) News *news;
 + (CGFloat)heightForCellWithNews:(News *)news;
 

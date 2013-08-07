@@ -67,6 +67,9 @@
                                                      selector:@selector(playbackStateChanged:)
                                                          name:ASStatusChangedNotification
                                                        object:streamer];
+            
+                        
+            
         }
         
         if ([streamer isPlaying]) {
@@ -101,7 +104,10 @@
         // remove notification observer for streamer
 		[[NSNotificationCenter defaultCenter] removeObserver:self 
                                                         name:ASStatusChangedNotification
-                                                      object:streamer];		
+                                                      object:streamer];
+//        [[NSNotificationCenter defaultCenter] removeObserver:self
+//                                                        name:StatusFinishNotificationForAudio
+//                                                      object:self];
 	}
 }
 
@@ -144,6 +150,13 @@
 	} else {
         
     }
+    
+    
+    if ([streamer isFinishing]) {
+        NSNotification *notification = [NSNotification notificationWithName:StatusFinishNotificationForAudio object:self];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+    }
+    
     
     [button setNeedsLayout];    
     [button setNeedsDisplay];

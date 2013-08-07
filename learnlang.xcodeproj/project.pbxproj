@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2225707317AF485200E68EA1 /* DownloadsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2225707217AF485200E68EA1 /* DownloadsManager.m */; };
+		2225707617B1D36E00E68EA1 /* LocalAudioPlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 2225707517B1D36E00E68EA1 /* LocalAudioPlay.m */; };
 		2238E3A017AA4B6800E85157 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 2238E39217AA4B6800E85157 /* FMDatabase.m */; };
 		2238E3A117AA4B6800E85157 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2238E39417AA4B6800E85157 /* FMDatabaseAdditions.m */; };
 		2238E3A217AA4B6800E85157 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 2238E39617AA4B6800E85157 /* FMDatabasePool.m */; };
@@ -138,6 +140,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2225707117AF485200E68EA1 /* DownloadsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadsManager.h; sourceTree = "<group>"; };
+		2225707217AF485200E68EA1 /* DownloadsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadsManager.m; sourceTree = "<group>"; };
+		2225707417B1D36E00E68EA1 /* LocalAudioPlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalAudioPlay.h; sourceTree = "<group>"; };
+		2225707517B1D36E00E68EA1 /* LocalAudioPlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalAudioPlay.m; sourceTree = "<group>"; };
 		2238E39117AA4B6800E85157 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		2238E39217AA4B6800E85157 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
 		2238E39317AA4B6800E85157 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
@@ -799,6 +805,8 @@
 				2238E3B917AB8F7A00E85157 /* DownloadManager.h */,
 				2238E3BA17AB8F7A00E85157 /* DownloadManager.m */,
 				2238E3BF17AB941000E85157 /* DownloadDelegate.h */,
+				2225707117AF485200E68EA1 /* DownloadsManager.h */,
+				2225707217AF485200E68EA1 /* DownloadsManager.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -865,6 +873,8 @@
 				224D170C17A2404100C5B8B2 /* AudioStreamer.h */,
 				224D170D17A2404100C5B8B2 /* AudioStreamer.m */,
 				224D170E17A2404100C5B8B2 /* images */,
+				2225707417B1D36E00E68EA1 /* LocalAudioPlay.h */,
+				2225707517B1D36E00E68EA1 /* LocalAudioPlay.m */,
 			);
 			path = AudioPlayer;
 			sourceTree = "<group>";
@@ -1076,6 +1086,8 @@
 				2238E3B817AB806700E85157 /* DownloadCell.m in Sources */,
 				2238E3BB17AB8F7A00E85157 /* DownloadManager.m in Sources */,
 				2238E3BE17AB915A00E85157 /* FileModel.m in Sources */,
+				2225707317AF485200E68EA1 /* DownloadsManager.m in Sources */,
+				2225707617B1D36E00E68EA1 /* LocalAudioPlay.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

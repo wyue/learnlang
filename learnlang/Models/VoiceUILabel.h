@@ -7,15 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Voice.h"
 
 @interface VoiceUILabel : UILabel
 {
 @private NSString* voiceName;
 @private NSString* voiceUrl;
 @private int index;
+@private Voice *voice;
 }
 @property(nonatomic,retain) NSString* voiceName;
 @property(nonatomic,retain) NSString* voiceUrl;
-
+@property(nonatomic,retain) Voice *voice;
+@property int indexl;
 
 @end

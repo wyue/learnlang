@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 @class News;
+@class Voice;
 
 @interface DataManager : NSObject
 
@@ -30,4 +31,8 @@
 + (NSString *)getNewsForJson:(News *)news;
 + (NSMutableDictionary *)getNewss:(int)type;
 + (Boolean)insertOrRemoveNews:(int)type andID:(int)_id andString:(NSString *)str;
++ (void)removeNews:(int)type andNews:(News*)news;
++ (Boolean)isSaved:(int)_id;
++ (Boolean)isDownload:(int)_id;
++(NSURL*)isDownloadFile:(Voice *)voice andNew:(News *)news;
 @end
