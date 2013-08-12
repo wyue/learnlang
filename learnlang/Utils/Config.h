@@ -84,4 +84,10 @@
 +(BOOL)isExistFile:(NSString *)fileName;
 +(float)getProgress:(float)totalSize currentSize:(float)currentSize;
 
+//setting
++(void)defaultUserSetting;//默认用户设置
++(BOOL)getUserSettingFor3gDownload;
++(BOOL)getUserSettingForAudioPlayInBackground ;
++(BOOL)getUserSettingForReadText ;
++(int)getUserSettingForTextSize ;
 @end

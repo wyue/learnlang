@@ -383,4 +383,75 @@ static Config * instance = nil;
     return currentSize/totalSize;
 }
 
+
+
+
+//默认用户设置
++(void)defaultUserSetting {
+    NSUserDefaults * setting = [NSUserDefaults standardUserDefaults];
+    
+    
+    if ([setting objectForKey:kUserSettingForTextSize]==nil) {
+        [setting setObject:TextSizeForMiddle forKey:kUserSettingForTextSize];
+    }
+    if ([setting objectForKey:kUserSettingFor3gDownload]==nil) {
+        [setting setObject:UserSettingFor3gDownloadON forKey:kUserSettingFor3gDownload];
+    }
+    if ([setting objectForKey:kUserSettingForAudioPlayInBackground]==nil) {
+        [setting setObject:UserSettingForAudioPlayInBackgroundOff forKey:kUserSettingForAudioPlayInBackground];
+    }
+    if ([setting objectForKey:kUserSettingForReadText]==nil) {
+        [setting setObject:UserSettingForReadTextOff forKey:kUserSettingForReadText];
+    }
+    
+    [setting synchronize];
+}
+
+
++(BOOL)getUserSettingFor3gDownload {
+    NSUserDefaults * setting = [NSUserDefaults standardUserDefaults];
+    
+    
+   
+    if ([[setting objectForKey:kUserSettingFor3gDownload] isEqualToString:UserSettingFor3gDownloadON]) {
+       
+        return YES;
+    }
+    return NO;
+    
+}
++(BOOL)getUserSettingForAudioPlayInBackground {
+    NSUserDefaults * setting = [NSUserDefaults standardUserDefaults];
+    
+    
+    
+    if ([[setting objectForKey:kUserSettingForAudioPlayInBackground] isEqualToString:UserSettingForAudioPlayInBackgroundON]) {
+        
+        return YES;
+    }
+    return NO;
+    
+}
++(BOOL)getUserSettingForReadText {
+    NSUserDefaults * setting = [NSUserDefaults standardUserDefaults];
+    
+    
+    
+    if ([[setting objectForKey:kUserSettingForReadText] isEqualToString:UserSettingForReadTextON]) {
+        
+        return YES;
+    }
+    return NO;
+    
+}
++(int)getUserSettingForTextSize {
+    NSUserDefaults * setting = [NSUserDefaults standardUserDefaults];
+    
+    
+   int size = [[TextSizeDictionary objectForKey:[setting objectForKey:kUserSettingForTextSize]] intValue];
+    return size;
+    
+}
+
+
 @end

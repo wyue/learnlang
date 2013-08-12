@@ -552,6 +552,28 @@ static DownloadsManager * managerinstance = nil;
 //    //    [self.downloadingTable reloadData];
 //    //    [self.finishedTable reloadData];
 //}
+
+
+
+
+
+-(ASINetworkQueue*)getQueue:(News *)news 
+{
+    if (self.downinglist) {
+     
+        
+       ASINetworkQueue* queue =  [self.downinglist objectForKey:[NSString stringWithFormat:@"%d",news._id]];
+        
+            return queue;
+        
+        
+    }
+    return  nil;
+    
+    
+    
+}
+
 - (void)downLoadComplete:(ASIHTTPRequest *)request
 {
 	NSLog(@"download complete");

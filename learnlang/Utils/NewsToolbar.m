@@ -357,23 +357,90 @@
     
 }
 
+
+//-(NSString *)getPathForCacheResource:(NSString*) relativePath{
+//    static NSString* documentsPath = nil;
+//    if (nil == documentsPath) {
+//        NSArray* dirs = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+//        documentsPath = [dirs[0] retain];
+//    }
+//    //return documentsPath;//[documentsPath stringByAppendingPathComponent:relativePath];
+////    NSArray * paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+////    return [paths  objectAtIndex:0];
+//    return DOCUMENTS_FOLDER;
+//}
+
 - (void)recordingAction:(id)sender
 {
     
     //recordedFile = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:@"RecordedFile"]];
-    NSString *strUrl = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-    recordedFile = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/lll.aac", strUrl]];
+    //获得系统时间
+   
     //If the app is not recording, we want to start recording, disable the play button, and make the record button say "STOP"
     if(!self.isRecording)
     {
+        
+        NSDate *  senddate=[NSDate date];
+        int time=[senddate timeIntervalSince1970];
+        NSString *fileName = [NSString stringWithFormat:@"%d-%d.caf",self.news._id,time];
+        // NSString *strUrl = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+        
+        recordedFile = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", DOCUMENTS_FOLDER,fileName]];
+        
         self.isRecording = YES;
         [self.recordButton setTitle:@"STOP" forState:UIControlStateNormal];
         //[self.playButton setEnabled:NO];
         //[self.playButton.titleLabel setAlpha:0.5];
-        recorder = [[AVAudioRecorder alloc] initWithURL:recordedFile settings:nil error:nil];
-        [recorder prepareToRecord];
-        [recorder record];
-        localplayer = nil;
+        [recorder release];
+        recorder = nil;
+        
+        
+        
+        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+        NSError *err = nil;
+        [audioSession setCategory :AVAudioSessionCategoryPlayAndRecord error:&err];
+        if(err){
+            NSLog(@"audioSession: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
+            return;
+        }
+        [audioSession setActive:YES error:&err];
+        err = nil;
+        if(err){
+            NSLog(@"audioSession: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
+            return;
+        }
+        
+       NSMutableDictionary * recordSetting = [[NSMutableDictionary alloc] init];
+        
+        [recordSetting setValue :[NSNumber numberWithInt:kAudioFormatLinearPCM] forKey:AVFormatIDKey];
+        [recordSetting setValue:[NSNumber numberWithFloat:44100.0] forKey:AVSampleRateKey];
+        [recordSetting setValue:[NSNumber numberWithInt: 2] forKey:AVNumberOfChannelsKey];
+        
+        [recordSetting setValue :[NSNumber numberWithInt:16] forKey:AVLinearPCMBitDepthKey];
+        [recordSetting setValue :[NSNumber numberWithBool:NO] forKey:AVLinearPCMIsBigEndianKey];
+        [recordSetting setValue :[NSNumber numberWithBool:NO] forKey:AVLinearPCMIsFloatKey];
+        
+
+        
+        
+        
+        
+        
+        
+        NSError *error = nil;
+        
+        
+        
+        
+        recorder = [[AVAudioRecorder alloc] initWithURL:recordedFile settings:recordSetting error:&error];
+        if ([recorder prepareToRecord] == YES){
+            [recorder record];
+        }else {
+            int errorCode = CFSwapInt32HostToBig ([error code]);
+            NSLog(@"Error: %@ [%4.4s])" , [error localizedDescription], (char*)&errorCode);
+            
+        }
+        
     }
     //If the app is recording, we want to stop recording, enable the play button, and make the record button say "REC"
     else
@@ -383,7 +450,18 @@
         //[self.playButton setEnabled:YES];
         //[self.playButton.titleLabel setAlpha:1];
         [recorder stop];
+        
+        
+//        NSError *err = nil;
+//        NSData *audioData = [NSData dataWithContentsOfURL:recordedFile options: 0 error:&err];
+//        if(!audioData)
+//            NSLog(@"audio data: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
         recorder = nil;
+        
+        
+        //保存
+        
+        [DataManager insertRecord:news andFilePath:recordedFile];
         
 //        NSError *playerError;
 //        
@@ -433,108 +511,93 @@
 
 - (void)downloadAction:(id)sender
 {
-    NSString * json =  [DataManager getNewsForJson:news];
-    if (json) {
-        Boolean isDownload =   [DataManager isDownload:news._id];
-        
-        
-        if (FALSE) {
+    
+   
+    [Config Instance].isNetworkRunning = [CheckNetwork isExistenceNetwork];
+    if (![Config Instance].isNetworkRunning&&[Config getUserSettingFor3gDownload]) {
+        UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"您现在非wifi环境，是否继续下载？"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"取消"
+                                             destructiveButtonTitle:nil
+                                                  otherButtonTitles:@"下载",nil];
+        [sheet showInView:self.parentViewController.view withCompletionHandler:^(NSInteger buttonIndex) {
+            NSLog(@"action:%d",buttonIndex);
             
-            [Config ToastNotification:@"已下载" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
-            
-            //未保存
-            //            [Config ToastNotification:@"下载" andView:self.view andLoading:NO andIsBottom:NO];
-            //            [[DownloadsManager Instance] loadTempfiles];
-            //             [[DownloadsManager Instance] loadFinishedfiles];
-            //            NSMutableDictionary*finishedList=[DownloadsManager Instance].finishedlist;
-            //            NSMutableDictionary*downingList=[DownloadsManager Instance].downinglist;
-            //
-            //
-            //
-            //            NSFileManager *fileManager=[NSFileManager defaultManager];
-            //            NSError *error;
-            //            if(FALSE)//正在下载的表格
-            //            {
-            //                ASIHTTPRequest *theRequest=[downingList objectForKey:[NSString stringWithFormat:@"%@%d",kDownloadFileName,news._id]];
-            //                if([theRequest isExecuting])
-            //                {
-            //                    [theRequest cancel];
-            //                }
-            //                FileModel *fileInfo=(FileModel*)[theRequest.userInfo objectForKey:@"File"];
-            //                NSString *path=[[Config getTempFolderPath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.temp",fileInfo.fileName]];
-            //                NSInteger index=[fileInfo.fileName rangeOfString:@"."].location;
-            //                NSString *name=[fileInfo.fileName substringToIndex:index];
-            //                NSString *configPath=[[Config getTempFolderPath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.rtf",name]];
-            //                [fileManager removeItemAtPath:path error:&error];
-            //                [fileManager removeItemAtPath:configPath error:&error];
-            //                if(!error)
-            //                {
-            //                    NSLog(@"%@",[error description]);
-            //                }
-            //                [downingList removeObjectForKey:[NSString stringWithFormat:@"%@%d",kDownloadFileName,news._id]];
-            //
-            //            }
-            //            else//已经完成下载的表格
-            //            {
-            //                FileModel *selectFile=[finishedList objectForKey:[NSString stringWithFormat:@"%@%d",kDownloadFileName,news._id]];
-            //                NSString *path=[[Config getTargetFloderPath]stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.temp",selectFile.fileName]];
-            //
-            //                [fileManager removeItemAtPath:path error:&error];
-            //                if(!error)
-            //                {
-            //                    NSLog(@"%@",[error description]);
-            //                }
-            //                [finishedList removeObjectForKey:[NSString stringWithFormat:@"%@%d",kDownloadFileName,news._id]];
-            //
-            //            }
-            //
-            
-            
-            
-            
-            
-        }else{
-            //保存
-            
-             [DataManager insertOrRemoveNews:kDownloadType andID:news._id andString:json];
-            
-            
-            
-            
-            
-            //下载
-            if (news.contentAry&&news.contentAry.count>0) {
-                [Config ToastNotification:@"开始下载" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+            if (buttonIndex==1) {
+                return ;
+            }else{
                 
-                
-                
-                //选择点击的行
-                //    UITableView *tableView=(UITableView *)[sender superview];
-                //    NSLog(@"%d",[fileInfo.fileID integerValue]);
-                //    NSIndexPath *indexPath=[NSIndexPath indexPathForRow:[fileInfo.fileID integerValue] inSection:0];
-                //    [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionBottom];
-                
-                
-                
-                [[DownloadsManager Instance] beginRequest:news isBeginDown:YES];
-                
-                
-                
-                
-                
+                NSString * json =  [DataManager getNewsForJson:news];
+                if (json) {
+                    Boolean isDownload =   [DataManager isDownload:news._id];
+                    
+                    
+                    if (isDownload) {
+                        
+                        [Config ToastNotification:@"已下载" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+                        
+                    }else{
+                        //保存
+                        
+                        [DataManager insertOrRemoveNews:kDownloadType andID:news._id andString:json];
+                        
+                        //下载
+                        if (news.contentAry&&news.contentAry.count>0) {
+                            [Config ToastNotification:@"开始下载" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+                            
+                            [[DownloadsManager Instance] beginRequest:news isBeginDown:YES];
+                            
+                        }
+                        
+                    }
+                }else{
+                    //无法保存
+                    [Config ToastNotification:@"操作失败" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+                }
                 
             }
             
             
             
-            
-            
-        }
+        }];
+          [ [NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+
     }else{
-        //无法保存
-        [Config ToastNotification:@"操作失败" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+        NSString * json =  [DataManager getNewsForJson:news];
+        if (json) {
+            Boolean isDownload =   [DataManager isDownload:news._id];
+            
+            
+            if (isDownload) {
+                
+                [Config ToastNotification:@"已下载" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+                
+            }else{
+                //保存
+                
+                [DataManager insertOrRemoveNews:kDownloadType andID:news._id andString:json];
+                
+                //下载
+                if (news.contentAry&&news.contentAry.count>0) {
+                    [Config ToastNotification:@"开始下载" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+                    
+                    [[DownloadsManager Instance] beginRequest:news isBeginDown:YES];
+                    
+                }
+                
+            }
+        }else{
+            //无法保存
+            [Config ToastNotification:@"操作失败" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+        }
+        
     }
     
+       
+ 
+    
+    
+   
     
 }
 

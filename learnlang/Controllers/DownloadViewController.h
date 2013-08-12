@@ -10,9 +10,16 @@
 
 @interface DownloadViewController  : UIViewController<UITableViewDelegate,UITableViewDataSource>{
     
-    UITableView *tableView;
+    UITableView *tableview;
     NSMutableArray *array;
+    
+    NSMutableArray *arrayForEdit;
+    
 }
-@property(nonatomic,retain) IBOutlet UITableView* tableView;
+@property(nonatomic,retain) IBOutlet UITableView* tableview;
 @property(nonatomic,retain) NSMutableArray *array;
+
+@property(nonatomic,retain) NSMutableArray *arrayForEdit;
+
+
 @end

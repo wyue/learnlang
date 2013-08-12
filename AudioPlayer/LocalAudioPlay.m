@@ -18,7 +18,7 @@
 
 @implementation LocalAudioPlay
 
-@synthesize player, button, url;
+@synthesize player, button, url,playbutton;
 @synthesize progressView;
 @synthesize audioLabel;
 @synthesize delegate;
@@ -40,6 +40,7 @@
     [url release];
     [player release],player = nil;
     [button release];
+    [playbutton release];
     [progressView release];
     [audioLabel release];
     [timer invalidate];
@@ -56,6 +57,21 @@
 {
     if (self.url) {
         if (!player) {
+            
+            
+            
+            
+            if ([Config getUserSettingForAudioPlayInBackground] ) {
+                AVAudioSession *session = [AVAudioSession sharedInstance];
+                [session setCategory:AVAudioSessionCategoryPlayback error:nil];
+                [session setActive:YES error:nil];
+            }else{
+                AVAudioSession *session = [AVAudioSession sharedInstance];
+                [session setCategory:AVAudioSessionCategoryPlayback error:nil];
+                [session setActive:NO error:nil];
+            }
+            
+            
             
             self.player =[[AVAudioPlayer alloc] initWithContentsOfURL:self.url error:nil];
             

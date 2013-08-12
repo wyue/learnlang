@@ -1,22 +1,22 @@
 //
-//  DownloadCell.m
+//  RecordCell.m
 //  learnlang
 //
-//  Created by mooncake on 13-8-2.
+//  Created by mooncake on 13-8-8.
 //  Copyright (c) 2013年 ciic. All rights reserved.
 //
 
-#import "DownloadCell.h"
+#import "RecordCell.h"
 #import "DownloadsManager.h"
 #import "ASINetworkQueue.h"
 
+@implementation RecordCell{
 
-@implementation DownloadCell{
 @private
-    __strong News *_news;
+__strong FileModel *_fileModel;
 }
 
-@synthesize news = _news;
+@synthesize fileModel = _fileModel;
 
 - (void)dealloc {
 	[progressView release];
@@ -48,14 +48,10 @@
         [self.contentView addSubview:clickCountLabel];
         
         
-        _downloadProgress = [[UIProgressView alloc]initWithProgressViewStyle:UIProgressViewStyleDefault];
-        _downloadProgress.frame= CGRectMake(0, 0, 320.0f, 5.0f);
-        [self.contentView addSubview:_downloadProgress];
         
-        
-       
         
 
+        
     }
     return self;
 }
@@ -63,44 +59,23 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
-- (void)setNews:(News *)news {
-    _news = news;
+- (void)setFileModel:(FileModel *)fileModel {
+    _fileModel = fileModel;
     
-    titleLabel.text = _news.title;
-    clickCountLabel.text = [NSString stringWithFormat:@"%d",_news.clickCount];
+    titleLabel.text = _fileModel.fileName;
+    clickCountLabel.text = [NSString stringWithFormat:@"%@",_fileModel.news.title];
     //[self.imageView setImageWithURL:[NSURL URLWithString:_news.imgUrl] placeholderImage:[UIImage imageNamed:@"profile-image-placeholder"]];
-  
-        
-  NSMutableDictionary* downinglist=  [DownloadsManager Instance].downinglist;
-    if (downinglist&&[downinglist objectForKey:[NSString stringWithFormat:@"%d",news._id]]) {
-      ASINetworkQueue	*networkQueue =   [downinglist objectForKey:[NSString stringWithFormat:@"%d",news._id]];
-        [networkQueue setUploadProgressDelegate:_downloadProgress];
-    }
-    
-    if([[DownloadsManager Instance] isReDownload:news]){
-        
-        
-        //[[DownloadsManager Instance] removeFile:news isDownloading:FALSE];
-       
-        
-        [[DownloadsManager Instance] beginRequest:news isBeginDown:YES];
-        
-    }
     
     
-   ASINetworkQueue* queue =    [[DownloadsManager Instance]getQueue:self.news];
     
-    
-    queue.downloadProgressDelegate=self.downloadProgress;
-    queue.showAccurateProgress=YES;
     
     [self setNeedsLayout];
 }
 
-+ (CGFloat)heightForCellWithNews:(News *)news {
++ (CGFloat)heightForCellWithNews:(FileModel *)fileModel {
     //    CGSize sizeToFit = [news.title sizeWithFont:[UIFont systemFontOfSize:12.0f] constrainedToSize:CGSizeMake(220.0f, CGFLOAT_MAX) lineBreakMode:UILineBreakModeWordWrap];
     //
     //    return fmaxf(70.0f, sizeToFit.height + 45.0f);
@@ -199,6 +174,8 @@
 	
 	return m_checked ;
 }
+
+
 
 
 @end

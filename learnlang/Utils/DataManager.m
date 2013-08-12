@@ -86,56 +86,7 @@
             NSMutableDictionary *sourceDic= [source objectAtIndex:j];
             
           News *news =  [self readNewsByDic:sourceDic];
-            
-//            News *news = [[News alloc]init];
-//            news._id=[[sourceDic objectForKey:@"id"] intValue];
-//            news.title=[sourceDic objectForKey:@"title"];
-//            news.subTitle=[sourceDic objectForKey:@"subtitle"];
-//NSString  *imageUrl= [sourceDic objectForKey:@"imgUrl"];
-//             news.picUrl = imageUrl;
-//            if(imageUrl&&![imageUrl isEqualToString:@""]){
-//                NSString* ext =[imageUrl pathExtension];
-//                NSString *filename=[imageUrl substringToIndex:imageUrl.length-ext.length-1];
-//               
-//                news.imgUrl=[NSString stringWithFormat:@"%@%@%@",filename,@"-sque.",ext];
-//                news.imgBigUrl=[NSString stringWithFormat:@"%@%@%@",filename,@"-title.",ext];
-//                
-//                
-//            }else{
-//                news.imgUrl=imageUrl;
-//                news.imgBigUrl=imageUrl;
-//                
-//            }
-//          
-//            
-//            news.voiceUrl=[sourceDic objectForKey:@"voiceUrl"];
-//            news.pubDate=[sourceDic objectForKey:@"pubDate"];
-//            news.newsType=[[sourceDic objectForKey:@"type"] intValue];
-//            news.clickCount=[[sourceDic objectForKey:@"clickCount"] intValue];
-//             news.saveCount=[[sourceDic objectForKey:@"saveCount"] intValue];
-//            //news.content=[sourceDic objectForKey:@"content"];
-//            news.subContent=[sourceDic objectForKey:@"trancontent"];
-//            
-//            
-//            NSMutableArray * contentAry = [sourceDic objectForKey:@"content"];
-//            NSMutableArray * voiceAry = [[NSMutableArray alloc]initWithCapacity:contentAry.count];
-//             for (int k = 0; k<contentAry.count; k++) {
-//                 NSMutableDictionary *voiceDic=[contentAry objectAtIndex:k];
-//               Voice* voice =   [[Voice alloc]initWithParameters:[[voiceDic objectForKey:@"id"] intValue] andText:[voiceDic objectForKey:@"text"] andTrantext:[voiceDic objectForKey:@"trantext"] andVoiceUrl:[voiceDic objectForKey:@"voiceUrl"] andVoiceSize:[[voiceDic objectForKey:@"voiceSize"] floatValue] ];
-//                 [voiceAry addObject:voice];
-//                 [voice release];
-//             }
-//            
-//            news.contentAry=voiceAry;
-//            
-//            
-//            
-//            NSError *writeError = nil;
-//            NSData *newsData =  [NSJSONSerialization dataWithJSONObject:sourceDic options:NSJSONWritingPrettyPrinted error:&writeError];;
-//            NSString *newsJsonString = [[NSString alloc] initWithData:newsData encoding:NSUTF8StringEncoding];
-//            news.json=newsJsonString;
-//     
-            
+             
             
             
             if (![DataManager isRepeatNews:oldAry andNews:news]) {
@@ -157,40 +108,13 @@
     
     
     
-   
-    
-//    int j=0;
-//    for (int i = 0; i<newsPageSize; i++) {
-//        News *news = [[News alloc]init];
-//        news._id=j++;
-//        news.title=@"测试标题";
-//        news.subTitle=@"测试中文标题";
-//        news.imgBigUrl=@"http://www.51mtw.com/UploadFiles/2012-10/admin/2012101122515921867.jpg";
-//        news.imgUrl=@"http://wenwen.soso.com/p/20110702/20110702143413-781757404.jpg";
-//        news.voiceUrl=@"http://lianzidi.com/COFFdD0xMzc0NTQyMDI3Jmk9MjEwLjcyLjIxLjIyNiZ1PVNvbmdzL3YxL2ZhaW50UUMvNGYvNTkyYTIwNTk4NzA3NTAwODY0NjY0Yzc5OTE2ZjU1NGYubXAzJm09NDVjMmNmNWZjZjRkYTU1MWExMjYyYjk5ODZlMzQ0NjAmdj1saXN0ZW4mbj288rWltcTKwiZzPcDutPrErSZwPXM=.mp3";
-//        news.pubDate=@"2013-07-22 15:22";
-//        news.newsType=1;
-//        news.clickCount=1;
-//        news.content=@"dddddd";
-//        news.subContent=@"顶顶顶顶";
-//        
-//        
-//     news.contentAry=  [ NSMutableArray arrayWithObjects:@"aaaaaaaaaaaaaaaaa",@"sdfsfsfssdfssfs",@"ccccccccccccccccwwwwwwwwwwwwwwwwwwwwwwwwwwwwwccccccccccccccccccccccc",@"ccccccccccccccccwwwwwwwwwwwwwwwwwwwwwwwwwwwwwccccccccccccccccccccccc",@"ccccccccccccccccwwwwwwwwwwwwwwwwwwwwwwwwwwwwwccccccccccccccccccccccc",@"ccccccccccccccccwwwwwwwwwwwwwwwwwwwwwwwwwwwwwccccccccccccccccccccccc", nil];
-//        
-//        
-//        
-//        if (![DataManager isRepeatNews:oldAry andNews:news]) {
-//            [mutablearray addObject:news];
-//        }
-//        [news release];
-    
-//    }
-//    [dic setObject:mutablearray forKey:@"2013-07-13 星期四"];
-//    [dic setObject:mutablearray forKey:@"2013-07-12 星期四"];
+ 
     
     return dic;
     
 }
+
+//将news.json转换为news
 + (News *)readNewsByDic:(NSMutableDictionary *)sourceDic{
     News *news = [[News alloc]init];
     news._id=[[sourceDic objectForKey:@"id"] intValue];
@@ -481,7 +405,9 @@
     
     return isInsert;
 }
-+ (void)removeNews:(int)type andNews:(News*)news
+
+//删除保存的内容
++ (void)removeNewsForSave:(News*)news
 {
     
     
@@ -490,32 +416,33 @@
     
     
     NSUserDefaults * setting = [NSUserDefaults standardUserDefaults];
-    NSString *dickey = [NSString stringWithFormat:@"save-news-dic-%d",type];
-    NSString *arykey = [NSString stringWithFormat:@"save-news-ary-%d",type];
+    NSString *dickey = [NSString stringWithFormat:@"save-news-dic-%d",kSaveType];
+    NSString *arykey = [NSString stringWithFormat:@"save-news-ary-%d",kSaveType];
     NSDictionary *dic = [setting objectForKey:dickey];
     NSArray *ary = [setting objectForKey:arykey];
-   
+    
+    
     if (dic&&[dic objectForKey:idStr]) {
+        
+        
         NSMutableDictionary *dictMutable = [dic mutableCopy];
         
         NSMutableArray *arrayMutable = [ary mutableCopy];
         
         [dictMutable removeObjectForKey:idStr];
         [arrayMutable removeObject:idStr];
+
         [setting setObject:dictMutable forKey:dickey];
         [setting setObject:arrayMutable forKey:arykey];
         [setting synchronize];
-        
-        [[DownloadsManager Instance] removeFile:news isDownloading:FALSE];
-
-    }
+    }    
     
     
     
     
     
     
-    
+   
     
     
     
@@ -560,6 +487,57 @@
     
     return isSaved;
 }
+
+
+
+
+
+//删除保存的内容
++ (void)removeNewsForDownload:(News*)news
+{
+    
+    
+    NSString *idStr = [NSString stringWithFormat:@"%d",news._id ];
+    
+    
+    
+    NSUserDefaults * setting = [NSUserDefaults standardUserDefaults];
+    NSString *dickey = [NSString stringWithFormat:@"save-news-dic-%d",kDownloadType];
+    NSString *arykey = [NSString stringWithFormat:@"save-news-ary-%d",kDownloadType];
+    NSDictionary *dic = [setting objectForKey:dickey];
+    NSArray *ary = [setting objectForKey:arykey];
+    
+    if (dic&&[dic objectForKey:idStr]) {
+        NSMutableDictionary *dictMutable = [dic mutableCopy];
+        
+        NSMutableArray *arrayMutable = [ary mutableCopy];
+        
+        [dictMutable removeObjectForKey:idStr];
+        [arrayMutable removeObject:idStr];
+        [setting setObject:dictMutable forKey:dickey];
+        [setting setObject:arrayMutable forKey:arykey];
+        [setting synchronize];
+        
+        [[DownloadsManager Instance] removeFile:news isDownloading:FALSE];
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+}
+
+
+
 
 + (Boolean)isDownload:(int)_id 
 {
@@ -615,6 +593,164 @@
 }
 
 
+
+//录音 增 删 查
+
++ (NSMutableDictionary *)getRecords
+{
+    NSUserDefaults * setting = [NSUserDefaults standardUserDefaults];
+    NSString *dickey = [NSString stringWithFormat:@"save-news-dic-%d",kRecordType];
+    NSString *arykey = [NSString stringWithFormat:@"save-news-ary-%d",kRecordType];
+    NSDictionary *dic = [setting objectForKey:dickey];
+    NSArray *ary = [setting objectForKey:arykey];
+    
+    if (dic) {
+        NSMutableDictionary *dictMutable  = [NSMutableDictionary dictionaryWithObjectsAndKeys:dic,@"NewsSavedDic",ary,@"NewsSavedAry",nil];
+        return dictMutable;
+    }
+    
+    
+    return nil;
+}
+
++ (void)insertRecord:(News *)news andFilePath:(NSURL *)url
+{
+    
+    NSString *targetPath=[url path];
+    if([Config isExistFile:targetPath])//已经下载过一次该音乐
+    {
+        NSString *idStr = [NSString stringWithFormat:@"%@",targetPath ];
+        
+        
+        
+        NSUserDefaults * setting = [NSUserDefaults standardUserDefaults];
+        NSString *dickey = [NSString stringWithFormat:@"save-news-dic-%d",kRecordType];
+        NSString *arykey = [NSString stringWithFormat:@"save-news-ary-%d",kRecordType];
+        NSDictionary *dic = [setting objectForKey:dickey];
+        NSArray *ary = [setting objectForKey:arykey];
+        if (dic==nil) {
+            ary = [[NSMutableArray alloc]init];
+            dic = [[NSMutableDictionary alloc]init];
+            
+        }
+        NSMutableDictionary *dictMutable = [dic mutableCopy];
+        
+        NSMutableArray *arrayMutable = [ary mutableCopy];
+        
+        if (url) {
+            [dictMutable setObject:news.json forKey:idStr];
+            [arrayMutable addObject:idStr];
+        }
+        
+        
+        
+        [setting setObject:dictMutable forKey:dickey];
+        [setting setObject:arrayMutable forKey:arykey];
+        [setting synchronize];
+    }
+   
+    
+    
+}
+
+//删除保存的内容
++ (void)removeRecord:(News *)news andFilePath:(NSURL *)url
+{
+    
+    
+    NSString *idStr = [NSString stringWithFormat:@"%@",[url path] ];
+    
+    
+    
+    NSUserDefaults * setting = [NSUserDefaults standardUserDefaults];
+    NSString *dickey = [NSString stringWithFormat:@"save-news-dic-%d",kRecordType];
+    NSString *arykey = [NSString stringWithFormat:@"save-news-ary-%d",kRecordType];
+    NSDictionary *dic = [setting objectForKey:dickey];
+    NSArray *ary = [setting objectForKey:arykey];
+    
+    
+    if (dic&&[dic objectForKey:idStr]) {
+        
+        
+        NSMutableDictionary *dictMutable = [dic mutableCopy];
+        
+        NSMutableArray *arrayMutable = [ary mutableCopy];
+        
+        [dictMutable removeObjectForKey:idStr];
+        [arrayMutable removeObject:idStr];
+        
+        [setting setObject:dictMutable forKey:dickey];
+        [setting setObject:arrayMutable forKey:arykey];
+        [setting synchronize];
+        
+        
+        
+        
+        
+        NSFileManager *fileManager=[NSFileManager defaultManager];
+        NSError *error;
+        NSString *targetPath=[url path];
+        if([Config isExistFile:targetPath])//已经下载过一次该音乐
+        {
+            [fileManager removeItemAtPath:targetPath error:&error];
+            
+            
+        }
+    }
+    
+    
+
+    
+    
+}
+
+//获得已收藏news 将dic转换成array
++ (NSMutableArray *)readRecordsAryByDic:(NSMutableDictionary *)newDic
+{
+    
+    
+    
+    NSMutableArray *array = [[NSMutableArray alloc]init];
+    
+    if (newDic) {
+        
+        
+        NSMutableDictionary *dic=   [newDic objectForKey:@"NewsSavedDic"];
+        NSMutableArray *ary=   [newDic objectForKey:@"NewsSavedAry"];
+        if (dic&&ary) {
+            for (int i=0; i<[ary count]; i++) {
+                NSString *key =  [ary objectAtIndex:i];
+                if ([dic objectForKey:key]) {
+                    FileModel *fileModel = [[FileModel alloc]init];
+                    fileModel.fileName=[NSString stringWithFormat:@"%@%d",kRecorkName,i];
+                    fileModel.fileURL=key;
+                    NSError *error = nil;
+                    NSMutableDictionary *dataDic =  [NSJSONSerialization JSONObjectWithData: [[dic objectForKey:key] dataUsingEncoding:NSUTF8StringEncoding]   options:NSJSONReadingMutableLeaves error:&error]; //[jsonParser objectWithData: [str dataUsingEncoding:NSUTF8StringEncoding] ];
+                    News *news=   [self readNewsByDic:dataDic];
+                    
+                    if (news) {
+                        fileModel.news=news;
+                        [array addObject:fileModel];
+                        [fileModel release];
+                        
+                    }
+                    
+                    
+                   
+                }
+                
+            }
+        }
+        
+        
+        
+    }
+    return array;
+    
+    
+    
+    
+}
 
 
 + (void)saveCache:(int)type andID:(int)_id andString:(NSString *)str
@@ -709,5 +845,9 @@
     
     
 }
+
+
+
+
 
 @end

@@ -1,25 +1,26 @@
 //
-//  DownloadCell.h
+//  SavedCell.h
 //  learnlang
 //
-//  Created by mooncake on 13-8-2.
+//  Created by mooncake on 13-8-8.
 //  Copyright (c) 2013年 ciic. All rights reserved.
 //
+
 
 #import <UIKit/UIKit.h>
 #import "AMProgressView.h"
 #import "News.h"
 
-@interface DownloadCell : UITableViewCell{
+@interface SavedCell : UITableViewCell{
 @private
-  
+    
     UILabel * titleLabel;
     UILabel* clickCountLabel;
     AMProgressView *progressView;
     UIProgressView *_downloadProgress;
     
     
-//批量删除
+    //批量删除
 	UIImageView*	m_checkImageView;
 	BOOL			m_checked;
 }

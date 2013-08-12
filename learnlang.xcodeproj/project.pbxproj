@@ -9,6 +9,20 @@
 /* Begin PBXBuildFile section */
 		2225707317AF485200E68EA1 /* DownloadsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2225707217AF485200E68EA1 /* DownloadsManager.m */; };
 		2225707617B1D36E00E68EA1 /* LocalAudioPlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 2225707517B1D36E00E68EA1 /* LocalAudioPlay.m */; };
+		2225707917B24A4D00E68EA1 /* Selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 2225707717B24A4D00E68EA1 /* Selected.png */; };
+		2225707A17B24A4D00E68EA1 /* Unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = 2225707817B24A4D00E68EA1 /* Unselected.png */; };
+		2225707D17B360B300E68EA1 /* SavedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2225707C17B360B300E68EA1 /* SavedCell.m */; };
+		2225708117B363E200E68EA1 /* RecordsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2225707F17B363E100E68EA1 /* RecordsViewController.m */; };
+		2225708217B363E200E68EA1 /* RecordsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2225708017B363E200E68EA1 /* RecordsViewController.xib */; };
+		2225708517B364E500E68EA1 /* RecordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2225708417B364E400E68EA1 /* RecordCell.m */; };
+		2225708917B367AB00E68EA1 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2225708717B367AA00E68EA1 /* SettingViewController.m */; };
+		2225708A17B367AB00E68EA1 /* SettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2225708817B367AB00E68EA1 /* SettingViewController.xib */; };
+		2225708E17B367CB00E68EA1 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2225708C17B367C900E68EA1 /* AboutViewController.m */; };
+		2225708F17B367CB00E68EA1 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2225708D17B367CA00E68EA1 /* AboutViewController.xib */; };
+		2225709217B3C91500E68EA1 /* PlayButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2225709117B3C91400E68EA1 /* PlayButton.m */; };
+		2225709E17B4916100E68EA1 /* BUIControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 2225709917B4916100E68EA1 /* BUIControl.m */; };
+		2225709F17B4916100E68EA1 /* BUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2225709B17B4916100E68EA1 /* BUIView.m */; };
+		222570A017B4916100E68EA1 /* ZXObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2225709D17B4916100E68EA1 /* ZXObject.m */; };
 		2238E3A017AA4B6800E85157 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 2238E39217AA4B6800E85157 /* FMDatabase.m */; };
 		2238E3A117AA4B6800E85157 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2238E39417AA4B6800E85157 /* FMDatabaseAdditions.m */; };
 		2238E3A217AA4B6800E85157 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 2238E39617AA4B6800E85157 /* FMDatabasePool.m */; };
@@ -144,6 +158,30 @@
 		2225707217AF485200E68EA1 /* DownloadsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadsManager.m; sourceTree = "<group>"; };
 		2225707417B1D36E00E68EA1 /* LocalAudioPlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalAudioPlay.h; sourceTree = "<group>"; };
 		2225707517B1D36E00E68EA1 /* LocalAudioPlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalAudioPlay.m; sourceTree = "<group>"; };
+		2225707717B24A4D00E68EA1 /* Selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Selected.png; sourceTree = "<group>"; };
+		2225707817B24A4D00E68EA1 /* Unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Unselected.png; sourceTree = "<group>"; };
+		2225707B17B360B300E68EA1 /* SavedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SavedCell.h; sourceTree = "<group>"; };
+		2225707C17B360B300E68EA1 /* SavedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SavedCell.m; sourceTree = "<group>"; };
+		2225707E17B363E000E68EA1 /* RecordsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordsViewController.h; sourceTree = "<group>"; };
+		2225707F17B363E100E68EA1 /* RecordsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordsViewController.m; sourceTree = "<group>"; };
+		2225708017B363E200E68EA1 /* RecordsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RecordsViewController.xib; sourceTree = "<group>"; };
+		2225708317B364E400E68EA1 /* RecordCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordCell.h; sourceTree = "<group>"; };
+		2225708417B364E400E68EA1 /* RecordCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordCell.m; sourceTree = "<group>"; };
+		2225708617B367A900E68EA1 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		2225708717B367AA00E68EA1 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		2225708817B367AB00E68EA1 /* SettingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingViewController.xib; sourceTree = "<group>"; };
+		2225708B17B367C800E68EA1 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		2225708C17B367C900E68EA1 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		2225708D17B367CA00E68EA1 /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
+		2225709017B3C91300E68EA1 /* PlayButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayButton.h; sourceTree = "<group>"; };
+		2225709117B3C91400E68EA1 /* PlayButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayButton.m; sourceTree = "<group>"; };
+		2225709717B4916100E68EA1 /* BlockUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockUI.h; sourceTree = "<group>"; };
+		2225709817B4916100E68EA1 /* BUIControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BUIControl.h; sourceTree = "<group>"; };
+		2225709917B4916100E68EA1 /* BUIControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BUIControl.m; sourceTree = "<group>"; };
+		2225709A17B4916100E68EA1 /* BUIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BUIView.h; sourceTree = "<group>"; };
+		2225709B17B4916100E68EA1 /* BUIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BUIView.m; sourceTree = "<group>"; };
+		2225709C17B4916100E68EA1 /* ZXObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXObject.h; sourceTree = "<group>"; };
+		2225709D17B4916100E68EA1 /* ZXObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXObject.m; sourceTree = "<group>"; };
 		2238E39117AA4B6800E85157 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		2238E39217AA4B6800E85157 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
 		2238E39317AA4B6800E85157 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
@@ -391,6 +429,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2225709617B4916000E68EA1 /* BlockUI */ = {
+			isa = PBXGroup;
+			children = (
+				2225709717B4916100E68EA1 /* BlockUI.h */,
+				2225709817B4916100E68EA1 /* BUIControl.h */,
+				2225709917B4916100E68EA1 /* BUIControl.m */,
+				2225709A17B4916100E68EA1 /* BUIView.h */,
+				2225709B17B4916100E68EA1 /* BUIView.m */,
+				2225709C17B4916100E68EA1 /* ZXObject.h */,
+				2225709D17B4916100E68EA1 /* ZXObject.m */,
+			);
+			path = BlockUI;
+			sourceTree = "<group>";
+		};
 		2238E38F17AA4B6800E85157 /* WYData */ = {
 			isa = PBXGroup;
 			children = (
@@ -431,6 +483,7 @@
 		224D15B5179CCEDC00C5B8B2 = {
 			isa = PBXGroup;
 			children = (
+				2225709617B4916000E68EA1 /* BlockUI */,
 				2238E38F17AA4B6800E85157 /* WYData */,
 				228DDDD017A7A4B500324ACB /* PopoverView */,
 				22549DD117A5F8240056C711 /* AMProgressView */,
@@ -734,6 +787,15 @@
 				2238E3B117AB7FFB00E85157 /* DownloadViewController.h */,
 				2238E3B217AB7FFB00E85157 /* DownloadViewController.m */,
 				2238E3B317AB7FFB00E85157 /* DownloadViewController.xib */,
+				2225707E17B363E000E68EA1 /* RecordsViewController.h */,
+				2225707F17B363E100E68EA1 /* RecordsViewController.m */,
+				2225708017B363E200E68EA1 /* RecordsViewController.xib */,
+				2225708617B367A900E68EA1 /* SettingViewController.h */,
+				2225708717B367AA00E68EA1 /* SettingViewController.m */,
+				2225708817B367AB00E68EA1 /* SettingViewController.xib */,
+				2225708B17B367C800E68EA1 /* AboutViewController.h */,
+				2225708C17B367C900E68EA1 /* AboutViewController.m */,
+				2225708D17B367CA00E68EA1 /* AboutViewController.xib */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -741,6 +803,8 @@
 		224D167B179D274300C5B8B2 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				2225707717B24A4D00E68EA1 /* Selected.png */,
+				2225707817B24A4D00E68EA1 /* Unselected.png */,
 				228DDDDB17A7AF9C00324ACB /* Title.png */,
 				228DDDDC17A7AF9C00324ACB /* Title@2x.png */,
 				224D16FA179E753500C5B8B2 /* placeholder.png */,
@@ -771,6 +835,10 @@
 				224D16D3179E3F0300C5B8B2 /* NewsTableViewCell.xib */,
 				2238E3B617AB806700E85157 /* DownloadCell.h */,
 				2238E3B717AB806700E85157 /* DownloadCell.m */,
+				2225707B17B360B300E68EA1 /* SavedCell.h */,
+				2225707C17B360B300E68EA1 /* SavedCell.m */,
+				2225708317B364E400E68EA1 /* RecordCell.h */,
+				2225708417B364E400E68EA1 /* RecordCell.m */,
 			);
 			path = TableViewHelpers;
 			sourceTree = "<group>";
@@ -807,6 +875,8 @@
 				2238E3BF17AB941000E85157 /* DownloadDelegate.h */,
 				2225707117AF485200E68EA1 /* DownloadsManager.h */,
 				2225707217AF485200E68EA1 /* DownloadsManager.m */,
+				2225709017B3C91300E68EA1 /* PlayButton.h */,
+				2225709117B3C91400E68EA1 /* PlayButton.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -994,6 +1064,11 @@
 				228DDDDE17A7AF9C00324ACB /* Title@2x.png in Resources */,
 				2238E3B017AB3C1900E85157 /* SavedViewController.xib in Resources */,
 				2238E3B517AB7FFC00E85157 /* DownloadViewController.xib in Resources */,
+				2225707917B24A4D00E68EA1 /* Selected.png in Resources */,
+				2225707A17B24A4D00E68EA1 /* Unselected.png in Resources */,
+				2225708217B363E200E68EA1 /* RecordsViewController.xib in Resources */,
+				2225708A17B367AB00E68EA1 /* SettingViewController.xib in Resources */,
+				2225708F17B367CB00E68EA1 /* AboutViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1088,6 +1163,15 @@
 				2238E3BE17AB915A00E85157 /* FileModel.m in Sources */,
 				2225707317AF485200E68EA1 /* DownloadsManager.m in Sources */,
 				2225707617B1D36E00E68EA1 /* LocalAudioPlay.m in Sources */,
+				2225707D17B360B300E68EA1 /* SavedCell.m in Sources */,
+				2225708117B363E200E68EA1 /* RecordsViewController.m in Sources */,
+				2225708517B364E500E68EA1 /* RecordCell.m in Sources */,
+				2225708917B367AB00E68EA1 /* SettingViewController.m in Sources */,
+				2225708E17B367CB00E68EA1 /* AboutViewController.m in Sources */,
+				2225709217B3C91500E68EA1 /* PlayButton.m in Sources */,
+				2225709E17B4916100E68EA1 /* BUIControl.m in Sources */,
+				2225709F17B4916100E68EA1 /* BUIView.m in Sources */,
+				222570A017B4916100E68EA1 /* ZXObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

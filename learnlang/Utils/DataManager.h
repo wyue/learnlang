@@ -31,8 +31,18 @@
 + (NSString *)getNewsForJson:(News *)news;
 + (NSMutableDictionary *)getNewss:(int)type;
 + (Boolean)insertOrRemoveNews:(int)type andID:(int)_id andString:(NSString *)str;
-+ (void)removeNews:(int)type andNews:(News*)news;
+//+ (void)removeNews:(int)type andNews:(News*)news;
++ (void)removeNewsForSave:(News*)news;//删除保存内容
++ (void)removeNewsForDownload:(News*)news;//删除下载内容
 + (Boolean)isSaved:(int)_id;
 + (Boolean)isDownload:(int)_id;
 +(NSURL*)isDownloadFile:(Voice *)voice andNew:(News *)news;
+
+
+//保存录音
++ (void)insertRecord:(News *)news andFilePath:(NSURL *)url;
++ (NSMutableDictionary *)getRecords;
++ (void)removeRecord:(News *)news andFilePath:(NSURL *)url;
++ (NSMutableArray *)readRecordsAryByDic:(NSMutableDictionary *)newDic;
+
 @end

@@ -12,6 +12,9 @@
 #import "NewsViewController.h"
 #import "SavedViewController.h"
 #import "DownloadViewController.h"
+#import "RecordsViewController.h"
+#import "SettingViewController.h"
+#import "AboutViewController.h"
 @interface MenuViewController ()
 
 @end
@@ -36,7 +39,7 @@
     
     //默认1为首页
     
-      [dic setObject:self.mm_drawerController.centerViewController forKey:@"1"];
+      [dic setObject:self.mm_drawerController.centerViewController forKey:@"0"];
     self.tableView.separatorColor = [UIColor clearColor];
 
     // Uncomment the following line to preserve selection between presentations.
@@ -73,7 +76,7 @@
 {
 
     // Return the number of rows in the section.
-    return 7;
+    return 6;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -97,38 +100,42 @@
     
     // Configure the cell...
     switch (indexPath.row) {
+     
         case 0:
-        {
-            [cell.imageView setImage:[UIImage imageNamed:@""]];
-        }
-            break;
-        case 1:
         {
            [cell.imageView setImage:[UIImage imageNamed:@""]];
             cell.textLabel.text=@"首页";
         }
            
             break;
-        case 2:
-        {
-            [cell.imageView setImage:[UIImage imageNamed:@""]];
-             cell.textLabel.text=@"我的收藏";
-        }
-            break;
-        case 3:
+        case 1:
         {
             [cell.imageView setImage:[UIImage imageNamed:@""]];
              cell.textLabel.text=@"我的下载";
         }
             break;
+        case 2:
+        {
+            [cell.imageView setImage:[UIImage imageNamed:@""]];
+             cell.textLabel.text=@"我的录音";
+        }
+            break;
+        case 3:
+        {
+            [cell.imageView setImage:[UIImage imageNamed:@""]];
+            cell.textLabel.text=@"我的收藏";
+        }
+            break;
         case 4:
         {
             [cell.imageView setImage:[UIImage imageNamed:@""]];
+            cell.textLabel.text=@"设置";
         }
             break;
         case 5:
         {
             [cell.imageView setImage:[UIImage imageNamed:@""]];
+            cell.textLabel.text=@"帮助";
         }
             break;
         default:
@@ -155,10 +162,8 @@
     if ([dic objectForKey:key]==nil){
        
         switch (indexPath.row) {
+           
             case 0:
-                
-                break;
-            case 1:
                 
             {
                 NewsViewController *masterViewController = [[[NewsViewController alloc] initWithNibName:@"NewsViewController" bundle:nil] autorelease];
@@ -169,19 +174,8 @@
             }
                 //self.mm_drawerController.centerViewController=;
                 break;
-            case 2:
+            case 1:
             {
-                
-                SavedViewController *savedViewController = [[[SavedViewController alloc] initWithNibName:@"SavedViewController" bundle:nil] autorelease];
-                
-                UINavigationController *navigationController = [Config  customControllerWithRootViewController:savedViewController];
-                [dic setObject:navigationController forKey:key];
-                
-            }
-                break;
-            case 3:
-            {
-                
                 DownloadViewController *downloadViewController = [[[DownloadViewController alloc] initWithNibName:@"DownloadViewController" bundle:nil] autorelease];
                 
                 UINavigationController *navigationController = [Config  customControllerWithRootViewController:downloadViewController];
@@ -189,10 +183,42 @@
                 
             }
                 break;
+            case 2:
+            {
+                RecordsViewController *viewController = [[[RecordsViewController alloc] initWithNibName:@"RecordsViewController" bundle:nil] autorelease];
+                
+                UINavigationController *navigationController = [Config  customControllerWithRootViewController:viewController];
+                [dic setObject:navigationController forKey:key];
+               
+                
+            }
+                break;
+            case 3:
+            {
+                
+                SavedViewController *savedViewController = [[[SavedViewController alloc] initWithNibName:@"SavedViewController" bundle:nil] autorelease];
+                
+                UINavigationController *navigationController = [Config  customControllerWithRootViewController:savedViewController];
+                [dic setObject:navigationController forKey:key];
+            }
+                
+                break;
             case 4:
+            {
+                SettingViewController *viewController = [[[SettingViewController alloc] initWithNibName:@"SettingViewController" bundle:nil] autorelease];
+                
+                UINavigationController *navigationController = [Config  customControllerWithRootViewController:viewController];
+                [dic setObject:navigationController forKey:key];
+            }
                 
                 break;
             case 5:
+            {
+                AboutViewController *viewController = [[[AboutViewController alloc] initWithNibName:@"AboutViewController" bundle:nil] autorelease];
+                
+                UINavigationController *navigationController = [Config  customControllerWithRootViewController:viewController];
+                [dic setObject:navigationController forKey:key];
+            }
                 
                 break;
             default:

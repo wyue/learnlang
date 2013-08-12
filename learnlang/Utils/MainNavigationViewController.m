@@ -12,7 +12,7 @@
 
 #import <QuartzCore/QuartzCore.h> //This is just for the daysView where I call "daysView.layer" not necessary normally.
 
-#define kStringArray [NSArray arrayWithObjects:@"YES", @"NO", @"NO", @"NO", @"NO", @"NO", nil]
+#define kStringArray [NSArray arrayWithObjects:@"全部", @"政治", @"文化", @"经济", @"军事", nil]
 #define kImageArray [NSArray arrayWithObjects:[UIImage imageNamed:@"success"], [UIImage imageNamed:@"error"], [UIImage imageNamed:@"error"], [UIImage imageNamed:@"error"], [UIImage imageNamed:@"error"], [UIImage imageNamed:@"error"], nil]
 
 @interface MainNavigationViewController ()
@@ -35,65 +35,9 @@
    // point = self.view.frame.origin;
     
     point =  CGPointMake(CGRectGetMidX(self.navigationBar.bounds), CGRectGetMidY(self.navigationBar.bounds));
-    //NSLog(@"tapped at %@", NSStringFromCGPoint(point));
     
-    // Here are a couple of different options for how to display the Popover
     
-    //    pv = [PopoverView showPopoverAtPoint:point
-    //                                  inView:self.view
-    //                                withText:@"This is a very long popover box.  As you can see, it goes to multiple lines in size." delegate:self]; // Show text wrapping popover with long string
-    
-    //    pv = [PopoverView showPopoverAtPoint:point
-    //                                  inView:self.view
-    //                               withTitle:@"This is a title"
-    //                                withText:@"This is text"
-    //                                delegate:self]; // Show text with title
-    
-    //    pv = [PopoverView showPopoverAtPoint:point
-    //                                  inView:self.view
-    //                         withStringArray:kStringArray
-    //                                delegate:self]; // Show the string array defined at top of this file
-    
-    //    pv = [PopoverView showPopoverAtPoint:point
-    //                                  inView:self.view
-    //                               withTitle:@"Was this helpful?"
-    //                         withStringArray:kStringArray
-    //                                delegate:self]; // Show string array defined at top of this file with title.
-    
-    //    pv = [PopoverView showPopoverAtPoint:point
-    //                                  inView:self.view
-    //                         withStringArray:kStringArray
-    //                          withImageArray:kImageArray
-    //                                delegate:self];
-    
-    //    pv = [PopoverView showPopoverAtPoint:point
-    //                                  inView:self.view
-    //                               withTitle:@"DEBUG"
-    //                         withStringArray:kStringArray
-    //                          withImageArray:kImageArray
-    //                                delegate:self];
-    
-    //    // Here's a little bit more advanced sample.  I create a custom view, and hand it off to the PopoverView to display for me.  I round the corners
-    //    OCDaysView *daysView = [[OCDaysView alloc] initWithFrame:CGRectMake(0, 0, 150, 100)];
-    //    [daysView setMonth:10];
-    //    [daysView setYear:2012];
-    //    daysView.backgroundColor = [UIColor colorWithWhite:0.95f alpha:1.f]; //Give it a background color
-    //    daysView.layer.borderColor = [UIColor colorWithWhite:0.9f alpha:1.f].CGColor; //Add a border
-    //    daysView.layer.borderWidth = 0.5f; //One retina pixel width
-    //    daysView.layer.cornerRadius = 4.f;
-    //    daysView.layer.masksToBounds = YES;
-    //
-    //    pv = [PopoverView showPopoverAtPoint:point
-    //                                  inView:self.view
-    //                         withContentView:[daysView autorelease]
-    //                                delegate:self]; // Show calendar with no title
-    //    pv = [PopoverView showPopoverAtPoint:point
-    //                                  inView:self.view
-    //                               withTitle:@"October 2012"
-    //                         withContentView:[daysView autorelease]
-    //                                delegate:self]; // Show calendar with title
-    
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
     tableView.delegate = self;
     tableView.dataSource = self;
     pv = [PopoverView showPopoverAtPoint:point
@@ -122,7 +66,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return [kStringArray count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -133,11 +77,18 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-    cell.textLabel.text = @"text";
-    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:12.f];
+   NSString* CellIdentifier =@"CellIdentifier";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (!cell) {
+        
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]autorelease];
+    }
     
-    return [cell autorelease];
+    
+    cell.textLabel.text=[kStringArray objectAtIndex:indexPath.row];
+       return cell;
+    
+   
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

@@ -9,16 +9,16 @@
 #import "DownloadViewController.h"
 #import "DownloadCell.h"
 #import "NewsDetailViewController.h"
-#define kType 1
+
 @interface DownloadViewController ()
 
 @end
 
 @implementation DownloadViewController
 
-@synthesize tableView;
+@synthesize tableview;
 @synthesize array;
-
+@synthesize arrayForEdit;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -34,16 +34,14 @@
     // Do any additional setup after loading the view from its nib.
     
     
-    
-    
-    
-    
+    self.tableview.allowsSelectionDuringEditing = YES;
+         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStyleDone target:self action:@selector(tableViewEdit:)];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     //初始化数据
-    NSMutableDictionary *newDic = [DataManager getNewss:kType];
+    NSMutableDictionary *newDic = [DataManager getNewss:kDownloadType];
     if (newDic) {
         self.array =  [DataManager readNewsSavedAryByDic:newDic];
         
@@ -55,7 +53,7 @@
         self.array = [[NSMutableArray alloc]init];
     }
     
-    [self.tableView reloadData];
+    [self.tableview reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -66,12 +64,51 @@
 
 -(void)dealloc{
     
-    [tableView release];
+    [tableview release];
     [array release];
+    [arrayForEdit release];
     [super dealloc];
 }
 
 
+
+- (void)tableViewEdit:(id)sender{
+    [tableview setEditing:!self.tableview.editing animated:YES];
+    
+    if (self.tableview.isEditing) {
+        
+        
+        if (arrayForEdit==nil) {
+            arrayForEdit = [[NSMutableArray alloc]init];
+        }
+        
+        [arrayForEdit removeAllObjects];
+        
+        self.navigationItem.rightBarButtonItem.title=@"删除";
+    }else{
+        self.navigationItem.rightBarButtonItem.title=@"编辑";
+        
+        
+        if (arrayForEdit.count>0) {
+            
+            
+            
+            
+            
+            for (int i=0; i<arrayForEdit.count; i++) {
+              News *news=  [arrayForEdit objectAtIndex:i];
+                
+                [DataManager removeNewsForDownload:news];
+                [array removeObject:news];
+            }
+            [tableview reloadData];
+            
+        }
+        
+        
+    }
+    
+}
 
 #pragma mark - Table View
 
@@ -97,7 +134,7 @@
 {
     static NSString *CellIdentifier = @"Cell";
     
-    DownloadCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    DownloadCell *cell = [self.tableview dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[DownloadCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -106,6 +143,11 @@
     News *news = [array objectAtIndex:indexPath.row];
     cell.news = news;
     return cell;
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return UITableViewCellEditingStyleNone;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -128,6 +170,14 @@
         //            abort();
         //        }
     }
+    
+    
+    
+    
+    
+    
+    
+    
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
@@ -136,6 +186,8 @@
     return NO;
 }
 
+
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
@@ -143,14 +195,33 @@
 //    detailViewController.news = [array objectAtIndex:indexPath.row];
     
    // [self.navigationController pushViewController:detailViewController animated:YES];
+
     News *n = [array objectAtIndex:indexPath.row];
     if (n)
     {
+    
+    if (self.tableview.editing)
+	{
+		DownloadCell *cell = (DownloadCell*)[self.tableview cellForRowAtIndexPath:indexPath];
         
-        NewsDetailViewController *newsDetailViewController = [[[NewsDetailViewController alloc] initWithNibName:@"NewsDetailViewController" bundle:nil] autorelease];
+		[cell setChecked:!cell.getChecked];
         
-        newsDetailViewController.news = n;
-        [self.navigationController pushViewController:newsDetailViewController animated:YES];
+        if (cell.getChecked) {
+            [arrayForEdit addObject:n];
+        }else{
+            [arrayForEdit removeObject:n];
+        }
+        
+        
+        
+	}else{
+        
+            
+            NewsDetailViewController *newsDetailViewController = [[[NewsDetailViewController alloc] initWithNibName:@"NewsDetailViewController" bundle:nil] autorelease];
+            
+            newsDetailViewController.news = n;
+            [self.navigationController pushViewController:newsDetailViewController animated:YES];
+        }
     }
 
 }

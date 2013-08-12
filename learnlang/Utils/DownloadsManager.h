@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "FileModel.h"
 #import "DownloadDelegate.h"
+#import "ASINetworkQueue.h"
 
 
 @interface DownloadsManager :  NSObject<ASIHTTPRequestDelegate,ASIProgressDelegate>
@@ -30,5 +31,5 @@
 
 -(void)removeFile:(News *)news isDownloading:(BOOL)isDownload;
 
-
+-(ASINetworkQueue*)getQueue:(News *)news ;
 @end

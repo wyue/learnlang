@@ -39,9 +39,13 @@
 #import "DataSingleton.h"
 #import "LoadingCell.h"
 
-#define api_news_list @"http://learn.china.cn/api/list.do"
+#import "BlockUI.h"
 
-#define api_post_list @"http://www.oschina.net/action/api/post_list"
+#import "CheckNetwork.h"
+
+#define api_news_list @"http://learn.china.cn/api/"
+
+#define api_post_list @"http://learn.china.cn/api/"
 
 
 
@@ -59,17 +63,48 @@
 
 #define kSaveType 0
 #define kDownloadType 1
+#define kRecordType 2
 
-#define newsPageSize 10
+#define newsPageSize 20
 
 #define kNewsToolBarHeight 60
 
-
+#define kNewsTableViewCellHeight 100  //newstablecell downloadcell savedcell
 
 //notify
 
 #define LOCALASStatusChangedNotification  @"LOCALASStatusChangedNotification"
 
 #define StatusFinishNotificationForAudio  @"StatusFinishNotificationForAudio"
+
+
+
+//record
+#define kRecorkName @"录音"
+#define DOCUMENTS_FOLDER [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"]
+
+
+//设置
+
+#define TextFontDefault @"Arial"
+
+#define kUserSettingFor3gDownload @"USER_SETTING_3G_DOWNLOAD"
+#define UserSettingFor3gDownloadON @"ON"
+#define UserSettingFor3gDownloadOff @"OFF"
+
+
+#define kUserSettingForAudioPlayInBackground @"USER_SETTING_AUDIO_PLAYINBACKGROUND"
+#define UserSettingForAudioPlayInBackgroundON @"ON"
+#define UserSettingForAudioPlayInBackgroundOff @"OFF"
+
+#define kUserSettingForReadText @"USER_SETTING_AUDIO_READTEXT"
+#define UserSettingForReadTextON @"ON"
+#define UserSettingForReadTextOff @"OFF"
+
+#define kUserSettingForTextSize @"USER_SETTING_TEXT_SIZE"
+#define TextSizeForSmall @"SMALL"
+#define TextSizeForMiddle @"MIDDLE"
+#define TextSizeForLarge @"LARGE"
+#define TextSizeDictionary [NSDictionary dictionaryWithObjectsAndKeys:@"11",TextSizeForSmall,@"12",TextSizeForMiddle,@"14",TextSizeForLarge,nil] 
 
 

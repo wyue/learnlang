@@ -1,17 +1,17 @@
 //
-//  DownloadCell.m
+//  SavedCell.m
 //  learnlang
 //
-//  Created by mooncake on 13-8-2.
+//  Created by mooncake on 13-8-8.
 //  Copyright (c) 2013年 ciic. All rights reserved.
 //
 
-#import "DownloadCell.h"
+#import "SavedCell.h"
 #import "DownloadsManager.h"
 #import "ASINetworkQueue.h"
 
 
-@implementation DownloadCell{
+@implementation SavedCell{
 @private
     __strong News *_news;
 }
@@ -48,14 +48,10 @@
         [self.contentView addSubview:clickCountLabel];
         
         
-        _downloadProgress = [[UIProgressView alloc]initWithProgressViewStyle:UIProgressViewStyleDefault];
-        _downloadProgress.frame= CGRectMake(0, 0, 320.0f, 5.0f);
-        [self.contentView addSubview:_downloadProgress];
+               
         
         
-       
         
-
     }
     return self;
 }
@@ -63,7 +59,7 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 - (void)setNews:(News *)news {
@@ -72,30 +68,9 @@
     titleLabel.text = _news.title;
     clickCountLabel.text = [NSString stringWithFormat:@"%d",_news.clickCount];
     //[self.imageView setImageWithURL:[NSURL URLWithString:_news.imgUrl] placeholderImage:[UIImage imageNamed:@"profile-image-placeholder"]];
+    
+    
   
-        
-  NSMutableDictionary* downinglist=  [DownloadsManager Instance].downinglist;
-    if (downinglist&&[downinglist objectForKey:[NSString stringWithFormat:@"%d",news._id]]) {
-      ASINetworkQueue	*networkQueue =   [downinglist objectForKey:[NSString stringWithFormat:@"%d",news._id]];
-        [networkQueue setUploadProgressDelegate:_downloadProgress];
-    }
-    
-    if([[DownloadsManager Instance] isReDownload:news]){
-        
-        
-        //[[DownloadsManager Instance] removeFile:news isDownloading:FALSE];
-       
-        
-        [[DownloadsManager Instance] beginRequest:news isBeginDown:YES];
-        
-    }
-    
-    
-   ASINetworkQueue* queue =    [[DownloadsManager Instance]getQueue:self.news];
-    
-    
-    queue.downloadProgressDelegate=self.downloadProgress;
-    queue.showAccurateProgress=YES;
     
     [self setNeedsLayout];
 }

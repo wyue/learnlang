@@ -46,9 +46,11 @@
     //检查网络是否存在 如果不存在 则弹出提示
     [Config Instance].isNetworkRunning = [CheckNetwork isExistenceNetwork];
     
+    [Config defaultUserSetting];
+    
     
     NewsViewController *masterViewController = [[[NewsViewController alloc] initWithNibName:@"NewsViewController" bundle:nil] autorelease];
-    masterViewController.catalog=1;
+    masterViewController.catalog=0;
     self.navigationController = [Config  customControllerWithRootViewControllerForMain:masterViewController];//[[[UINavigationController alloc] initWithRootViewController:masterViewController] autorelease]
     
     

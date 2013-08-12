@@ -97,6 +97,7 @@
 - (void)clear
 {
     allCount = 0;
+    [sectionNames removeAllObjects];
     [newsAry removeAllObjects];
     [newsDic removeAllObjects];
     isLoadOver = NO;
@@ -113,7 +114,7 @@
         }
         int pageIndex = allCount/newsPageSize;
         NSString *url;
-        url = [NSString stringWithFormat:@"%@?type=%d&pageIndex=%d&pageSize=%d", api_news_list, self.catalog, pageIndex, newsPageSize];
+        url = [NSString stringWithFormat:@"%@list_%d_%d_%d.html", api_news_list, self.catalog, pageIndex, newsPageSize];
 
        
         
@@ -124,7 +125,8 @@
          
                                    success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                        
-                                      // [Tool getOSCNotice2:operation.responseString];
+                                      
+                                      // NSLog(@"%@",operation.responseString);
                                        isLoading = NO;
                                        if (!noRefresh) {
                                            [self clear];
@@ -145,7 +147,7 @@
                                            }
                                            if(count>0){//返回数据为0则无需执行下面内容
                                                [newsAry addObjectsFromArray:newNews];//目前未起作用，只用来记录当前获取的数量
-                                               [newsDic addEntriesFromDictionary:newNewsDic];//添加更多页的数据
+                                               [newsDic addEntriesFromDictionary:newNewsDic];//添加更多页的数据 需要修改
                                                sectionNames = [DataManager readNewsSectionsyByDic:newsDic];
                                            }
                                        
@@ -276,18 +278,6 @@ titleForHeaderInSection:(NSInteger)section {
                 cell = [[[NewsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NewsTableViewCellIdentifier]autorelease];
             }
            // cell.lblTitle.font = [UIFont boldSystemFontOfSize:15.0];
-//            if (self.catalog <= 1) {
-//                News *n = [news objectAtIndex:[indexPath row]];
-//                cell.lblTitle.text = n.title;
-//                cell.lblAuthor.text = [NSString stringWithFormat:@"%@ 发布于 %@ (%d评)", n.author, n.pubDate, n.commentCount];
-//            }
-//            else
-//            {
-//                BlogUnit *b = [news objectAtIndex:indexPath.row];
-//                cell.lblTitle.text = b.title;
-//                cell.lblAuthor.text = [NSString stringWithFormat:@"%@ %@ %@ (%d评)", b.authorName,b.documentType==1?@"原创":@"转载", b.pubDate, b.commentCount];
-//            }
-//            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             
             
             cell.news = [ary objectAtIndex:indexPath.row];

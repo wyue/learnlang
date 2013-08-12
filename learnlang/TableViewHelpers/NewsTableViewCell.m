@@ -12,7 +12,7 @@
 #import "UIImageView+AFNetworking.h"
 
 //tableview 固定参数
-#define kNewsTableViewCellHeight 100
+
 
 #define kNewsTableImageHeight 50
 #define kNewsTableImageWidth 50

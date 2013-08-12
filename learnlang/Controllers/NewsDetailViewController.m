@@ -37,6 +37,8 @@
 @synthesize rightButton;
 @synthesize subContentLabel;
 
+@synthesize textSize;
+
 
 
 
@@ -83,7 +85,10 @@
    // [toolBar setBackgroundColor:[UIColor redColor]];
    //scrollView=[ [UIScrollView alloc]init];
     
-    
+   textSize= [Config getUserSettingForTextSize];
+    if (textSize==0) {
+        textSize=[[TextSizeDictionary objectForKey:TextSizeForMiddle]intValue];
+    }
     
     
     //初始化控件
@@ -125,6 +130,8 @@
         //高度自适应
         subContentLabel.text=news.subContent;
         
+        subContentLabel.font = [UIFont fontWithName:TextFontDefault size:textSize];
+        
         [self heightForLabel:subContentLabel];
 
         [subContentLabel setHidden:YES ];//隐藏中文label
@@ -146,7 +153,7 @@
             [l addGestureRecognizer:singleTap];
             [singleTap release];
             l.voice=content;
-            
+            l.font = [UIFont fontWithName:TextFontDefault size:textSize];
             l.text=content.text;
             l.voiceUrl=content.voiceUrl;
             
@@ -156,9 +163,6 @@
             //高度自适应
 
             [l setFrame:CGRectMake(subContentLabel.frame.origin.x, y, subContentLabel.frame.size.width, 2000)];
-            
-            
-            
             
           float labelheight=  [self heightForLabel:l];
             y=y+labelheight;
@@ -189,6 +193,7 @@
         toolBar = [[NewsToolbar alloc]initWithFrame:CGRectMake(rect_view.origin.x, rect_view.size.height-kNewsToolBarHeight, rect_view.size.width, kNewsToolBarHeight)];
         toolBar.autoresizingMask=UIViewAutoresizingFlexibleTopMargin;
         toolBar.news=news;
+        toolBar.parentViewController=self;
         [self.view addSubview:toolBar];
     }
     

@@ -56,6 +56,8 @@
 
 @property (nonatomic) BOOL isAllPlay;
 
+@property int textSize;
+
 
 
 - (IBAction)tabButtonAction:(id)sender;
