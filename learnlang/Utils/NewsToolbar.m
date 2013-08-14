@@ -9,6 +9,8 @@
 #import "NewsToolbar.h"
 #import "DownloadsManager.h"
 #import "AudioButton.h"
+#import "NewsDetailViewController.h"
+#import <Social/Social.h>
 #define kProgressViewHeight 10
 
 @implementation NewsToolbar
@@ -19,6 +21,7 @@
 @synthesize _audioPlayer;
 
 @synthesize audioLabel;
+
 @synthesize recordButton;
 @synthesize shareButton;
 
@@ -34,6 +37,8 @@
 @synthesize playIndex;
 
 @synthesize localplayer;
+
+@synthesize sharingImage,sharingText,slComposerSheet;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -181,12 +186,17 @@
     
     
     [audioLabel release];
+  
     [recordButton release];
     [shareButton release];
     
     [progressView release];
     
     [localplayer release];
+    
+    [sharingText release];
+    [sharingImage release];
+    [slComposerSheet release];
     
     [super dealloc];
 }
@@ -201,10 +211,13 @@
 */
 - (void)audioStop{
     if (self._audioPlayer) {
-        [self._audioPlayer stop];
+
+        [self._audioPlayer pauseAudio];
     }
     if (self.localplayer) {
         [self.localplayer stop];
+//        [localplayer release];
+//        localplayer =nil;
     }
 
 }
@@ -298,33 +311,38 @@
         
                 
         playIndex=0;
-        Voice* content= [news.contentAry objectAtIndex:0];
-        if(content){
-            
-            NSURL* url=  [DataManager isDownloadFile:content andNew:news];
-            
-            if (url) {//本地播放
-              
+        if (news.contentAry&&news.contentAry.count>0) {
+            Voice* content= [news.contentAry objectAtIndex:0];
+            if(content){
                 
-                [self audioPlay:url andIndex:playIndex andIsLocalFile:YES andIsNew:YES];
+                NSURL* url=  [DataManager isDownloadFile:content andNew:news];
                 
+                [self changeVoiceLabelColor:content];
                 
-                
-                
-                
-            }else{
-                //设置循环播放
-                [[NSNotificationCenter defaultCenter] addObserver:self
-                                                         selector:@selector(playbackStateFinish:)
-                                                             name:StatusFinishNotificationForAudio
-                                                           object:self._audioPlayer];
-                
-
-                
-                 [self audioPlay:[NSURL URLWithString:content.voiceUrl] andIndex:playIndex andIsLocalFile:NO andIsNew:YES];
-                
-                           }
+                if (url) {//本地播放
+                    
+                    
+                    [self audioPlay:url andIndex:playIndex andIsLocalFile:YES andIsNew:YES];
+                    
+                    
+                    
+                    
+                    
+                }else{
+                    //设置循环播放
+                    [[NSNotificationCenter defaultCenter] addObserver:self
+                                                             selector:@selector(playbackStateFinish:)
+                                                                 name:StatusFinishNotificationForAudio
+                                                               object:self._audioPlayer];
+                    
+                    
+                    
+                    [self audioPlay:[NSURL URLWithString:content.voiceUrl] andIndex:playIndex andIsLocalFile:NO andIsNew:YES];
+                    
+                }
+            }
         }
+        
         
         
     }else{
@@ -480,7 +498,7 @@
     
     PopoverView*   pv = [PopoverView showPopoverAtPoint:button.center
                                                  inView:button
-                                        withStringArray:[NSArray arrayWithObjects:@"收藏", @"下载", nil]
+                                        withStringArray:[NSArray arrayWithObjects:@"收藏", @"下载", @"分享", nil]
                                                delegate:self]; // Show the string array defined at top of this file
     [pv retain];
     
@@ -593,13 +611,87 @@
         
     }
     
-       
- 
-    
-    
-   
+
     
 }
+
+
+- (void)shareAction:(id)sender
+{
+    if([SLComposeViewController class] != nil)
+    {
+//       
+//   
+//        [slComposerSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
+//            NSLog(@"start completion block");
+//            NSString *output;
+//            switch (result) {
+//                case SLComposeViewControllerResultCancelled:
+//                    output = @"Action Cancelled";
+//                    break;
+//                case SLComposeViewControllerResultDone:
+//                    output = @"Post Successfull";
+//                    break;
+//                default:
+//                    break;
+//            }
+//            if (result != SLComposeViewControllerResultCancelled)
+//            {
+//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"分享内容" message:output delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+//                [alert show];
+//            }
+//        }];
+//        if([SLComposeViewController isAvailableForServiceType:SLServiceTypeSinaWeibo])
+//        {
+//            slComposerSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeSinaWeibo];
+//            
+//            self.sharingText=[NSString stringWithFormat:@"我正在通过%@学习%@，快来一起吧 %@",AppTitle,AppLang,AppUrl];
+//            
+//            
+//            
+//            [slComposerSheet setInitialText:self.sharingText];
+//            [slComposerSheet addImage:self.sharingImage];
+//            [slComposerSheet addURL:[NSURL URLWithString:@"http://www.weibo.com/"]];
+//            [self.parentViewController presentViewController:slComposerSheet animated:YES completion:nil];
+//        }
+        SLComposeViewController *currentComposeViewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeSinaWeibo];
+        [currentComposeViewController setInitialText:[NSString stringWithFormat:@"我正在通过%@学习%@，快来一起吧 ",AppTitle,AppLang]];
+        //[currentComposeViewController addImage:[UIImage imageNamed:@"1.jpg"]];
+        [currentComposeViewController addURL:[NSURL URLWithString:AppUrl]];
+        currentComposeViewController.completionHandler = ^(SLComposeViewControllerResult result){
+            switch (result)
+            {
+                case SLComposeViewControllerResultDone:
+                    
+                    break;
+                case SLComposeViewControllerResultCancelled:
+                    
+                default:
+                    break;
+            }
+            [currentComposeViewController	dismissViewControllerAnimated:YES
+                                                             completion:nil];
+        };
+        [self.parentViewController presentViewController:currentComposeViewController
+                                                animated:YES
+                                              completion:nil];
+    
+    } else {
+        UIAlertView *osAlert = [[UIAlertView alloc] initWithTitle:@"抱歉" message:@"您的iOS版本低于6.0，无法支持微博分享功能." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [osAlert show];
+        NSLog(@"Your iOS version is below iOS6");
+   
+    }
+   
+    
+
+    
+    
+}
+//- (IBAction)shareToWeibo:(id)sender {
+//    
+//}
+
 
 //-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 //{
@@ -651,6 +743,39 @@
 //    }
 //}
 
+
+
+
+-(void) changeVoiceLabelColor:(Voice*)content{
+    //设置字体颜色
+    if (self.parentViewController&&[self.parentViewController isKindOfClass:[NewsDetailViewController class]]) {
+        NewsDetailViewController *pview = (NewsDetailViewController *) self.parentViewController;
+        
+        
+        NSArray *array = [pview.scrollView subviews];
+        
+        
+        for(id label in array){
+            if([label isKindOfClass:[VoiceUILabel class]]){
+                VoiceUILabel *le =  label;
+                if (le.tag==content.id) {
+                    le.textColor=[UIColor redColor];
+                }else{
+                    le.textColor=[UIColor blackColor];
+                }
+                
+            }
+        }
+        
+        
+        
+        
+    }
+}
+
+
+
+
 #pragma AVAudioPlayerDelegate
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
@@ -671,6 +796,9 @@
                     NSURL* url=  [DataManager isDownloadFile:content andNew:news];
                     
                     if (url) {//本地播放
+                        
+                        //设置字体颜色
+                        [self changeVoiceLabelColor:content];
                         
                         [self audioPlay:url andIndex:playIndex andIsLocalFile:YES andIsNew:YES];
 //                        localplayer.url = url;
@@ -707,6 +835,9 @@
         if (playIndex<news.contentAry.count) {
             Voice* content= [news.contentAry objectAtIndex:playIndex];
             if(content){
+                //设置字体颜色
+          [self changeVoiceLabelColor:content];
+                
                   [self audioPlay:[NSURL URLWithString:content.voiceUrl] andIndex:playIndex andIsLocalFile:NO andIsNew:YES];
           
 //                                        _audioPlayer.url = [NSURL URLWithString:content.voiceUrl];
@@ -734,6 +865,9 @@
             break;
         case 1:
             [self performSelector:@selector(downloadAction:) withObject:nil afterDelay:0.5f];
+            break;
+        case 2:
+            [self performSelector:@selector(shareAction:) withObject:nil afterDelay:0.5f];
             break;
             
         default:

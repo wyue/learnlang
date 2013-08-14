@@ -13,14 +13,14 @@
 //Height/width of the actual arrow
 #define kArrowHeight 12.f
 
-//padding within the box for the contentView
-#define kBoxPadding 10.f
+//padding within the box for the contentView   原值10
+#define kBoxPadding 4.f
 
 //control point offset for rounding corners of the main popover box
 #define kCPOffset 1.8f
 
-//radius for the rounded corners of the main popover box
-#define kBoxRadius 4.f
+//radius for the rounded corners of the main popover box 原值4
+#define kBoxRadius 1.f
 
 //Curvature value for the arrow.  Set to 0.f to make it linear.
 #define kArrowCurvature 6.f

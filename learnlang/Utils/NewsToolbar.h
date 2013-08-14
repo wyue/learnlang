@@ -15,6 +15,10 @@
 #import "LocalAudioPlay.h"
 #import "PopoverView.h"
 
+#import "VoiceUILabel.h"
+
+@class SLComposeViewController;
+
 @interface NewsToolbar : UIToolbar<AVAudioPlayerDelegate,PopoverViewDelegate>{
     
     News* news;
@@ -24,6 +28,7 @@
     UIButton* recordButton;
     UIButton* shareButton;
     UILabel *audioLabel;
+    
     
     AMProgressView *progressView;
     
@@ -40,6 +45,10 @@
     BOOL isAudioPlaying;//是否在使用网络播放器
     int playIndex;
 
+    
+     SLComposeViewController *slComposerSheet;
+    NSString *sharingText;
+     UIImage *sharingImage;
 }
 @property(nonatomic,retain)  News* news;
 @property(nonatomic,retain)  UIViewController *parentViewController;
@@ -50,6 +59,7 @@
 @property(nonatomic,retain)UIButton* recordButton;
 @property(nonatomic,retain)UIButton* shareButton;
 @property(nonatomic,retain)UILabel *audioLabel;
+
 
 @property(nonatomic,retain) AMProgressView *progressView;
 
@@ -63,6 +73,10 @@
 
 @property (nonatomic) BOOL isAudioPlaying;
 @property(nonatomic,retain)  LocalAudioPlay *localplayer;
+//社会化分享
+@property (nonatomic,retain) NSString *sharingText;
+@property (nonatomic,retain) UIImage *sharingImage;
+@property (nonatomic,retain) SLComposeViewController *slComposerSheet;
 
 - (void)audioPlay:(NSURL *)voiceurl andIndex:(int)indexl andIsLocalFile:(BOOL)isLocal  andIsNew:(BOOL)newPlay;
 - (void)audioStop;

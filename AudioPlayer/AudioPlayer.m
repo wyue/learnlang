@@ -10,6 +10,7 @@
 #import "AudioButton.h"
 #import "AudioStreamer.h"
 #import "AMProgressView.h"
+#import<AVFoundation/AVFoundation.h>
 
 @implementation AudioPlayer
 
@@ -50,7 +51,19 @@
     if (self.url) {
         if (!streamer) {
             
+            if ([Config getUserSettingForAudioPlayInBackground] ) {
+                AVAudioSession *session = [AVAudioSession sharedInstance];
+                [session setCategory:AVAudioSessionCategoryPlayback error:nil];
+                [session setActive:YES error:nil];
+            }else{
+                AVAudioSession *session = [AVAudioSession sharedInstance];
+                [session setCategory:AVAudioSessionCategoryPlayback error:nil];
+                [session setActive:NO error:nil];
+            }
+            
+            
             self.streamer = [[AudioStreamer alloc] initWithURL:self.url];
+            
             
             // set up display updater
             NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:
@@ -83,6 +96,28 @@
 }
 
 
+- (void)pauseAudio
+{
+
+	if (streamer&&[streamer isPlaying])
+	{
+        
+		[streamer pause];
+//        [streamer stop];
+//		[streamer release];
+//		streamer = nil;
+        
+        // remove notification observer for streamer
+//		[[NSNotificationCenter defaultCenter] removeObserver:self
+//                                                        name:ASStatusChangedNotification
+//                                                      object:streamer];
+        //        [[NSNotificationCenter defaultCenter] removeObserver:self
+        //                                                        name:StatusFinishNotificationForAudio
+        //                                                      object:self];
+	}
+}
+
+
 - (void)stop
 {    
     [button setProgress:0];
@@ -96,7 +131,8 @@
     
     // release streamer
 	if (streamer)
-	{        
+	{
+      
 		[streamer stop];
 		[streamer release];
 		streamer = nil;
@@ -152,7 +188,7 @@
     }
     
     
-    if ([streamer isFinishing]) {
+    if ([streamer isIdle]) {
         NSNotification *notification = [NSNotification notificationWithName:StatusFinishNotificationForAudio object:self];
         [[NSNotificationCenter defaultCenter] postNotification:notification];
     }

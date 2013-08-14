@@ -75,10 +75,10 @@
   
         
   NSMutableDictionary* downinglist=  [DownloadsManager Instance].downinglist;
-    if (downinglist&&[downinglist objectForKey:[NSString stringWithFormat:@"%d",news._id]]) {
-      ASINetworkQueue	*networkQueue =   [downinglist objectForKey:[NSString stringWithFormat:@"%d",news._id]];
-        [networkQueue setUploadProgressDelegate:_downloadProgress];
-    }
+//    if (downinglist&&[downinglist objectForKey:[NSString stringWithFormat:@"%d",news._id]]) {
+//      ASINetworkQueue	*networkQueue =   [downinglist objectForKey:[NSString stringWithFormat:@"%d",news._id]];
+//        [networkQueue setUploadProgressDelegate:_downloadProgress];
+//    }
     
     if([[DownloadsManager Instance] isReDownload:news]){
         
@@ -88,14 +88,21 @@
         
         [[DownloadsManager Instance] beginRequest:news isBeginDown:YES];
         
+    }else{
+          
+        if (downinglist==nil||(downinglist&&![downinglist objectForKey:[NSString stringWithFormat:@"%d",news._id]])){
+              titleLabel.text =[NSString stringWithFormat:@"%@       %@",titleLabel.text,@"已下载完毕" ];
+    }
     }
     
     
    ASINetworkQueue* queue =    [[DownloadsManager Instance]getQueue:self.news];
+    if (queue) {
+        queue.downloadProgressDelegate=self.downloadProgress;
+        queue.showAccurateProgress=YES;
+    }
     
-    
-    queue.downloadProgressDelegate=self.downloadProgress;
-    queue.showAccurateProgress=YES;
+   
     
     [self setNeedsLayout];
 }

@@ -156,8 +156,9 @@
             l.font = [UIFont fontWithName:TextFontDefault size:textSize];
             l.text=content.text;
             l.voiceUrl=content.voiceUrl;
+            l.tag=content.id;
             
-            [l setTextColor:[UIColor redColor]];
+            //[l setTextColor:[UIColor redColor]];
             
             
             //高度自适应
@@ -214,7 +215,7 @@
     // CGRect rect_view =[self.view bounds];
     // toolBar.frame=CGRectMake(rect_view.origin.x, rect_view.size.height-kToolBarHeight, rect_view.size.width, kToolBarHeight);
     // scrollView.frame=CGRectMake(rect_view.origin.x, rect_view.origin.y, rect_view.size.width, rect_view.size.height-kToolBarHeight);
-    [self.toolBar audioStop];
+    
     [super viewDidDisappear:YES];
 }
 
@@ -256,7 +257,9 @@
 
 - (void)popViewController
 {
+     [self.toolBar audioStop];
     [self.navigationController popViewControllerAnimated:YES];
+   
 }
 
 //事件方法
@@ -275,9 +278,22 @@ VoiceUILabel *l =    (VoiceUILabel*) gestureRecognizer.view;
             [self.toolBar audioPlay:[NSURL URLWithString:l.voice.voiceUrl] andIndex:l.indexl andIsLocalFile:NO andIsNew:YES];
         }
         
+        //设置字体颜色
+        NSArray *array = [scrollView subviews];
         
+        
+        for(id label in array){
+            if([label isKindOfClass:[VoiceUILabel class]]){
+                VoiceUILabel *le =  label;
+                le.textColor=[UIColor blackColor];
+            }
+        }
+        
+        l.textColor=[UIColor redColor];
         
     }
+    
+
     
 }
 

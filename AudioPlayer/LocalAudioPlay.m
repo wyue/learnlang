@@ -110,6 +110,18 @@
     
 }
 
+- (void)pauseAudio
+{
+
+    
+    // release streamer
+	if (player&&[player isPlaying])
+	{
+		 [player pause];
+
+	}
+}
+
 
 - (void)stop
 {

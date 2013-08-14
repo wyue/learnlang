@@ -12,9 +12,10 @@
 
 @interface NewsTableViewCell : UITableViewCell{
 @private
-EGOImageView* imageView;
-    UILabel * titleLabel;
-    UILabel* clickCountLabel;
+IBOutlet EGOImageView* imageView;
+ IBOutlet   UILabel * titleLabel;
+ IBOutlet   UILabel* clickCountLabel;
+    IBOutlet   UILabel* saveCountLabel;
 }
 
 @property (nonatomic, strong) News *news;

@@ -119,10 +119,10 @@ static DownloadsManager * managerinstance = nil;
 - (Boolean)isReDownload:(News*)news
 {
     
-    if (self.downinglist&&[self.downinglist objectForKey:[NSString stringWithFormat:@"%d",news._id]]) {
-        return FALSE;
-    }else{
-        
+//    if (self.downinglist&&[self.downinglist objectForKey:[NSString stringWithFormat:@"%d",news._id]]) {
+//        return FALSE;
+//    }else{
+    
         NSFileManager *fileManager=[NSFileManager defaultManager];
         
         if(![fileManager fileExistsAtPath:[Config getTempFolderPath]])
@@ -163,7 +163,7 @@ static DownloadsManager * managerinstance = nil;
         
         
         return FALSE;
-    }
+   // }
         
     
     
@@ -285,7 +285,7 @@ static DownloadsManager * managerinstance = nil;
     NSFileManager *fileManager=[NSFileManager defaultManager];
      NSError *error;
     
-    if(![self isReDownload:news])//正在下载的表格
+    if (self.downinglist&&[self.downinglist objectForKey:[NSString stringWithFormat:@"%d",news._id]])//正在下载的表格
     {
         ASINetworkQueue *queue=[self.downinglist   objectForKey:key];
         if(queue )
@@ -587,6 +587,16 @@ static DownloadsManager * managerinstance = nil;
 
 - (void)queueFinished:(ASINetworkQueue *)queue
 {
+   NSArray * array = [self.downinglist allKeys];
+    for (int i=0; i<array.count; i++) {
+        NSString *key = [array objectAtIndex:i];
+       ASINetworkQueue *q = [self.downinglist objectForKey:key];
+        if ([q isEqual:queue]) {
+            [self.downinglist removeObjectForKey:key];
+        }
+    }
+  
+    
 	NSLog(@"queue complete");
 }
 @end

@@ -163,58 +163,6 @@
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "learnlang/Utils/NewsToolbar.m"
-         timestampString = "397534125.557761"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "164"
-         endingLineNumber = "164"
-         landmarkName = "-viewDidUnload"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "AudioPlayer/AudioPlayer.m"
-         timestampString = "397549825.962647"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "136"
-         endingLineNumber = "136"
-         landmarkName = "-playbackStateChanged:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "learnlang/Utils/DataManager.m"
-         timestampString = "397726465.17548"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "692"
-         endingLineNumber = "692"
-         landmarkName = "+removeRecord:andFilePath:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "learnlang/Utils/DataManager.m"
-         timestampString = "397726465.17548"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "661"
-         endingLineNumber = "661"
-         landmarkName = "+removeRecord:andFilePath:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "learnlang/Controllers/SettingViewController.m"
          timestampString = "397730807.620009"
          startingColumnNumber = "9223372036854775807"
@@ -241,13 +189,52 @@
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "AudioPlayer/LocalAudioPlay.m"
-         timestampString = "397731178.139978"
+         filePath = "learnlang/Utils/DownloadsManager.m"
+         timestampString = "397985373.150025"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "64"
-         endingLineNumber = "64"
+         startingLineNumber = "156"
+         endingLineNumber = "156"
+         landmarkName = "-isReDownload:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "learnlang/Utils/NewsToolbar.m"
+         timestampString = "398147676.817628"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "789"
+         endingLineNumber = "789"
+         landmarkName = "-audioPlayerDidFinishPlaying:successfully:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "AudioPlayer/AudioPlayer.m"
+         timestampString = "398153424.489726"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "51"
+         endingLineNumber = "51"
          landmarkName = "-play"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "AudioPlayer/AudioPlayer.m"
+         timestampString = "398153979.103794"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "192"
+         endingLineNumber = "192"
+         landmarkName = "-playbackStateChanged:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

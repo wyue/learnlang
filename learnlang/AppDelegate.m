@@ -42,11 +42,17 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    
+    
+    
     // Override point for customization after application launch.
     //检查网络是否存在 如果不存在 则弹出提示
     [Config Instance].isNetworkRunning = [CheckNetwork isExistenceNetwork];
     
     [Config defaultUserSetting];
+    
+   
+    
     
     
     NewsViewController *masterViewController = [[[NewsViewController alloc] initWithNibName:@"NewsViewController" bundle:nil] autorelease];
@@ -62,7 +68,7 @@
                                              leftDrawerViewController:menuViewController
                                              ];
     [drawerController setMaximumRightDrawerWidth:200.0];
-    [drawerController setMaximumLeftDrawerWidth:100.0];
+    [drawerController setMaximumLeftDrawerWidth:MainMenuWidth];
     [drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
     [drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
     

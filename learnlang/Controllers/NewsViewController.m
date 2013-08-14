@@ -37,7 +37,32 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStyleBordered target:self.navigationController action:@selector(toggleMenu)];
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStyleBordered target:self.navigationController action:@selector(toggleMenu)];
+    
+    
+    
+//    if ([[[UIDevice currentDevice] systemVersion] intValue] >= 5) {      //for ios5.*
+//        UIBarButtonItem *rbtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self.navigationController action:@selector(toggleMenu:)];
+//        UIImage *rightBarBtn = [[UIImage imageNamed:@"barBtn"] resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 5.0, 0.0, 5.0)];
+//        [rbtn setBackgroundImage:rightBarBtn forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+//        self.navigationItem.rightBarButtonItem = rbtn;
+//        [rbtn release];
+//    }
+//    else {      //for ios4.*
+        UIImage *rImg = [UIImage imageNamed:@"searchImg"];
+        UIButton *rBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        rBtn.frame = CGRectMake(0, 0, 40, 30);
+        [rBtn addTarget:self.navigationController action:@selector(toggleMenu:) forControlEvents:UIControlEventTouchUpInside];
+        [rBtn setBackgroundImage:rImg forState:UIControlStateNormal];
+        rBtn.backgroundColor = [UIColor clearColor];
+        UIBarButtonItem *rBarBtn = [[UIBarButtonItem alloc] initWithCustomView:rBtn];
+        self.navigationItem.rightBarButtonItem = rBarBtn;
+    [rBtn release];
+        [rBarBtn release];
+//    }
+    
+    
+    
     
     
     allCount = 0;
@@ -59,7 +84,8 @@
     
     [self reload:YES];
     //self.tableNews.backgroundColor = [Tool getBackgroundColor];
-    
+    self.tableNews.separatorStyle=UITableViewCellSeparatorStyleNone;
+    //self.tableNews.tableHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0,0,5,20)] autorelease];
     
 }
 
@@ -216,6 +242,14 @@ titleForHeaderInSection:(NSInteger)section {
     return sectionName;
     
 }
+
+-(UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    
+    
+    
+    return tableView.tableHeaderView;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSString *sectionName = [sectionNames objectAtIndex:section];
@@ -276,6 +310,7 @@ titleForHeaderInSection:(NSInteger)section {
 //                    }
 //                }
                 cell = [[[NewsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NewsTableViewCellIdentifier]autorelease];
+                //cell = [[[NSBundle mainBundle] loadNibNamed:@"NewsTableViewCell" owner:self options:nil]lastObject];
             }
            // cell.lblTitle.font = [UIFont boldSystemFontOfSize:15.0];
             

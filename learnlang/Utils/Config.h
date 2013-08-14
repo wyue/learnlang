@@ -25,25 +25,7 @@
 
 
 
-//动弹缓存
-@property (retain, nonatomic) UIImage * tweetCachePic;
-@property (copy, nonatomic) NSString * tweet;
-//问答缓存
-@property (copy,nonatomic) NSString * questionTitle;
-@property (copy,nonatomic) NSString * questionContent;
-@property int questionIndex;
-//留言缓存
-@property (retain,nonatomic) NSMutableDictionary * msgs;
--(void)saveMsgCache:(NSString *)msg andUID:(int)uid;
--(NSString *)getMsgCache:(int)uid;
-//评论缓存
-@property (retain,nonatomic) NSMutableDictionary * comments;
--(void)saveCommentCache:(NSString *)comment andCommentID:(int)commentID;
--(NSString *)getCommentCache:(int)commentID;
-//回复评论缓存
-@property (retain,nonatomic) NSMutableDictionary * replies;
--(void)saveReplyCache:(NSString *)reply andCommentID:(int)commentID andReplyID:(int)replyID;
--(NSString *)getReplyCache:(int)commentID andReplyID:(int)replyID;
+
 
 //保存登录用户名以及密码
 -(void)saveUserNameAndPwd:(NSString *)userName andPwd:(NSString *)pwd;

@@ -15,5 +15,5 @@
    
     CGPoint point;
 }
-- (void)toggleMenu;
+- (void)toggleMenu:(id)sender;
 @end

@@ -18,14 +18,7 @@
 @synthesize viewNameBeforeLogin;
 @synthesize isNetworkRunning;
 
-@synthesize tweetCachePic;
-@synthesize tweet;
-@synthesize questionTitle;
-@synthesize questionContent;
-@synthesize questionIndex;
-@synthesize msgs;
-@synthesize comments;
-@synthesize replies;
+
 
 -(void)saveUserNameAndPwd:(NSString *)userName andPwd:(NSString *)pwd
 {
@@ -153,9 +146,14 @@
     }
     else
     {
-        CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
-        NSString * uuidString = (__bridge_transfer NSString *)CFUUIDCreateString(kCFAllocatorDefault, uuid);
-        CFRelease(uuid);
+//        CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
+//        NSString * uuidString = (__bridge_transfer NSString *)CFUUIDCreateString(kCFAllocatorDefault, uuid);
+//        CFRelease(uuid);
+        
+        //Vindor标示符 (IDFV-identifierForVendor)
+        NSString *uuidString = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+        
+        
         [settings setObject:uuidString forKey:@"guid"];
         [settings synchronize];
         return uuidString;
@@ -190,73 +188,6 @@
 //}
 
 
--(void)saveMsgCache:(NSString *)msg andUID:(int)uid
-{
-    if (self.msgs == nil) {
-        self.msgs = [[NSMutableDictionary alloc] initWithCapacity:3];
-    }
-    if (msg == nil)
-    {
-        [self.msgs removeObjectForKey:[NSString stringWithFormat:@"%d",uid]];
-    }
-    else
-    {
-        [self.msgs setObject:msg forKey:[NSString stringWithFormat:@"%d",uid]];
-    }
-}
--(NSString *)getMsgCache:(int)uid
-{
-    if (self.msgs != nil) {
-        return [self.msgs objectForKey:[NSString stringWithFormat:@"%d", uid]];
-    }
-    else
-        return @"";
-}
-
--(void)saveCommentCache:(NSString *)comment andCommentID:(int)commentID
-{
-    if (self.comments == nil) {
-        self.comments = [[NSMutableDictionary alloc] initWithCapacity:3];
-    }
-    if (comment == nil) {
-        [self.comments removeObjectForKey:[NSString stringWithFormat:@"%d",commentID]];
-    }
-    else
-    {
-        [self.comments setObject:comment forKey:[NSString stringWithFormat:@"%d", commentID]];
-    }
-    
-}
--(NSString *)getCommentCache:(int)commentID
-{
-    if (self.comments != nil) {
-        return [self.comments objectForKey:[NSString stringWithFormat:@"%d", commentID]];
-    }
-    else
-        return @"";
-}
-
--(void)saveReplyCache:(NSString *)reply andCommentID:(int)commentID andReplyID:(int)replyID
-{
-    if (self.replies == nil) {
-        self.replies = [[NSMutableDictionary alloc]initWithCapacity:3];
-    }
-    if (reply == nil) {
-        [self.replies removeObjectForKey:[NSString stringWithFormat:@"%d_%d",commentID, replyID]];
-    }
-    else
-    {
-        [self.replies setObject:reply forKey:[NSString stringWithFormat:@"%d_%d",commentID, replyID]];
-    }
-}
--(NSString *)getReplyCache:(int)commentID andReplyID:(int)replyID
-{
-    if (self.replies != nil) {
-        return [self.replies objectForKey:[NSString stringWithFormat:@"%d_%d",commentID, replyID]];
-    }
-    else
-        return @"";
-}
 
 static Config * instance = nil;
 +(Config *) Instance

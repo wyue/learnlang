@@ -45,7 +45,7 @@
 
 #define api_news_list @"http://learn.china.cn/api/"
 
-#define api_post_list @"http://learn.china.cn/api/"
+#define api_post_guid @"http://lang.china.cn/api/deviceReg.do"
 
 
 
@@ -69,7 +69,7 @@
 
 #define kNewsToolBarHeight 60
 
-#define kNewsTableViewCellHeight 100  //newstablecell downloadcell savedcell
+#define kNewsTableViewCellHeight 67  //newstablecell downloadcell savedcell
 
 //notify
 
@@ -107,4 +107,13 @@
 #define TextSizeForLarge @"LARGE"
 #define TextSizeDictionary [NSDictionary dictionaryWithObjectsAndKeys:@"11",TextSizeForSmall,@"12",TextSizeForMiddle,@"14",TextSizeForLarge,nil] 
 
+
+//分享
+#define AppTitle @"德语达人"
+#define AppLang @"德语"
+#define AppUrl @""
+
+
+//menu
+#define MainMenuWidth 109
 

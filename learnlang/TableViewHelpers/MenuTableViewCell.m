@@ -16,7 +16,7 @@
     if (self) {
         // Initialization code
         
-        self.frame=CGRectMake(self.frame.origin.x, self.frame.origin.y, 100, 100);
+        self.frame=CGRectMake(self.frame.origin.x, self.frame.origin.y, MainMenuWidth, 81);
 //       imageView = [[EGOImageView alloc] initWithPlaceholderImage:[UIImage imageNamed:@"placeholder.png"]];
 //        imageView.frame=self.frame;
 //        [self.contentView addSubview:imageView];

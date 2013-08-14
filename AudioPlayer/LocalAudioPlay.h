@@ -35,5 +35,5 @@ NSTimer *timer;
 - (void)play;
 - (void)stop;
 - (BOOL)isProcessing;
-
+- (void)pauseAudio;
 @end

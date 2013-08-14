@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		221EA04517B8B61100812992 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 221EA04417B8B61100812992 /* User.m */; };
 		2225707317AF485200E68EA1 /* DownloadsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2225707217AF485200E68EA1 /* DownloadsManager.m */; };
 		2225707617B1D36E00E68EA1 /* LocalAudioPlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 2225707517B1D36E00E68EA1 /* LocalAudioPlay.m */; };
 		2225707917B24A4D00E68EA1 /* Selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 2225707717B24A4D00E68EA1 /* Selected.png */; };
@@ -39,6 +40,9 @@
 		2238E3B817AB806700E85157 /* DownloadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2238E3B717AB806700E85157 /* DownloadCell.m */; };
 		2238E3BB17AB8F7A00E85157 /* DownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2238E3BA17AB8F7A00E85157 /* DownloadManager.m */; };
 		2238E3BE17AB915A00E85157 /* FileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2238E3BD17AB915A00E85157 /* FileModel.m */; };
+		223E5F6317B9D3CD00EEA8E7 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 223E5F6217B9D3CD00EEA8E7 /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		223E5F6617BA12EB00EEA8E7 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 223E5F6417BA12EA00EEA8E7 /* ViewController.m */; };
+		223E5F6817BA12F800EEA8E7 /* ViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 223E5F6717BA12F800EEA8E7 /* ViewController_iPhone.xib */; };
 		224D15C2179CCEDC00C5B8B2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 224D15C1179CCEDC00C5B8B2 /* UIKit.framework */; };
 		224D15C4179CCEDC00C5B8B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 224D15C3179CCEDC00C5B8B2 /* Foundation.framework */; };
 		224D15C6179CCEDC00C5B8B2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 224D15C5179CCEDC00C5B8B2 /* CoreGraphics.framework */; };
@@ -154,6 +158,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		221EA04317B8B61100812992 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		221EA04417B8B61100812992 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		2225707117AF485200E68EA1 /* DownloadsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadsManager.h; sourceTree = "<group>"; };
 		2225707217AF485200E68EA1 /* DownloadsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadsManager.m; sourceTree = "<group>"; };
 		2225707417B1D36E00E68EA1 /* LocalAudioPlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalAudioPlay.h; sourceTree = "<group>"; };
@@ -212,6 +218,11 @@
 		2238E3BC17AB915A00E85157 /* FileModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileModel.h; sourceTree = "<group>"; };
 		2238E3BD17AB915A00E85157 /* FileModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileModel.m; sourceTree = "<group>"; };
 		2238E3BF17AB941000E85157 /* DownloadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadDelegate.h; sourceTree = "<group>"; };
+		223E5F6217B9D3CD00EEA8E7 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		223E5F6417BA12EA00EEA8E7 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		223E5F6517BA12EB00EEA8E7 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		223E5F6717BA12F800EEA8E7 /* ViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController_iPhone.xib; sourceTree = "<group>"; };
+		223E5F6917BA140500EEA8E7 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		224D15BE179CCEDC00C5B8B2 /* learnlang.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = learnlang.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		224D15C1179CCEDC00C5B8B2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		224D15C3179CCEDC00C5B8B2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -410,6 +421,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				223E5F6317B9D3CD00EEA8E7 /* Social.framework in Frameworks */,
 				2238E3AB17AA4C9F00E85157 /* libsqlite3.0.dylib in Frameworks */,
 				228DDDCA17A6149600324ACB /* AVFoundation.framework in Frameworks */,
 				224D171D17A2453100C5B8B2 /* AudioToolbox.framework in Frameworks */,
@@ -483,6 +495,7 @@
 		224D15B5179CCEDC00C5B8B2 = {
 			isa = PBXGroup;
 			children = (
+				223E5F6917BA140500EEA8E7 /* Accounts.framework */,
 				2225709617B4916000E68EA1 /* BlockUI */,
 				2238E38F17AA4B6800E85157 /* WYData */,
 				228DDDD017A7A4B500324ACB /* PopoverView */,
@@ -514,6 +527,7 @@
 		224D15C0179CCEDC00C5B8B2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				223E5F6217B9D3CD00EEA8E7 /* Social.framework */,
 				2238E3AA17AA4C9F00E85157 /* libsqlite3.0.dylib */,
 				228DDDC917A6149600324ACB /* AVFoundation.framework */,
 				224D171C17A2453000C5B8B2 /* AudioToolbox.framework */,
@@ -772,6 +786,9 @@
 		224D167A179D274300C5B8B2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				223E5F6717BA12F800EEA8E7 /* ViewController_iPhone.xib */,
+				223E5F6417BA12EA00EEA8E7 /* ViewController.m */,
+				223E5F6517BA12EB00EEA8E7 /* ViewController.h */,
 				224D1681179D28F100C5B8B2 /* MenuViewController.h */,
 				224D1682179D28F100C5B8B2 /* MenuViewController.m */,
 				224D1683179D28F100C5B8B2 /* MenuViewController.xib */,
@@ -821,6 +838,8 @@
 				228DDDE017A8DA4000324ACB /* Voice.m */,
 				2238E3BC17AB915A00E85157 /* FileModel.h */,
 				2238E3BD17AB915A00E85157 /* FileModel.m */,
+				221EA04317B8B61100812992 /* User.h */,
+				221EA04417B8B61100812992 /* User.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1069,6 +1088,7 @@
 				2225708217B363E200E68EA1 /* RecordsViewController.xib in Resources */,
 				2225708A17B367AB00E68EA1 /* SettingViewController.xib in Resources */,
 				2225708F17B367CB00E68EA1 /* AboutViewController.xib in Resources */,
+				223E5F6817BA12F800EEA8E7 /* ViewController_iPhone.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1172,6 +1192,8 @@
 				2225709E17B4916100E68EA1 /* BUIControl.m in Sources */,
 				2225709F17B4916100E68EA1 /* BUIView.m in Sources */,
 				222570A017B4916100E68EA1 /* ZXObject.m in Sources */,
+				221EA04517B8B61100812992 /* User.m in Sources */,
+				223E5F6617BA12EB00EEA8E7 /* ViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

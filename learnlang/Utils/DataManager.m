@@ -850,4 +850,23 @@
 
 
 
+//post server
+-(void) postGuidToServer:(NSString *)guid{
+    
+    NSString * url = [NSString stringWithFormat:@"%@?code=%@&type=2",api_post_guid,guid];
+    ASIFormDataRequest *requestForm = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:url]];
+    
+    //设置需要POST的数据，这里提交两个数据，A=a&B=b
+    [requestForm setPostValue:[Config Instance].getIOSGuid forKey:@"guid"];
+    
+    [requestForm startSynchronous];
+    
+    //输入返回的信息
+    NSLog(@"response\n%@",[requestForm responseString]);
+    [requestForm release];
+}
+
+
+
+
 @end

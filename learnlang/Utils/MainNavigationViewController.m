@@ -30,14 +30,16 @@
     return self;
 }
 
-- (void)toggleMenu
+- (void)toggleMenu:(id)sender
 {
    // point = self.view.frame.origin;
+  
+    point = CGPointMake(self.navigationBar.bounds.size.width-25, CGRectGetMidY(self.navigationBar.bounds));
     
-    point =  CGPointMake(CGRectGetMidX(self.navigationBar.bounds), CGRectGetMidY(self.navigationBar.bounds));
+    //point =  CGPointMake(CGRectGetMidX(self.navigationBar.bounds), CGRectGetMidY(self.navigationBar.bounds));
     
     
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 143, 219)];
     tableView.delegate = self;
     tableView.dataSource = self;
     pv = [PopoverView showPopoverAtPoint:point
@@ -71,7 +73,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 25;
+    return 44;
 }
 
 
