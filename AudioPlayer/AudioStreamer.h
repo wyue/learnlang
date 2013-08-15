@@ -1,9 +1,33 @@
 
+
+//
+//  AudioStreamer.h
+//  StreamingAudioPlayer
+//
+//  Created by Matt Gallagher on 27/09/08.
+//  Copyright 2008 Matt Gallagher. All rights reserved.
+//
+//  This software is provided 'as-is', without any express or implied
+//  warranty. In no event will the authors be held liable for any damages
+//  arising from the use of this software. Permission is granted to anyone to
+//  use this software for any purpose, including commercial applications, and to
+//  alter it and redistribute it freely, subject to the following restrictions:
+//
+//  1. The origin of this software must not be misrepresented; you must not
+//     claim that you wrote the original software. If you use this software
+//     in a product, an acknowledgment in the product documentation would be
+//     appreciated but is not required.
+//  2. Altered source versions must be plainly marked as such, and must not be
+//     misrepresented as being the original software.
+//  3. This notice may not be removed or altered from any source
+//     distribution.
+//
+
 #if TARGET_OS_IPHONE
 #import <UIKit/UIKit.h>
 #else
 #import <Cocoa/Cocoa.h>
-#endif
+#endif // TARGET_OS_IPHONE
 
 #include <pthread.h>
 #include <AudioToolbox/AudioToolbox.h>
@@ -37,15 +61,15 @@
 typedef enum
 {
 	AS_INITIALIZED = 0,
-	AS_STARTING_FILE_THREAD = 1,          // 启动线程
-	AS_WAITING_FOR_DATA = 2,              // 准备数据
-	AS_FLUSHING_EOF = 3,                  // 数据准备完毕
-	AS_WAITING_FOR_QUEUE_TO_START = 4,    // 排队播放
-	AS_PLAYING = 5,                       // 正在播放
-	AS_BUFFERING = 6,                     // 网络不好,自动缓冲
-	AS_PAUSED = 7,                        // 手动暂停
-	AS_STOPPING = 8,                      // 即将停止,自动提醒
-	AS_STOPPED = 9,                       // 已停止播放
+	AS_STARTING_FILE_THREAD,
+	AS_WAITING_FOR_DATA,
+	AS_FLUSHING_EOF,
+	AS_WAITING_FOR_QUEUE_TO_START,
+	AS_PLAYING,
+	AS_BUFFERING,
+	AS_STOPPING,
+	AS_STOPPED,
+	AS_PAUSED
 } AudioStreamerState;
 
 typedef enum
@@ -85,14 +109,12 @@ typedef enum
 
 extern NSString * const ASStatusChangedNotification;
 
-
-
 @interface AudioStreamer : NSObject
 {
 	NSURL *url;
     
 	//
-	//  Special threading consideration:
+	// Special threading consideration:
 	//	The audioQueue property should only ever be accessed inside a
 	//	synchronized(self) block and only *after* checking that ![self isFinishing]
 	//
@@ -111,11 +133,11 @@ extern NSString * const ASStatusChangedNotification;
 	bool inuse[kNumAQBufs];			// flags to indicate that a buffer is still in use
 	NSInteger buffersUsed;
 	NSDictionary *httpHeaders;
+	NSString *fileExtension;
 	
 	AudioStreamerState state;
 	AudioStreamerStopReason stopReason;
 	AudioStreamerErrorCode errorCode;
-    
 	OSStatus err;
 	
 	bool discontinuous;			// flag to indicate middle of the stream
@@ -156,23 +178,29 @@ extern NSString * const ASStatusChangedNotification;
 @property (readonly) double duration;
 @property (readwrite) UInt32 bitRate;
 @property (readonly) NSDictionary *httpHeaders;
+@property (copy,readwrite) NSString *fileExtension;
 
 - (id)initWithURL:(NSURL *)aURL;
 - (void)start;
 - (void)stop;
 - (void)pause;
-- (BOOL)isFinishing;
 - (BOOL)isPlaying;
 - (BOOL)isPaused;
 - (BOOL)isWaiting;
 - (BOOL)isIdle;
 - (void)seekToTime:(double)newSeekTime;
 - (double)calculatedBitRate;
+
 - (NSString *)currentTime;
 - (NSString *)totalTime;
 - (NSString *)audioTime;
 
 @end
+
+
+
+
+
 
 
 

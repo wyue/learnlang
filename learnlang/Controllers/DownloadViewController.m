@@ -36,6 +36,9 @@
     
     self.tableview.allowsSelectionDuringEditing = YES;
          self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStyleDone target:self action:@selector(tableViewEdit:)];
+    
+    self.tableview.separatorStyle=UITableViewCellSeparatorStyleNone;
+    self.tableview.tableHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0,0,5,5)] autorelease];
 }
 
 -(void)viewDidAppear:(BOOL)animated{

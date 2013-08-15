@@ -43,7 +43,7 @@
 
 - (BOOL)isProcessing
 {
-    return [streamer isPlaying] || [streamer isWaiting] || [streamer isFinishing] ;
+    return [streamer isPlaying] || [streamer isWaiting]  ;
 }
 
 - (void)play
@@ -133,14 +133,15 @@
 	if (streamer)
 	{
       
+		[[NSNotificationCenter defaultCenter]
+         removeObserver:self
+         name:ASStatusChangedNotification
+         object:streamer];
+
+		
 		[streamer stop];
 		[streamer release];
 		streamer = nil;
-        
-        // remove notification observer for streamer
-		[[NSNotificationCenter defaultCenter] removeObserver:self 
-                                                        name:ASStatusChangedNotification
-                                                      object:streamer];
 //        [[NSNotificationCenter defaultCenter] removeObserver:self
 //                                                        name:StatusFinishNotificationForAudio
 //                                                      object:self];
@@ -152,7 +153,10 @@
     if (streamer.progress <= streamer.duration ) {
         [button setProgress:streamer.progress/streamer.duration];
         [progressView setProgress:streamer.progress/streamer.duration];
-        audioLabel.text=[NSString stringWithFormat:@"%@/%@",streamer.currentTime,streamer.audioTime];
+        if (streamer.currentTime) {
+            audioLabel.text=[NSString stringWithFormat:@"%@/%@",streamer.currentTime,streamer.audioTime];
+        }
+    
         
         
     } else {
@@ -169,29 +173,50 @@
  */
 - (void)playbackStateChanged:(NSNotification *)notification
 {
-	if ([streamer isWaiting])
+//	if ([streamer isWaiting])
+//	{
+//        button.image = [UIImage imageNamed:stopImage];
+//        [button startSpin];
+//    } else if ([streamer isIdle]) {
+//        button.image = [UIImage imageNamed:playImage];
+//        NSNotification *notification = [NSNotification notificationWithName:StatusFinishNotificationForAudio object:self];
+//        [[NSNotificationCenter defaultCenter] postNotification:notification];
+//        
+//        
+//		[self stop];		
+//	} else if ([streamer isPaused]) {
+//        button.image = [UIImage imageNamed:playImage];
+//        [button stopSpin];
+//        [button setColourR:0.0 G:0.0 B:0.0 A:0.0];
+//    } else if ([streamer isPlaying] ) {
+//        button.image = [UIImage imageNamed:stopImage];
+//        [button stopSpin];        
+//	} else {
+//        
+//    }
+    
+    
+   	if ([streamer isWaiting])
 	{
         button.image = [UIImage imageNamed:stopImage];
-        [button startSpin];
-    } else if ([streamer isIdle]) {
-        button.image = [UIImage imageNamed:playImage];
-		[self stop];		
-	} else if ([streamer isPaused]) {
-        button.image = [UIImage imageNamed:playImage];
-        [button stopSpin];
-        [button setColourR:0.0 G:0.0 B:0.0 A:0.0];
-    } else if ([streamer isPlaying] || [streamer isFinishing]) {
-        button.image = [UIImage imageNamed:stopImage];
-        [button stopSpin];        
-	} else {
-        
-    }
-    
-    
-    if ([streamer isIdle]) {
+                //[button startSpin];
+	}
+	else if ([streamer isPlaying])
+	{
+		button.image = [UIImage imageNamed:stopImage];
+               //[button stopSpin];
+	}else if ([streamer isPaused])
+	{
+		button.image = [UIImage imageNamed:playImage];
+       
+	}
+	else if ([streamer isIdle])
+	{
+		button.image = [UIImage imageNamed:playImage];
         NSNotification *notification = [NSNotification notificationWithName:StatusFinishNotificationForAudio object:self];
-        [[NSNotificationCenter defaultCenter] postNotification:notification];
-    }
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+		[self stop];
+	}
     
     
     [button setNeedsLayout];    

@@ -215,7 +215,7 @@
     // CGRect rect_view =[self.view bounds];
     // toolBar.frame=CGRectMake(rect_view.origin.x, rect_view.size.height-kToolBarHeight, rect_view.size.width, kToolBarHeight);
     // scrollView.frame=CGRectMake(rect_view.origin.x, rect_view.origin.y, rect_view.size.width, rect_view.size.height-kToolBarHeight);
-    
+    [self.toolBar audioStop];
     [super viewDidDisappear:YES];
 }
 
@@ -257,7 +257,7 @@
 
 - (void)popViewController
 {
-     [self.toolBar audioStop];
+     
     [self.navigationController popViewControllerAnimated:YES];
    
 }
@@ -268,7 +268,7 @@
     //事件处理。
 VoiceUILabel *l =    (VoiceUILabel*) gestureRecognizer.view;
     if( l){
-        self.toolBar.isAllPlay=NO;
+        [self.toolBar setIsAllPlay:NO];
        NSURL*voiceurl= [DataManager isDownloadFile:l.voice andNew:news];
         if (voiceurl) {
             //本地

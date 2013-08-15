@@ -203,11 +203,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "learnlang/Utils/NewsToolbar.m"
-         timestampString = "398147676.817628"
+         timestampString = "398162356.725106"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "789"
-         endingLineNumber = "789"
+         startingLineNumber = "790"
+         endingLineNumber = "790"
          landmarkName = "-audioPlayerDidFinishPlaying:successfully:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -215,26 +215,13 @@
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "AudioPlayer/AudioPlayer.m"
-         timestampString = "398153424.489726"
+         filePath = "learnlang/Controllers/NewsDetailViewController.m"
+         timestampString = "398239874.541137"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "51"
-         endingLineNumber = "51"
-         landmarkName = "-play"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "AudioPlayer/AudioPlayer.m"
-         timestampString = "398153979.103794"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "192"
-         endingLineNumber = "192"
-         landmarkName = "-playbackStateChanged:"
+         startingLineNumber = "269"
+         endingLineNumber = "269"
+         landmarkName = "-handleSingleTap:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

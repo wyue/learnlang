@@ -11,7 +11,7 @@
 #import "AudioButton.h"
 #import "NewsDetailViewController.h"
 #import <Social/Social.h>
-#define kProgressViewHeight 10
+#define kProgressViewHeight 4
 
 @implementation NewsToolbar
 
@@ -311,6 +311,7 @@
         
                 
         playIndex=0;
+        _isAllPlay=YES;
         if (news.contentAry&&news.contentAry.count>0) {
             Voice* content= [news.contentAry objectAtIndex:0];
             if(content){
@@ -351,12 +352,12 @@
         
         
         if (_isAudioPlaying==YES) {
-            if ([_audioPlayer.button isEqual:audioButton]) {
+            if ([_audioPlayer.button isEqual:button]) {
                 
                 [_audioPlayer play];
             }
         }else{
-            if ([localplayer.button isEqual:audioButton]) {
+            if ([localplayer.button isEqual:button]) {
                 
                 [localplayer play];
             }

@@ -86,8 +86,8 @@ __strong News *_news;
     _news = news;
     
     titleLabel.text = _news.title;
-    clickCountLabel.text = [NSString stringWithFormat:@"%d",_news.clickCount];
-    saveCountLabel.text = [NSString stringWithFormat:@"%d",_news.saveCount];
+    clickCountLabel.text = [NSString stringWithFormat:@"%d阅读",_news.clickCount];
+    saveCountLabel.text = [NSString stringWithFormat:@"%d收藏",_news.saveCount];
     //[self.imageView setImageWithURL:[NSURL URLWithString:_news.imgUrl] placeholderImage:[UIImage imageNamed:@"profile-image-placeholder"]];
     
    
