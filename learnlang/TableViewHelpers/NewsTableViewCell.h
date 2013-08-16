@@ -16,9 +16,10 @@ IBOutlet EGOImageView* imageView;
  IBOutlet   UILabel * titleLabel;
  IBOutlet   UILabel* clickCountLabel;
     IBOutlet   UILabel* saveCountLabel;
+    UIView *whiteRoundedCornerView;
 }
 
 @property (nonatomic, strong) News *news;
 + (CGFloat)heightForCellWithNews:(News *)news;
-
++ (CGFloat)heightForLabelWithString:(NSString *)content andWidth:(float)width;
 @end

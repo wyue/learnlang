@@ -9,6 +9,7 @@
 #import "MenuTableViewCell.h"
 
 @implementation MenuTableViewCell
+@synthesize imageButton;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -21,8 +22,12 @@
 //        imageView.frame=self.frame;
 //        [self.contentView addSubview:imageView];
         
-        [self.imageView setFrame:self.frame];
+       
         
+        imageButton =[UIButton buttonWithType:UIButtonTypeCustom];
+        
+         [imageButton setFrame:self.frame];
+        [self.contentView addSubview:imageButton];
         
     }
     return self;
@@ -39,6 +44,7 @@
 
 - (void)dealloc {
 	[imageView release];
+    [imageButton retain];
 
     [super dealloc];
 }

@@ -43,6 +43,8 @@
 
 #import "CheckNetwork.h"
 
+#import "UIColor-Expanded.h"
+
 #define api_news_list @"http://learn.china.cn/api/"
 
 #define api_post_guid @"http://lang.china.cn/api/deviceReg.do"
@@ -69,7 +71,7 @@
 
 #define kNewsToolBarHeight 60
 
-#define kNewsTableViewCellHeight 67  //newstablecell downloadcell savedcell
+#define kNewsTableViewCellHeight 68  //newstablecell downloadcell savedcell
 
 //notify
 

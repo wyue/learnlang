@@ -49,11 +49,11 @@
 //        [rbtn release];
 //    }
 //    else {      //for ios4.*
-        UIImage *rImg = [UIImage imageNamed:@"searchImg"];
+        UIImage *rImg = [UIImage imageNamed:@"choosebtn_03.png"];
         UIButton *rBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         rBtn.frame = CGRectMake(0, 0, 40, 30);
         [rBtn addTarget:self.navigationController action:@selector(toggleMenu:) forControlEvents:UIControlEventTouchUpInside];
-        [rBtn setBackgroundImage:rImg forState:UIControlStateNormal];
+        [rBtn setImage:rImg forState:UIControlStateNormal];
         rBtn.backgroundColor = [UIColor clearColor];
         UIBarButtonItem *rBarBtn = [[UIBarButtonItem alloc] initWithCustomView:rBtn];
         self.navigationItem.rightBarButtonItem = rBarBtn;
@@ -61,7 +61,11 @@
         [rBarBtn release];
 //    }
     
+
     
+    self.navigationItem.title=AppTitle;
+    //self.navigationItem.titleView.layer.shadowColor = [UIColor yellowColor];
+    //self.navigationItem.titleView.layer.shadowOffset = CGSizeMake(2, 2);
     
     
     
@@ -83,7 +87,7 @@
     sectionNames = [[NSMutableArray alloc] initWithArray:[ NSArray arrayWithObjects:@"", nil]  ];
     
     [self reload:YES];
-    //self.tableNews.backgroundColor = [Tool getBackgroundColor];
+    self.tableNews.backgroundColor = [UIColor colorWithHexString:@"F4F4F4"];
     self.tableNews.separatorStyle=UITableViewCellSeparatorStyleNone;
     //self.tableNews.tableHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0,0,5,20)] autorelease];
     
@@ -233,21 +237,46 @@
     return [sectionNames count];
     
 }
-- (NSString *)tableView:(UITableView *)tableView
-
-titleForHeaderInSection:(NSInteger)section {
-    
-    NSString *sectionName = [sectionNames objectAtIndex:section];
-    
-    return sectionName;
-    
+//- (NSString *)tableView:(UITableView *)tableView
+//
+//titleForHeaderInSection:(NSInteger)section {
+//    
+//    NSString *sectionName = [sectionNames objectAtIndex:section];
+//    
+//    return sectionName;
+//    
+//}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 34;
 }
 
 -(UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     
+    UIView * sectionView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 34)] autorelease];
+    NSString *sectionName = [sectionNames objectAtIndex:section];
     
+    UIImageView* view = [[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"datebar_02.png"]]autorelease];
+    view.frame=CGRectMake(0, 0, self.tableNews.frame.size.width, 24);
+     [sectionView addSubview:view];
+    UIView* segview = [[[UIView alloc]initWithFrame:CGRectMake(0, 24, self.tableNews.frame.size.width, 10)]autorelease];
+    segview.backgroundColor=[UIColor clearColor];
     
-    return tableView.tableHeaderView;
+    [sectionView addSubview:segview];
+    
+    UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(12, 0, 320, 24)];
+    
+    headerLabel.backgroundColor = [UIColor clearColor];
+    
+    headerLabel.font = [UIFont boldSystemFontOfSize:12.0];
+    
+    headerLabel.textColor = [UIColor colorWithHexString:@"838383"];
+    
+    headerLabel.text = sectionName;
+    
+    [sectionView addSubview:headerLabel];
+    
+    [headerLabel release];
+    return sectionView;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

@@ -12,8 +12,9 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    _image = [UIImage imageNamed:@"Title.png"];
-    self.tintColor = [UIColor colorWithRed:46.0 / 255.0 green:149.0 / 255.0 blue:206.0 / 255.0 alpha:1.0];
+   // _image = [UIImage imageNamed:@"Title.png"];
+    //self.tintColor = [UIColor colorWithRed:46.0 / 255.0 green:149.0 / 255.0 blue:206.0 / 255.0 alpha:1.0];
+    self.backgroundColor=[UIColor colorWithHexString:@"EB9500"];
 
     // draw shadow
     self.layer.masksToBounds = NO;

@@ -10,8 +10,8 @@
 
 // BOX GEOMETRY
 
-//Height/width of the actual arrow
-#define kArrowHeight 12.f
+//Height/width of the actual arrow 原值12.f
+#define kArrowHeight 20.f
 
 //padding within the box for the contentView   原值10
 #define kBoxPadding 4.f
@@ -22,7 +22,7 @@
 //radius for the rounded corners of the main popover box 原值4
 #define kBoxRadius 1.f
 
-//Curvature value for the arrow.  Set to 0.f to make it linear.
+//Curvature value for the arrow.  Set to 0.f to make it linear.  原值6.f
 #define kArrowCurvature 6.f
 
 //Minimum distance from the side of the arrow to the beginning of curvature for the box
@@ -34,8 +34,8 @@
 //Blur for the shadow behind the PopoverView
 #define kShadowBlur 3.f;
 
-//Box gradient bg alpha
-#define kBoxAlpha 0.95f
+//Box gradient bg alpha 原值0.95f
+#define kBoxAlpha 0.7f
 
 //Padding along top of screen to allow for any nav/status bars
 #define kTopMargin 50.f
@@ -61,7 +61,7 @@
 
 // BACKGROUND GRADIENT
 
-//bottom color white in gradient bg
+//bottom color white in gradient bg 原值：[UIColor colorWithRed:0.98f green:0.98f blue:0.98f alpha:kBoxAlpha]
 #define kGradientBottomColor [UIColor colorWithRed:0.98f green:0.98f blue:0.98f alpha:kBoxAlpha]
 
 //top color white value in gradient bg

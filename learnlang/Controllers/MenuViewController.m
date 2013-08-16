@@ -40,8 +40,9 @@
     //默认1为首页
     
       [dic setObject:self.mm_drawerController.centerViewController forKey:@"0"];
-    self.tableView.separatorColor = [UIColor clearColor];
-
+    self.tableView.separatorColor = [UIColor colorWithHexString:@"444444"];
+    self.tableView.backgroundColor=[UIColor colorWithHexString:@"444444"];
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -97,50 +98,51 @@
     if (cell == nil) {
         cell = [[[MenuTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MenuTableCellIdentifier] autorelease];
     }
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleGray;  
     // Configure the cell...
     switch (indexPath.row) {
      
         case 0:
         {
-           [cell.imageView setImage:[UIImage imageNamed:@""]];
-            cell.textLabel.text=@"首页";
+           [cell.imageButton setImage:[UIImage imageNamed:@"nav-btn-bg_02.png"] forState:UIControlStateNormal ];
+            
+            //cell.textLabel.text=@"首页";
         }
            
             break;
         case 1:
         {
-            [cell.imageView setImage:[UIImage imageNamed:@""]];
-             cell.textLabel.text=@"我的下载";
+            [cell.imageButton setImage:[UIImage imageNamed:@"nav-btn-bg_04.png"]forState:UIControlStateNormal];
+             //cell.textLabel.text=@"我的下载";
         }
             break;
         case 2:
         {
-            [cell.imageView setImage:[UIImage imageNamed:@""]];
-             cell.textLabel.text=@"我的录音";
+            [cell.imageButton setImage:[UIImage imageNamed:@"nav-btn-bg_05.png"]forState:UIControlStateNormal];
+             //cell.textLabel.text=@"我的录音";
         }
             break;
         case 3:
         {
-            [cell.imageView setImage:[UIImage imageNamed:@""]];
-            cell.textLabel.text=@"我的收藏";
+            [cell.imageButton setImage:[UIImage imageNamed:@"nav-btn-bg_06.png"]forState:UIControlStateNormal];
+            //cell.textLabel.text=@"我的收藏";
         }
             break;
         case 4:
         {
-            [cell.imageView setImage:[UIImage imageNamed:@""]];
-            cell.textLabel.text=@"设置";
+            [cell.imageButton setImage:[UIImage imageNamed:@"nav-btn-bg_07.png"]forState:UIControlStateNormal];
+            //cell.textLabel.text=@"设置";
         }
             break;
         case 5:
         {
-            [cell.imageView setImage:[UIImage imageNamed:@""]];
-            cell.textLabel.text=@"帮助";
+            [cell.imageButton setImage:[UIImage imageNamed:@"nav-btn-bg_08.png"]forState:UIControlStateNormal];
+            //cell.textLabel.text=@"帮助";
         }
             break;
         default:
         {
-            [cell.imageView setImage:[UIImage imageNamed:@""]];
+            [cell.imageButton setImage:[UIImage imageNamed:@"nav-btn-bg_09.png"]forState:UIControlStateNormal];
         }
             break;
     }

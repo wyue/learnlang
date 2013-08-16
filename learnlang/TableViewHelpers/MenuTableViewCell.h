@@ -12,6 +12,8 @@
 @interface MenuTableViewCell : UITableViewCell{
 @private
     EGOImageView* imageView;
+    
+    UIButton *imageButton;
 }
-
+@property(nonatomic,retain) UIButton *imageButton;
 @end

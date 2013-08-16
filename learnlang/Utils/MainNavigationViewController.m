@@ -12,7 +12,7 @@
 
 #import <QuartzCore/QuartzCore.h> //This is just for the daysView where I call "daysView.layer" not necessary normally.
 
-#define kStringArray [NSArray arrayWithObjects:@"全部", @"政治", @"文化", @"经济", @"军事", nil]
+#define kStringArray [NSArray arrayWithObjects:@"全 部", @"政 治", @"文 化", @"经 济", @"军 事", nil]
 #define kImageArray [NSArray arrayWithObjects:[UIImage imageNamed:@"success"], [UIImage imageNamed:@"error"], [UIImage imageNamed:@"error"], [UIImage imageNamed:@"error"], [UIImage imageNamed:@"error"], [UIImage imageNamed:@"error"], nil]
 
 @interface MainNavigationViewController ()
@@ -42,6 +42,7 @@
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 143, 219)];
     tableView.delegate = self;
     tableView.dataSource = self;
+    tableView.separatorColor=[UIColor colorWithHexString:@"BEBEBE"];
     pv = [PopoverView showPopoverAtPoint:point
                                   inView:self.view
                          withContentView:tableView
@@ -85,7 +86,7 @@
         
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]autorelease];
     }
-    
+    cell.textLabel.textAlignment = UITextAlignmentCenter;
     
     cell.textLabel.text=[kStringArray objectAtIndex:indexPath.row];
        return cell;
