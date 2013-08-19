@@ -35,7 +35,7 @@
 #define kShadowBlur 3.f;
 
 //Box gradient bg alpha 原值0.95f
-#define kBoxAlpha 0.7f
+#define kBoxAlpha 0.8f
 
 //Padding along top of screen to allow for any nav/status bars
 #define kTopMargin 50.f

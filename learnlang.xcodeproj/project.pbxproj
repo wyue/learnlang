@@ -205,6 +205,9 @@
 		228DDDDD17A7AF9C00324ACB /* Title.png in Resources */ = {isa = PBXBuildFile; fileRef = 228DDDDB17A7AF9C00324ACB /* Title.png */; };
 		228DDDDE17A7AF9C00324ACB /* Title@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 228DDDDC17A7AF9C00324ACB /* Title@2x.png */; };
 		228DDDE117A8DA4000324ACB /* Voice.m in Sources */ = {isa = PBXBuildFile; fileRef = 228DDDE017A8DA4000324ACB /* Voice.m */; };
+		22E425F117C1E9EB00C75A21 /* detail_tab_button_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 22E425EF17C1E9EA00C75A21 /* detail_tab_button_highlight.png */; };
+		22E425F217C1E9EB00C75A21 /* detail_tab_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 22E425F017C1E9EB00C75A21 /* detail_tab_button.png */; };
+		22E425F517C1FD7F00C75A21 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E425F417C1FD7F00C75A21 /* UIImage+Resize.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -515,6 +518,10 @@
 		228DDDDC17A7AF9C00324ACB /* Title@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Title@2x.png"; sourceTree = "<group>"; };
 		228DDDDF17A8DA4000324ACB /* Voice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Voice.h; sourceTree = "<group>"; };
 		228DDDE017A8DA4000324ACB /* Voice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Voice.m; sourceTree = "<group>"; };
+		22E425EF17C1E9EA00C75A21 /* detail_tab_button_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = detail_tab_button_highlight.png; sourceTree = "<group>"; };
+		22E425F017C1E9EB00C75A21 /* detail_tab_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = detail_tab_button.png; sourceTree = "<group>"; };
+		22E425F317C1FD7900C75A21 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
+		22E425F417C1FD7F00C75A21 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -921,6 +928,8 @@
 		224D167B179D274300C5B8B2 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				22E425EF17C1E9EA00C75A21 /* detail_tab_button_highlight.png */,
+				22E425F017C1E9EB00C75A21 /* detail_tab_button.png */,
 				223E5F7017BDFBEF00EEA8E7 /* app-bg.png */,
 				223E5F7117BDFBEF00EEA8E7 /* choosebtn_03.png */,
 				223E5F7217BDFBEF00EEA8E7 /* chooseoff-icon_03.png */,
@@ -1015,6 +1024,10 @@
 		224D167E179D274300C5B8B2 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				224D171E17A24EDF00C5B8B2 /* NewsToolbar.h */,
+				224D171F17A24EDF00C5B8B2 /* NewsToolbar.m */,
+				22E425F317C1FD7900C75A21 /* UIImage+Resize.h */,
+				22E425F417C1FD7F00C75A21 /* UIImage+Resize.m */,
 				223E5F6B17BDB3FD00EEA8E7 /* UIColor-Expanded.m */,
 				223E5F6C17BDB3FE00EEA8E7 /* UIColor-Expanded.h */,
 				228DDDCB17A793C500324ACB /* CustomNavigationBar.m */,
@@ -1034,8 +1047,6 @@
 				224D16D6179E427400C5B8B2 /* DataSingleton.m */,
 				224D16F7179E645100C5B8B2 /* CheckNetwork.h */,
 				224D16F8179E645100C5B8B2 /* CheckNetwork.m */,
-				224D171E17A24EDF00C5B8B2 /* NewsToolbar.h */,
-				224D171F17A24EDF00C5B8B2 /* NewsToolbar.m */,
 				228DDDD617A7A5DB00324ACB /* MainNavigationViewController.h */,
 				228DDDD717A7A5DB00324ACB /* MainNavigationViewController.m */,
 				228DDDD917A7AE6F00324ACB /* MainNavigationViewController.xib */,
@@ -1290,6 +1301,8 @@
 				223E5FCD17BDFC2C00EEA8E7 /* tag-bg-01_02_02.png in Resources */,
 				223E5FCE17BDFC2C00EEA8E7 /* tag-bg-01_02.png in Resources */,
 				223E5FCF17BDFC2C00EEA8E7 /* topbar-bg_02.png in Resources */,
+				22E425F117C1E9EB00C75A21 /* detail_tab_button_highlight.png in Resources */,
+				22E425F217C1E9EB00C75A21 /* detail_tab_button.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1396,6 +1409,7 @@
 				221EA04517B8B61100812992 /* User.m in Sources */,
 				223E5F6617BA12EB00EEA8E7 /* ViewController.m in Sources */,
 				223E5F6D17BDB3FF00EEA8E7 /* UIColor-Expanded.m in Sources */,
+				22E425F517C1FD7F00C75A21 /* UIImage+Resize.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

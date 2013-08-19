@@ -44,6 +44,7 @@
 #import "CheckNetwork.h"
 
 #import "UIColor-Expanded.h"
+#import "UIImage+Resize.h"
 
 #define api_news_list @"http://learn.china.cn/api/"
 
@@ -69,7 +70,7 @@
 
 #define newsPageSize 20
 
-#define kNewsToolBarHeight 60
+#define kNewsToolBarHeight 61
 
 #define kNewsTableViewCellHeight 68  //newstablecell downloadcell savedcell
 

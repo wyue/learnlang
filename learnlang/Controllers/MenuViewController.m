@@ -100,6 +100,7 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleGray;  
     // Configure the cell...
+    [cell.imageButton addTarget:self action:@selector(checkButtonTapped:event:) forControlEvents:UIControlEventTouchUpInside];
     switch (indexPath.row) {
      
         case 0:
@@ -150,6 +151,101 @@
 }
 
 
+- (void)checkButtonTapped:(id)sender event:(id)event
+{
+    NSSet *touches = [event allTouches];
+    UITouch *touch = [touches anyObject];
+    CGPoint currentTouchPosition = [touch locationInView:self.tableView];
+    
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint: currentTouchPosition];
+    if (indexPath != nil)
+    {
+        
+        
+        NSString *key = [NSString stringWithFormat:@"%d",indexPath.row];
+        
+        
+        
+        
+        if ([dic objectForKey:key]==nil){
+            
+            switch (indexPath.row) {
+                    
+                case 0:
+                    
+                {
+                    NewsViewController *masterViewController = [[[NewsViewController alloc] initWithNibName:@"NewsViewController" bundle:nil] autorelease];
+                    masterViewController.catalog=1;
+                    UINavigationController *navigationController = [Config  customControllerWithRootViewController:masterViewController];
+                    [dic setObject:navigationController forKey:key];
+                    
+                }
+                    //self.mm_drawerController.centerViewController=;
+                    break;
+                case 1:
+                {
+                    DownloadViewController *downloadViewController = [[[DownloadViewController alloc] initWithNibName:@"DownloadViewController" bundle:nil] autorelease];
+                    
+                    UINavigationController *navigationController = [Config  customControllerWithRootViewController:downloadViewController];
+                    [dic setObject:navigationController forKey:key];
+                    
+                }
+                    break;
+                case 2:
+                {
+                    RecordsViewController *viewController = [[[RecordsViewController alloc] initWithNibName:@"RecordsViewController" bundle:nil] autorelease];
+                    
+                    UINavigationController *navigationController = [Config  customControllerWithRootViewController:viewController];
+                    [dic setObject:navigationController forKey:key];
+                    
+                    
+                }
+                    break;
+                case 3:
+                {
+                    
+                    SavedViewController *savedViewController = [[[SavedViewController alloc] initWithNibName:@"SavedViewController" bundle:nil] autorelease];
+                    
+                    UINavigationController *navigationController = [Config  customControllerWithRootViewController:savedViewController];
+                    [dic setObject:navigationController forKey:key];
+                }
+                    
+                    break;
+                case 4:
+                {
+                    SettingViewController *viewController = [[[SettingViewController alloc] initWithNibName:@"SettingViewController" bundle:nil] autorelease];
+                    
+                    UINavigationController *navigationController = [Config  customControllerWithRootViewController:viewController];
+                    [dic setObject:navigationController forKey:key];
+                }
+                    
+                    break;
+                case 5:
+                {
+                    AboutViewController *viewController = [[[AboutViewController alloc] initWithNibName:@"AboutViewController" bundle:nil] autorelease];
+                    
+                    UINavigationController *navigationController = [Config  customControllerWithRootViewController:viewController];
+                    [dic setObject:navigationController forKey:key];
+                }
+                    
+                    break;
+                default:
+                    break;
+            }
+            
+        }
+        if ([[dic objectForKey:key] isKindOfClass:[UIViewController class]]) {
+            
+            [self.mm_drawerController
+             setCenterViewController:[dic objectForKey:key]
+             withCloseAnimation:YES
+             completion:nil];
+            
+        }
+        
+        
+    }
+}
 
 #pragma mark - Table view delegate
 

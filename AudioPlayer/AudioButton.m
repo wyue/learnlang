@@ -12,7 +12,7 @@
 
 static inline double radians (double degrees) {return degrees * M_PI/180;}
 
-NSString *playImage = @"play.png";
+NSString *playImage = @"musicbar-_07.png";
 NSString *stopImage = @"stop.png";
 
 @implementation AudioButton

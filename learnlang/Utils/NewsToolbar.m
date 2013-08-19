@@ -11,7 +11,7 @@
 #import "AudioButton.h"
 #import "NewsDetailViewController.h"
 #import <Social/Social.h>
-#define kProgressViewHeight 4
+#define kProgressViewHeight 2
 
 @implementation NewsToolbar
 
@@ -66,6 +66,16 @@
         self.frame=CGRectMake(self.frame.origin.x, self.frame.origin.y+self.frame.size.height-kNewsToolBarHeight, self.frame.size.width, kNewsToolBarHeight);
         
         
+//       self.opaque = YES;
+//        self.backgroundColor=[UIColor colorWithHexString:@"0C0C0C"];
+//        self.tintColor=[UIColor colorWithHexString:@"0C0C0C"];
+////        self.barStyle=UIBarStyleBlack;
+//        self.alpha=1;
+      
+        if ([self respondsToSelector:@selector(setBackgroundImage:forToolbarPosition:barMetrics:)]) {
+            [self setBackgroundImage:[ [UIImage imageNamed:@"floatbg_03.png"] resizedImageToFitInSize:self.bounds.size scaleIfSmaller:NO] forToolbarPosition:0 barMetrics:0];         //仅5.0以上版本适用
+        }
+        
         NSMutableArray *buttons = [[NSMutableArray alloc]initWithCapacity:4];
         
         //设置添加按钮的数量
@@ -80,8 +90,9 @@
         UIBarButtonItem *Item;
         
         //添加第1个图标按钮
-        recordButton =     [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        recordButton.frame=CGRectMake(0, kProgressViewHeight, 50, 50);
+        recordButton =     [UIButton buttonWithType:UIButtonTypeCustom];
+        [recordButton setImage:[UIImage imageNamed:@"musicbar-_05.png"] forState:UIControlStateNormal];
+        recordButton.frame=CGRectMake(0, kProgressViewHeight, 57.5, 58.5);
         [recordButton addTarget:self action:@selector(recordingAction:) forControlEvents:UIControlEventTouchUpInside];
         
         Item = [[UIBarButtonItem alloc]
@@ -108,7 +119,7 @@
         
         
         //添加第2个图标按钮
-        audioButton =     [[AudioButton alloc] initWithFrame:CGRectMake(50, kProgressViewHeight, 50, 50)];
+        audioButton =     [[AudioButton alloc] initWithFrame:CGRectMake(50, kProgressViewHeight, 56.5, 58.5)];
         [audioButton addTarget:self action:@selector(playAudio:) forControlEvents:UIControlEventTouchUpInside];
         
         Item = [[UIBarButtonItem alloc]
@@ -119,7 +130,8 @@
         //添加第3个图标按钮
         audioLabel =     [[UILabel alloc] initWithFrame:CGRectMake(100, kProgressViewHeight, 100, 50)];
         
-        
+        audioLabel.backgroundColor = [UIColor clearColor];
+        audioLabel.textColor=[UIColor colorWithHexString:@"756860"];
         
         Item = [[UIBarButtonItem alloc]
                 initWithCustomView:audioLabel
@@ -127,9 +139,10 @@
         [buttons addObject:Item];
         
         //添加第4个图标按钮
-        shareButton= [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        shareButton=  [UIButton buttonWithType:UIButtonTypeCustom];
+        [shareButton setImage:[UIImage imageNamed:@"musicbar-_11.png"] forState:UIControlStateNormal];
         
-        shareButton.frame=CGRectMake(200, kProgressViewHeight, 50, 50);
+        shareButton.frame=CGRectMake(200, kProgressViewHeight, 60, 58.5);
         
         [shareButton addTarget:self action:@selector(popAction:) forControlEvents:UIControlEventTouchUpInside];
         
@@ -150,9 +163,9 @@
         
         //进度条
         progressView = [[AMProgressView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, kProgressViewHeight)];
-        progressView.gradientColors = @[[UIColor colorWithRed:0.0f green:0.0f blue:0.3f alpha:1.00f],
-                                        [UIColor colorWithRed:0.3f green:0.3f blue:0.6f alpha:1.00f],
-                                        [UIColor colorWithRed:0.6f green:0.6f blue:0.9f alpha:1.00f]];
+        progressView.gradientColors = @[[UIColor colorWithHexString:@"E20001"],
+                                        [UIColor colorWithHexString:@"ED3F00"],
+                                       [UIColor colorWithHexString:@"FEAB00"]];
         progressView.verticalGradient = NO;
         
         [self addSubview:progressView ];
@@ -497,9 +510,9 @@
 {
     UIButton *button =sender;
     
-    PopoverView*   pv = [PopoverView showPopoverAtPoint:button.center
+    PopoverView*   pv = [PopoverView showPopoverAtPoint:CGPointMake(button.bounds.size.width/2,0)
                                                  inView:button
-                                        withStringArray:[NSArray arrayWithObjects:@"收藏", @"下载", @"分享", nil]
+                                        withStringArray:[NSArray arrayWithObjects:@"  收藏  ", @"  下载  ", @"  分享  ", nil]
                                                delegate:self]; // Show the string array defined at top of this file
     [pv retain];
     

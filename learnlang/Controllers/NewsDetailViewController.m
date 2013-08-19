@@ -94,25 +94,25 @@
     //初始化控件
     // titleLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, 320, 50)];
     
-    UIBarButtonItem * backButton = [[UIBarButtonItem alloc]
-                                    
-                                    initWithTitle:@"返回"
-                                    
-                                    style:UIBarButtonItemStyleBordered
-                                    
-                                    target:self
-                                    
-                                    action:@selector(popViewController)];
+    UIImage *lImg = [UIImage imageNamed:@"myaudio_02.png"];
+    UIButton *lBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    lBtn.frame = CGRectMake(0, 0, 36.5, 45);
+    [lBtn addTarget:self action:@selector(popViewController) forControlEvents:UIControlEventTouchUpInside];
+    [lBtn setImage:lImg forState:UIControlStateNormal];
+    lBtn.backgroundColor = [UIColor clearColor];
+    UIBarButtonItem *lBarBtn = [[UIBarButtonItem alloc] initWithCustomView:lBtn];
+    self.navigationItem.leftBarButtonItem = lBarBtn;
     
+
+    [lBtn release];
+    [lBarBtn release];
     
+    //backButton.tintColor=[UIColor colorWithRed:74/255.0 green:74/255.0 blue:74/255.0 alpha:1.0];
     
-    backButton.image=[UIImage imageNamed:@"right_button.png"];
+  
+    [leftButton setHighlighted:YES];
     
-    backButton.tintColor=[UIColor colorWithRed:74/255.0 green:74/255.0 blue:74/255.0 alpha:1.0];
-    
-    self.navigationItem.leftBarButtonItem = backButton;
-    
-    [backButton release];
+    [rightButton setHighlighted:NO];
     
     
 

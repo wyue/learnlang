@@ -69,6 +69,7 @@
                                              ];
     [drawerController setMaximumRightDrawerWidth:200.0];
     [drawerController setMaximumLeftDrawerWidth:MainMenuWidth];
+    drawerController.shouldStretchDrawer=NO;
     [drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
     [drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
     

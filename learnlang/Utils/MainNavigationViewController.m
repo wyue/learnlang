@@ -36,6 +36,7 @@
   
     point = CGPointMake(self.navigationBar.bounds.size.width-25, CGRectGetMidY(self.navigationBar.bounds));
     
+    
     //point =  CGPointMake(CGRectGetMidX(self.navigationBar.bounds), CGRectGetMidY(self.navigationBar.bounds));
     
     

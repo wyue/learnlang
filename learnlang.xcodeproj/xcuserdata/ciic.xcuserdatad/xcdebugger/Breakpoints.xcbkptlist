@@ -203,25 +203,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "learnlang/Utils/NewsToolbar.m"
-         timestampString = "398162356.725106"
+         timestampString = "398591093.952272"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "790"
-         endingLineNumber = "790"
+         startingLineNumber = "803"
+         endingLineNumber = "803"
          landmarkName = "-audioPlayerDidFinishPlaying:successfully:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "learnlang/Controllers/NewsDetailViewController.m"
-         timestampString = "398239874.541137"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "269"
-         endingLineNumber = "269"
-         landmarkName = "-handleSingleTap:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
