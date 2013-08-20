@@ -140,7 +140,7 @@
     DownloadCell *cell = [self.tableview dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[DownloadCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+       // cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
     News *news = [array objectAtIndex:indexPath.row];

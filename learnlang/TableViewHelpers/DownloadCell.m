@@ -9,7 +9,7 @@
 #import "DownloadCell.h"
 #import "DownloadsManager.h"
 #import "ASINetworkQueue.h"
-
+#define SizeOfTitleText 14.0f
 
 @implementation DownloadCell{
 @private
@@ -23,6 +23,8 @@
     [clickCountLabel release];
     [titleLabel release];
     [_downloadProgress release];
+    
+    [backImageView release];
     //批量删除
     [m_checkImageView release];
 	m_checkImageView = nil;
@@ -33,29 +35,36 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
+        backImageView = [[UIImageView alloc] initWithFrame:CGRectMake(8,7,self.frame.size.width-16,self.frame.size.height-7)];
+        backImageView.image=[UIImage imageNamed:@"index-listbg_03.png"];
+        [self.contentView addSubview:backImageView];
         
         titleLabel = [[UILabel alloc]init];
+         titleLabel.font = [UIFont systemFontOfSize:SizeOfTitleText];
+        //titleLabel.adjustsFontSizeToFitWidth = YES;
+        titleLabel.textColor = [UIColor colorWithHexString:@"1E1E1E"];
+        titleLabel.frame = CGRectMake(19.0f, 19.0f, 284.0f, 25.0f);
         
-        titleLabel.adjustsFontSizeToFitWidth = YES;
-        titleLabel.textColor = [UIColor darkGrayColor];
-        titleLabel.frame = CGRectMake(10.0f, 0.0f, 100.0f, 25.0f);
+        titleLabel.lineBreakMode = UILineBreakModeWordWrap;
+        titleLabel.numberOfLines =0;
         [self.contentView addSubview:titleLabel];
         
         clickCountLabel = [[UILabel alloc]init];
-        clickCountLabel.font = [UIFont systemFontOfSize:12.0f];
-        clickCountLabel.numberOfLines = 0;
-        clickCountLabel.frame = CGRectMake(10.0f, 25.0f, 100.0f, 25.0f);
+        clickCountLabel.font = [UIFont systemFontOfSize:11.0f];
+        clickCountLabel.textColor=[UIColor colorWithHexString:@"A7A7A7"];
+        clickCountLabel.numberOfLines = 1;
+        clickCountLabel.frame = CGRectMake(19,38, 100.0f, 10.0f);
         [self.contentView addSubview:clickCountLabel];
         
         
-        _downloadProgress = [[UIProgressView alloc]initWithProgressViewStyle:UIProgressViewStyleDefault];
-        _downloadProgress.frame= CGRectMake(0, 0, 320.0f, 5.0f);
+        _downloadProgress = [[PDColoredProgressView alloc]initWithProgressViewStyle:UIProgressViewStyleDefault];
+        _downloadProgress.frame= CGRectMake(8, 5, self.frame.size.width-16, 2.0f);
+        [_downloadProgress setTintColor:[UIColor colorWithHexString:@"E30000"]];
         [self.contentView addSubview:_downloadProgress];
         
-        
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
        
-        
-
+       
     }
     return self;
 }
@@ -70,7 +79,8 @@
     _news = news;
     
     titleLabel.text = _news.title;
-    clickCountLabel.text = [NSString stringWithFormat:@"%d",_news.clickCount];
+    //clickCountLabel.text = [NSString stringWithFormat:@"%d",_news.clickCount];
+     clickCountLabel.text = [NSString stringWithFormat:@"%@",@"正在下载"];
     //[self.imageView setImageWithURL:[NSURL URLWithString:_news.imgUrl] placeholderImage:[UIImage imageNamed:@"profile-image-placeholder"]];
   
         
@@ -91,7 +101,7 @@
     }else{
           
         if (downinglist==nil||(downinglist&&![downinglist objectForKey:[NSString stringWithFormat:@"%d",news._id]])){
-              titleLabel.text =[NSString stringWithFormat:@"%@       %@",titleLabel.text,@"已下载完毕" ];
+              clickCountLabel.text =[NSString stringWithFormat:@"%@",@"已下载完毕" ];
     }
     }
     
@@ -101,21 +111,39 @@
         queue.downloadProgressDelegate=self.downloadProgress;
         queue.showAccurateProgress=YES;
     }
-    
+    titleLabel.frame = CGRectMake(titleLabel.frame.origin.x, titleLabel.frame.origin.y, titleLabel.frame.size.width, [DownloadCell heightForLabelWithString:titleLabel.text  andWidth:284]);
    
     
     [self setNeedsLayout];
 }
 
 + (CGFloat)heightForCellWithNews:(News *)news {
-    //    CGSize sizeToFit = [news.title sizeWithFont:[UIFont systemFontOfSize:12.0f] constrainedToSize:CGSizeMake(220.0f, CGFLOAT_MAX) lineBreakMode:UILineBreakModeWordWrap];
-    //
+    float w = 284;
+   
+    
+    float sizeToFit = [self heightForLabelWithString:news.title  andWidth:w];
+    
+    
+    //    CGSize sizeToFit = [news.title sizeWithFont:[UIFont systemFontOfSize:12.0f] constrainedToSize:CGSizeMake(w, 20000) lineBreakMode:UILineBreakModeWordWrap];
+    if (sizeToFit>25) {
+        return kDownloadTableViewCellHeight+sizeToFit-25;
+        
+    }
     //    return fmaxf(70.0f, sizeToFit.height + 45.0f);
-    return kNewsTableViewCellHeight;
+    return kDownloadTableViewCellHeight;
 }
 
 
-
++ (CGFloat)heightForLabelWithString:(NSString *)content andWidth:(float)width{
+    
+    CGSize sizeToFit = [content sizeWithFont:[UIFont systemFontOfSize:SizeOfTitleText] constrainedToSize:CGSizeMake(width, 20000) lineBreakMode:UILineBreakModeWordWrap];
+    if (sizeToFit.height>25) {
+        return sizeToFit.height;
+        
+    }
+    //    return fmaxf(70.0f, sizeToFit.height + 45.0f);
+    return 25;
+}
 
 - (void) setCheckImageViewCenter:(CGPoint)pt alpha:(CGFloat)alpha animated:(BOOL)animated
 {
@@ -158,7 +186,7 @@
 		
 		if (m_checkImageView == nil)
 		{
-			m_checkImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Unselected.png"]];
+			m_checkImageView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"mydownload_06.png"] resizedImageToSize:CGSizeMake(19.5, 19.5)]];
 			[self addSubview:m_checkImageView];
 		}
 		
@@ -189,12 +217,13 @@
 {
 	if (checked)
 	{
-		m_checkImageView.image = [UIImage imageNamed:@"Selected.png"];
-		self.backgroundView.backgroundColor = [UIColor colorWithRed:223.0/255.0 green:230.0/255.0 blue:250.0/255.0 alpha:1.0];
+		m_checkImageView.image = [[UIImage imageNamed:@"mydownload_03.png"] resizedImageToSize:CGSizeMake(19.5, 19.5)];//Selected.png
+		//self.backgroundView.backgroundColor = [UIColor colorWithRed:223.0/255.0 green:230.0/255.0 blue:250.0/255.0 alpha:1.0];
+        self.backgroundView.backgroundColor = [UIColor whiteColor];
 	}
 	else
 	{
-		m_checkImageView.image = [UIImage imageNamed:@"Unselected.png"];
+		m_checkImageView.image = [[UIImage imageNamed:@"mydownload_06.png"] resizedImageToSize:CGSizeMake(19.5, 19.5)];//Unselected.png
 		self.backgroundView.backgroundColor = [UIColor whiteColor];
 	}
 	m_checked = checked;
@@ -206,6 +235,23 @@
 	
 	return m_checked ;
 }
+#pragma mark - UIView
 
-
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    //self.imageView.frame = CGRectMake(10.0f, 10.0f, 50.0f, 50.0f);
+    // self.textLabel.frame = CGRectMake(70.0f, 10.0f, 240.0f, 20.0f);
+    
+    //CGRect detailTextLabelFrame = CGRectOffset(self.textLabel.frame, 0.0f, 25.0f);
+    // detailTextLabelFrame.size.height = [[self class] heightForCellWithNews:_news] - 45.0f;
+    //self.detailTextLabel.frame = detailTextLabelFrame;
+    
+    
+    //自适应
+    
+    backImageView.frame=CGRectMake(8,7,self.frame.size.width-16,self.frame.size.height-7);
+    
+    clickCountLabel.frame=CGRectMake(19,self.frame.size.height-22, 100.0f, 10.0f);
+}
 @end

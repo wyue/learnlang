@@ -20,7 +20,9 @@
     AMProgressView *progressView;
     UIProgressView *_downloadProgress;
     
+    UIImageView *backImageView;
     
+    UIButton* extButton;
     //批量删除
 	UIImageView*	m_checkImageView;
 	BOOL			m_checked;
@@ -31,6 +33,8 @@
 
 - (void) setChecked:(BOOL)checked;//批量删除
 - (BOOL) getChecked;//批量删除
+
+@property (nonatomic,retain)UIButton* extButton;
 
 
 

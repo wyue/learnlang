@@ -74,6 +74,8 @@
 
 #define kNewsTableViewCellHeight 68  //newstablecell downloadcell savedcell
 
+#define kDownloadTableViewCellHeight 68
+
 //notify
 
 #define LOCALASStatusChangedNotification  @"LOCALASStatusChangedNotification"

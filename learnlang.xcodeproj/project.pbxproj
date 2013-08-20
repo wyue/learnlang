@@ -208,6 +208,9 @@
 		22E425F117C1E9EB00C75A21 /* detail_tab_button_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 22E425EF17C1E9EA00C75A21 /* detail_tab_button_highlight.png */; };
 		22E425F217C1E9EB00C75A21 /* detail_tab_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 22E425F017C1E9EB00C75A21 /* detail_tab_button.png */; };
 		22E425F517C1FD7F00C75A21 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E425F417C1FD7F00C75A21 /* UIImage+Resize.m */; };
+		22E425F817C2F55300C75A21 /* PDColoredProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E425F717C2F55300C75A21 /* PDColoredProgressView.m */; };
+		22E425FB17C2F6C900C75A21 /* drawing.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E425FA17C2F6C800C75A21 /* drawing.m */; };
+		22E425FE17C367C100C75A21 /* AudioToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E425FD17C367C100C75A21 /* AudioToolBar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -522,6 +525,12 @@
 		22E425F017C1E9EB00C75A21 /* detail_tab_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = detail_tab_button.png; sourceTree = "<group>"; };
 		22E425F317C1FD7900C75A21 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
 		22E425F417C1FD7F00C75A21 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
+		22E425F617C2F54E00C75A21 /* PDColoredProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDColoredProgressView.h; sourceTree = "<group>"; };
+		22E425F717C2F55300C75A21 /* PDColoredProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDColoredProgressView.m; sourceTree = "<group>"; };
+		22E425F917C2F6C800C75A21 /* drawing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = drawing.h; sourceTree = "<group>"; };
+		22E425FA17C2F6C800C75A21 /* drawing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = drawing.m; sourceTree = "<group>"; };
+		22E425FC17C367C100C75A21 /* AudioToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioToolBar.h; sourceTree = "<group>"; };
+		22E425FD17C367C100C75A21 /* AudioToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioToolBar.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1026,6 +1035,8 @@
 			children = (
 				224D171E17A24EDF00C5B8B2 /* NewsToolbar.h */,
 				224D171F17A24EDF00C5B8B2 /* NewsToolbar.m */,
+				22E425FC17C367C100C75A21 /* AudioToolBar.h */,
+				22E425FD17C367C100C75A21 /* AudioToolBar.m */,
 				22E425F317C1FD7900C75A21 /* UIImage+Resize.h */,
 				22E425F417C1FD7F00C75A21 /* UIImage+Resize.m */,
 				223E5F6B17BDB3FD00EEA8E7 /* UIColor-Expanded.m */,
@@ -1059,6 +1070,10 @@
 				2225707217AF485200E68EA1 /* DownloadsManager.m */,
 				2225709017B3C91300E68EA1 /* PlayButton.h */,
 				2225709117B3C91400E68EA1 /* PlayButton.m */,
+				22E425F617C2F54E00C75A21 /* PDColoredProgressView.h */,
+				22E425F717C2F55300C75A21 /* PDColoredProgressView.m */,
+				22E425F917C2F6C800C75A21 /* drawing.h */,
+				22E425FA17C2F6C800C75A21 /* drawing.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1410,6 +1425,9 @@
 				223E5F6617BA12EB00EEA8E7 /* ViewController.m in Sources */,
 				223E5F6D17BDB3FF00EEA8E7 /* UIColor-Expanded.m in Sources */,
 				22E425F517C1FD7F00C75A21 /* UIImage+Resize.m in Sources */,
+				22E425F817C2F55300C75A21 /* PDColoredProgressView.m in Sources */,
+				22E425FB17C2F6C900C75A21 /* drawing.m in Sources */,
+				22E425FE17C367C100C75A21 /* AudioToolBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -152,7 +152,7 @@ __strong News *_news;
 
 + (CGFloat)heightForCellWithNews:(News *)news {
     float w = 240;
-    if (!news.imgBigUrl) {
+    if (!news.imgUrl) {
         w=288;
     }
     
@@ -196,7 +196,8 @@ __strong News *_news;
      
     whiteRoundedCornerView.frame=CGRectMake(8,0,self.frame.size.width-16,self.frame.size.height-7);
     
-
+clickCountLabel.frame=CGRectMake(16.0f,self.frame.size.height-23, 43.0f, 10.0f);
+    saveCountLabel.frame=CGRectMake(58,self.frame.size.height-23, 43.0f, 10.0f);
 }
 
 @end

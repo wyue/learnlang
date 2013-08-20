@@ -17,14 +17,16 @@
     UILabel * titleLabel;
     UILabel* clickCountLabel;
     AMProgressView *progressView;
-    UIProgressView *_downloadProgress;
+    //PDColoredProgressView *_downloadProgress;
+    
+    UIImageView *backImageView;
     
     
     //批量删除
 	UIImageView*	m_checkImageView;
 	BOOL			m_checked;
 }
-@property (retain, nonatomic) IBOutlet UIProgressView *downloadProgress;
+//@property (retain, nonatomic) IBOutlet PDColoredProgressView *downloadProgress;
 @property (nonatomic, strong) News *news;
 + (CGFloat)heightForCellWithNews:(News *)news;
 
