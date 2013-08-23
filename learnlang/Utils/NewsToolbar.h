@@ -19,7 +19,7 @@
 
 @class SLComposeViewController;
 
-@interface NewsToolbar : UIToolbar<AVAudioPlayerDelegate,PopoverViewDelegate>{
+@interface NewsToolbar : UIToolbar<AVAudioPlayerDelegate,PopoverViewDelegate,UITableViewDataSource,UITableViewDelegate>{
     
     News* news;
     UIViewController *parentViewController;
@@ -29,6 +29,8 @@
     UIButton* shareButton;
     UILabel *audioLabel;
     
+    
+    UITableView *extMenuTable;
     
     AMProgressView *progressView;
     
@@ -77,6 +79,8 @@
 @property (nonatomic,retain) NSString *sharingText;
 @property (nonatomic,retain) UIImage *sharingImage;
 @property (nonatomic,retain) SLComposeViewController *slComposerSheet;
+
+@property (nonatomic,retain) UITableView *extMenuTable;
 
 - (void)audioPlay:(NSURL *)voiceurl andIndex:(int)indexl andIsLocalFile:(BOOL)isLocal  andIsNew:(BOOL)newPlay;
 - (void)audioStop;

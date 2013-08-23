@@ -24,7 +24,8 @@
 @property BOOL isNetworkRunning;
 
 
-
++(void)saveAppVersion;
++(NSString *)getAppVersion;
 
 
 //保存登录用户名以及密码

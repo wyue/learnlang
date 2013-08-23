@@ -45,4 +45,10 @@
 + (void)removeRecord:(News *)news andFilePath:(NSURL *)url;
 + (NSMutableArray *)readRecordsAryByDic:(NSMutableDictionary *)newDic;
 
+
++(void) postGuidToServer;
++(void)postSaveToServer:(News*)News andCancel:(BOOL)isCancel;
++(void)postClickToServer:(News*)News;
++(void)postDownloadToServer:(News*)News;
+
 @end

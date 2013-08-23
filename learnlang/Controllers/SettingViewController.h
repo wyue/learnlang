@@ -27,4 +27,6 @@
 -(IBAction)wifiSettingAction:(id)sender;
 -(IBAction)audioSettingAction:(id)sender;
 -(IBAction)readSettingAction:(id)sender;
+
+-(IBAction)clearAllCache:(id)sender;
 @end

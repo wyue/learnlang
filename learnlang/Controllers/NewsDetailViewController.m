@@ -76,6 +76,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    
+    
     // Do any additional setup after loading the view from its nib.
     
    //CGRect rect_screen =  [[UIScreen mainScreen]bounds ];
@@ -118,7 +121,8 @@
 
     //初始化数据
     if (news) {
-        
+        //增加点击数
+        [DataManager postClickToServer:news];
         
         [titleLabel setText:news.title];
         [imageView setImageWithURL:[NSURL URLWithString:news.imgBigUrl] placeholderImage:[UIImage imageNamed:@"profile-image-placeholder"]];

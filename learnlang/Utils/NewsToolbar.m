@@ -11,6 +11,8 @@
 #import "AudioButton.h"
 #import "NewsDetailViewController.h"
 #import <Social/Social.h>
+
+#define kStringArray [NSArray arrayWithObjects:@"收 藏", @"下 载", @"分 享", nil]
 #define kProgressViewHeight 2
 
 @implementation NewsToolbar
@@ -39,6 +41,8 @@
 @synthesize localplayer;
 
 @synthesize sharingImage,sharingText,slComposerSheet;
+
+@synthesize extMenuTable;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -210,6 +214,8 @@
     [sharingText release];
     [sharingImage release];
     [slComposerSheet release];
+    
+    [extMenuTable release];
     
     [super dealloc];
 }
@@ -510,9 +516,17 @@
 {
     UIButton *button =sender;
     
+    if (extMenuTable==nil) {
+         extMenuTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 100, 105)];
+    }
+   extMenuTable.separatorColor=[UIColor colorWithHexString:@"BEBEBE"];
+    extMenuTable.delegate = self;
+    extMenuTable.dataSource = self;
+    
+    
     PopoverView*   pv = [PopoverView showPopoverAtPoint:CGPointMake(button.bounds.size.width/2,0)
                                                  inView:button
-                                        withStringArray:[NSArray arrayWithObjects:@"  收藏  ", @"  下载  ", @"  分享  ", nil]
+                                        withContentView:extMenuTable
                                                delegate:self]; // Show the string array defined at top of this file
     [pv retain];
     
@@ -533,6 +547,13 @@
             //取消保存
             [Config ToastNotification:@"已取消收藏" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
         }
+        
+        
+        
+        //增加保存
+         [DataManager postSaveToServer:news andCancel:!isInsert];
+        
+        
     }else{
         //无法保存
         [Config ToastNotification:@"操作失败" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
@@ -580,8 +601,11 @@
                             [[DownloadsManager Instance] beginRequest:news isBeginDown:YES];
                             
                         }
-                        
+                        //增加保存
+                        [DataManager postDownloadToServer:news];
                     }
+                    
+                    
                 }else{
                     //无法保存
                     [Config ToastNotification:@"操作失败" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
@@ -866,14 +890,43 @@
         
     }
 }
+#pragma mark  - UITableView Delegate Methods
 
-
-#pragma mark - PopoverViewDelegate Methods
-
-- (void)popoverView:(PopoverView *)popoverView didSelectItemAtIndex:(NSInteger)index
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"%s item:%d", __PRETTY_FUNCTION__, index);
-    switch (index) {
+    return [kStringArray count];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 35;
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString* CellIdentifier =@"CellIdentifier";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (!cell) {
+        
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]autorelease];
+    }
+    cell.selectionStyle=UITableViewCellSelectionStyleNone;
+    cell.textLabel.textAlignment = UITextAlignmentCenter;
+    cell.textLabel.textColor=[UIColor colorWithRed:0.329 green:0.341 blue:0.353 alpha:1];
+    cell.textLabel.font=[UIFont fontWithName:@"HelveticaNeue" size:16.f];
+    cell.textLabel.backgroundColor=[UIColor clearColor];
+    cell.contentView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.3];
+    
+    cell.textLabel.text=[kStringArray objectAtIndex:indexPath.row];
+    return cell;
+    
+    
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    switch (indexPath.row) {
         case 0:
             [self performSelector:@selector(saveAction:) withObject:nil afterDelay:0.5f];
             break;
@@ -887,7 +940,31 @@
         default:
             break;
     }
-    
+
+}
+
+
+
+#pragma mark - PopoverViewDelegate Methods
+
+- (void)popoverView:(PopoverView *)popoverView didSelectItemAtIndex:(NSInteger)index
+{
+//    NSLog(@"%s item:%d", __PRETTY_FUNCTION__, index);
+//    switch (index) {
+//        case 0:
+//            [self performSelector:@selector(saveAction:) withObject:nil afterDelay:0.5f];
+//            break;
+//        case 1:
+//            [self performSelector:@selector(downloadAction:) withObject:nil afterDelay:0.5f];
+//            break;
+//        case 2:
+//            [self performSelector:@selector(shareAction:) withObject:nil afterDelay:0.5f];
+//            break;
+//            
+//        default:
+//            break;
+//    }
+//
     // Figure out which string was selected, store in "string"
     // NSString *string = [kStringArray objectAtIndex:index];
     

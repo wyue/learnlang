@@ -18,7 +18,24 @@
 @synthesize viewNameBeforeLogin;
 @synthesize isNetworkRunning;
 
-
++(void)saveAppVersion{
+    NSString* strVersion = [[UIDevice currentDevice] systemVersion];
+    
+    NSUserDefaults * setting = [NSUserDefaults standardUserDefaults];
+    
+    
+    if (strVersion) {
+        [setting setObject:strVersion forKey:kAppVersion];
+    }
+    [setting synchronize];
+}
++(NSString *)getAppVersion{
+    NSUserDefaults * setting = [NSUserDefaults standardUserDefaults];
+    if ([setting objectForKey:kAppVersion]==nil) {
+        return @"";
+    }
+    return [setting objectForKey:kAppVersion];
+}
 
 -(void)saveUserNameAndPwd:(NSString *)userName andPwd:(NSString *)pwd
 {

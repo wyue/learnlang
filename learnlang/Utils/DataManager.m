@@ -851,9 +851,9 @@
 
 
 //post server
--(void) postGuidToServer:(NSString *)guid{
++(void) postGuidToServer{
     
-    NSString * url = [NSString stringWithFormat:@"%@?code=%@&type=2",api_post_guid,guid];
+    NSString * url = [NSString stringWithFormat:@"%@?code=%@&type=2",api_post_guid,[Config Instance].getIOSGuid];
     ASIFormDataRequest *requestForm = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:url]];
     
     //设置需要POST的数据，这里提交两个数据，A=a&B=b
@@ -865,6 +865,23 @@
     NSLog(@"response\n%@",[requestForm responseString]);
     [requestForm release];
 }
+
+
+
+
++(void)postSaveToServer:(News*)News andCancel:(BOOL)isCancel{
+    
+    
+}
++(void)postClickToServer:(News*)News{
+    
+}
+
++(void)postDownloadToServer:(News*)News{
+    
+}
+
+
 
 
 

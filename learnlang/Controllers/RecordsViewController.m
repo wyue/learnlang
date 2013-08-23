@@ -48,11 +48,11 @@
     
     
     self.tableview.allowsSelectionDuringEditing = YES;
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStyleDone target:self action:@selector(tableViewEdit:)];
+   // self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStyleDone target:self action:@selector(tableViewEdit:)];
     self.tableview.separatorStyle=UITableViewCellSeparatorStyleNone;
     self.tableview.tableHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0,0,5,5)] autorelease];
     
-    
+    self.navigationItem.title=@"我的录音";
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -88,6 +88,9 @@
     //初始化数据
     isExt=NO;
     self.currentIndex=nil;
+    [self.delAllButton removeFromSuperview];
+    self.delAllButton = nil;
+    [self.delAllButton release];
     
     if (toolBar) {
         [toolBar setHidden:YES];
@@ -119,10 +122,26 @@
         
         [arrayForEdit removeAllObjects];
         
-        self.navigationItem.rightBarButtonItem.title=@"删除";
-    }else{
-        self.navigationItem.rightBarButtonItem.title=@"编辑";
+       // self.navigationItem.rightBarButtonItem.title=@"删除";
+        CGRect rect_view =[self.view bounds];
+        if (self.delAllButton==nil) {
+            self.delAllButton = [UIButton buttonWithType: UIButtonTypeCustom ];
+            
+            self.delAllButton.frame=CGRectMake(7.5, rect_view.size.height-41.5, 305, 41.5);
+            [self.delAllButton setImage:[UIImage imageNamed:@"mydownload_09.png"] forState:UIControlStateNormal];
+            [self.delAllButton addTarget:self action:@selector(tableViewEdit:) forControlEvents:UIControlEventTouchUpInside];
+            
+            [self.view addSubview:self.delAllButton];
+        }else{
+            [self.delAllButton setHidden:NO];
+             self.delAllButton.frame=CGRectMake(7.5, rect_view.size.height-41.5, 305, 41.5);
+        }
         
+    }else{
+       // self.navigationItem.rightBarButtonItem.title=@"编辑";
+        [self.delAllButton removeFromSuperview];
+        self.delAllButton = nil;
+        [self.delAllButton release];
         
         if (arrayForEdit.count>0) {
             
@@ -243,51 +262,6 @@
 
                  
                  
-                
-//                 if (isExt == NO)
-//                 {
-//                      isExt = !isExt;
-//                      self.currentIndex=indexPath;
-//                     NSString *book = @"ext";
-//                     [array insertObject:book atIndex:indexPath.row+1];
-//                     NSIndexPath* indexPathToInsert = [NSIndexPath indexPathForRow:indexPath.row+1 inSection:self.currentIndex.section];
-//                     [tableview insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPathToInsert] withRowAnimation:UITableViewRowAnimationBottom];
-//
-//                     
-//                     //[tableview insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
-//                 }
-//                 else
-//                 {
-//                      isExt = !isExt;
-//                     //d当前有扩展的情况
-//                     if ([self.currentIndex isEqual: indexPath]) {
-//                         self.currentIndex = nil;
-//                         [array removeObjectAtIndex:indexPath.row+1];
-//                         NSIndexPath* indexPathToDel = [NSIndexPath indexPathForRow:indexPath.row+1 inSection:self.currentIndex.section];
-//                         [tableview deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPathToDel] withRowAnimation:UITableViewRowAnimationBottom];
-//                         
-//                     }else{
-//                         
-//                         [array removeObjectAtIndex:self.currentIndex.row+1];
-//                         
-//                         NSIndexPath* indexPathToDel = [NSIndexPath indexPathForRow:self.currentIndex.row+1 inSection:self.currentIndex.section];
-//                         [tableview deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPathToDel] withRowAnimation:UITableViewRowAnimationBottom];
-//                         
-//                         self.currentIndex=indexPath;
-//                         NSString *book = @"ext";
-//                         [array insertObject:book atIndex:indexPath.row+1];
-//                         
-//                         
-//                         NSIndexPath* indexPathToInsert = [NSIndexPath indexPathForRow:indexPath.row+1 inSection:indexPath.section];
-//                         [tableview insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPathToInsert] withRowAnimation:UITableViewRowAnimationBottom];
-//                         
-//
-//                     }
-//                     
-//                     
-//                     
-//                 }
-//
                 
                  
                  

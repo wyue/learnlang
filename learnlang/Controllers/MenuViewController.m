@@ -77,7 +77,7 @@
 {
 
     // Return the number of rows in the section.
-    return 6;
+    return 7;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -141,9 +141,20 @@
             //cell.textLabel.text=@"帮助";
         }
             break;
+        case 6:
+        {
+            [cell.imageButton setBackgroundImage:[UIImage imageNamed:@"nav-btn-bg_09.png"]forState:UIControlStateNormal];
+            
+            [cell.imageButton setTitle:[NSString stringWithFormat:@"V%@",[Config  getAppVersion] ] forState:UIControlStateNormal];
+            [cell.imageButton setTitleColor:[UIColor colorWithHexString:@"6F6462"] forState:UIControlStateNormal];
+            
+            
+            //cell.textLabel.text=@"帮助";
+        }
+            break;
         default:
         {
-            [cell.imageButton setImage:[UIImage imageNamed:@"nav-btn-bg_09.png"]forState:UIControlStateNormal];
+            [cell.imageButton setImage:[UIImage imageNamed:@"nav-btn-bg_02.png"]forState:UIControlStateNormal];
         }
             break;
     }
@@ -226,6 +237,11 @@
                     
                     UINavigationController *navigationController = [Config  customControllerWithRootViewController:viewController];
                     [dic setObject:navigationController forKey:key];
+                }
+                     break;
+                case 6:
+                {
+                    
                 }
                     
                     break;
@@ -316,6 +332,12 @@
                 
                 UINavigationController *navigationController = [Config  customControllerWithRootViewController:viewController];
                 [dic setObject:navigationController forKey:key];
+            }
+                
+                break;
+            case 6:
+            {
+                
             }
                 
                 break;

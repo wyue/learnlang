@@ -17,7 +17,7 @@
 }
 
 @synthesize news = _news;
-
+@synthesize extButton;
 - (void)dealloc {
 	[progressView release];
     [clickCountLabel release];
@@ -25,6 +25,7 @@
     [_downloadProgress release];
     
     [backImageView release];
+    [extButton release];
     //批量删除
     [m_checkImageView release];
 	m_checkImageView = nil;
@@ -61,6 +62,16 @@
         _downloadProgress.frame= CGRectMake(8, 5, self.frame.size.width-16, 2.0f);
         [_downloadProgress setTintColor:[UIColor colorWithHexString:@"E30000"]];
         [self.contentView addSubview:_downloadProgress];
+        
+        extButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        
+        extButton.layer.borderWidth=1;
+        extButton.layer.borderColor=[UIColor colorWithHexString:@"D0D0D0"].CGColor;
+        
+        [extButton setImage:[[UIImage imageNamed:@"myaudio_20.png"] resizedImageToSize:CGSizeMake(11.5, 5.5)] forState:UIControlStateNormal];
+        extButton.frame=CGRectMake(backImageView.frame.origin.x+ backImageView.frame.size.width-40,backImageView.frame.origin.y, 40, backImageView.frame.size.height);
+        [self.contentView addSubview:extButton];
+
         
         self.selectionStyle = UITableViewCellSelectionStyleNone;
        
@@ -253,5 +264,6 @@
     backImageView.frame=CGRectMake(8,7,self.frame.size.width-16,self.frame.size.height-7);
     
     clickCountLabel.frame=CGRectMake(19,self.frame.size.height-22, 100.0f, 10.0f);
+    extButton.frame=CGRectMake(backImageView.frame.origin.x+ backImageView.frame.size.width-40,backImageView.frame.origin.y, 40, backImageView.frame.size.height);
 }
 @end

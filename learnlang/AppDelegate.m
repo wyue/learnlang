@@ -50,10 +50,16 @@
     [Config Instance].isNetworkRunning = [CheckNetwork isExistenceNetwork];
     
     [Config defaultUserSetting];
+    //保存版本号
+    [Config  saveAppVersion];
+    if ([Config Instance].isNetworkRunning) {
+        //在线的情况下发送uuid
+        [DataManager postGuidToServer];
+    }
     
-   
     
     
+
     
     NewsViewController *masterViewController = [[[NewsViewController alloc] initWithNibName:@"NewsViewController" bundle:nil] autorelease];
     masterViewController.catalog=0;

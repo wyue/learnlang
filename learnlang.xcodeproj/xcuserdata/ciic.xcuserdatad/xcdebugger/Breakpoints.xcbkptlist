@@ -164,11 +164,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "learnlang/Controllers/SettingViewController.m"
-         timestampString = "397730807.620009"
+         timestampString = "398918177.503663"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "155"
-         endingLineNumber = "155"
+         startingLineNumber = "156"
+         endingLineNumber = "156"
          landmarkName = "-wifiSettingAction:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -177,11 +177,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "learnlang/Controllers/SettingViewController.m"
-         timestampString = "397730807.620009"
+         timestampString = "398918177.503663"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "154"
-         endingLineNumber = "154"
+         startingLineNumber = "155"
+         endingLineNumber = "155"
          landmarkName = "-wifiSettingAction:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -196,19 +196,6 @@
          startingLineNumber = "156"
          endingLineNumber = "156"
          landmarkName = "-isReDownload:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "learnlang/Utils/NewsToolbar.m"
-         timestampString = "398591093.952272"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "803"
-         endingLineNumber = "803"
-         landmarkName = "-audioPlayerDidFinishPlaying:successfully:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

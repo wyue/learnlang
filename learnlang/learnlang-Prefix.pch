@@ -117,7 +117,7 @@
 #define AppTitle @"德语达人"
 #define AppLang @"德语"
 #define AppUrl @""
-
+#define kAppVersion @"AppVersion"
 
 //menu
 #define MainMenuWidth 109

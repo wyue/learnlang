@@ -7,6 +7,7 @@
 //
 
 #import "SettingViewController.h"
+#import "EGOCache.h"
 
 @interface SettingViewController ()
 
@@ -33,7 +34,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    
+    self.navigationItem.title=@"设置";
     NSUserDefaults * setting = [NSUserDefaults standardUserDefaults];
     
     
@@ -231,5 +232,19 @@
     
     [setting synchronize];
 }
+
+
+
+
+
+
+-(IBAction)clearAllCache:(id)sender{
+    
+    [[EGOCache currentCache] clearCache];
+    
+    [Config ToastNotification:@"缓存已清除" andView:self.view andLoading:NO andIsBottom:NO];
+}
+
+
 
 @end
