@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>template.html</title>
+        
+        <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+            <meta http-equiv="description" content="learning_detail">
+                <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+                    
+                    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+                    <script language="JavaScript">
+                        
+                        function noticeAudioPlay(obj){
+                          var array =   document.getElementsByName("voice_span");
+                            
+                            for(var i=0;i<array.length;i++){
+                                array[i].style.color="black";      
+                            }
+                           
+                                obj.style.color="red";
+                               
+                            
+                            
+                            var url = "voice:"+obj.id;
+                           
+                            var iFrame;
+                            iFrame = document.createElement("iframe");
+                            iFrame.setAttribute("src", url);
+                            iFrame.setAttribute("style", "display:none;");
+                            iFrame.setAttribute("height", "0px");
+                            iFrame.setAttribute("width", "0px");
+                            iFrame.setAttribute("frameborder", "0");
+                            document.body.appendChild(iFrame);
+                            // 发起请求后这个iFrame就没用了，所以把它从dom上移除掉
+                            iFrame.parentNode.removeChild(iFrame);
+                            iFrame = null;
+                        }
+                        
+                        
+                        function setHighlight(id){
+                            var array =   document.getElementsByName("voice_span");
+                            
+                            for(var i=0;i<array.length;i++){
+                                array[i].style.color="black";
+                            }
+                            
+                           
+                                document.getElementById(id).style.color="red";
+                         
+                            
+                            
+                            
+                        } 
+                        
+                        
+                       
+                    
+                        </script>
+                    
+                    </head>
+    
+    <body>
+       <br>
+        
+        <!-- 标题 -->
+        
+         <!-- 图片 -->
+        
+         <!-- 内容德文 -->
+        <div id=content>
+         %@
+            
+            
+        </div>
+        <!-- 内容中文 -->
+        
+    </body>
+</html>

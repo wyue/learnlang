@@ -36,8 +36,8 @@
 + (void)removeNewsForDownload:(News*)news;//删除下载内容
 + (Boolean)isSaved:(int)_id;
 + (Boolean)isDownload:(int)_id;
-+(NSURL*)isDownloadFile:(Voice *)voice andNew:(News *)news;
-
++(NSURL*)isDownloadFile:(Voice *)voice andNew:(News *)news;//停止使用
++(NSURL*)isDownloadFile:(News *)news;
 
 //保存录音
 + (void)insertRecord:(News *)news andFilePath:(NSURL *)url;

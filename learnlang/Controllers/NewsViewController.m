@@ -13,7 +13,7 @@
 
 #import "CheckNetwork.h"
 
-#import "NewsDetailViewController.h"
+#import "NewsWebViewController.h"
 
 
 
@@ -379,7 +379,7 @@
             if (n)
             {
                 
-                NewsDetailViewController *newsDetailViewController = [[[NewsDetailViewController alloc] initWithNibName:@"NewsDetailViewController" bundle:nil] autorelease];
+                NewsWebViewController *newsDetailViewController = [[[NewsWebViewController alloc] initWithNibName:@"NewsWebViewController" bundle:nil] autorelease];
                 
                 newsDetailViewController.news = n;
                 [self.navigationController pushViewController:newsDetailViewController animated:YES];

@@ -806,7 +806,7 @@
 
 
 
-
+//20130827 modify wangyue 暂时停用，因为音频播放的方式改变
 +(NSURL*)isDownloadFile:(Voice *)voice andNew:(News *)news
 {
     
@@ -846,6 +846,48 @@
     
 }
 
+//20130827 add wangyue 启用，因为音频播放的方式改变
++(NSURL*)isDownloadFile:(News *)news
+{
+    
+    //NSFileManager *fileManager=[NSFileManager defaultManager];
+    
+    NSString * path = [[NSBundle mainBundle] pathForResource:@"1" ofType:@"mp3"];
+    
+    NSURL *url = [[[NSURL alloc] initFileURLWithPath:path] autorelease];
+    return url;
+    
+    if (news) {
+        FileModel *fileInfo=[[FileModel alloc]init];
+        
+        NSString * fileExtension = [news.voiceUrl pathExtension];
+        
+        
+        fileInfo.fileName=[NSString stringWithFormat:@"%@%d_%d.%@",kDownloadFileName,news._id,news._id,fileExtension];
+        fileInfo.fileExtension=fileExtension;
+        fileInfo.fileURL=news.voiceUrl;
+        
+        
+        
+        
+        
+        //因为是重新下载，则说明肯定该文件已经被下载完，或者有临时文件正在留着，所以检查一下这两个地方，存在则删除掉
+        NSString *targetPath=[[Config getTargetFloderPath]stringByAppendingPathComponent:fileInfo.fileName];
+        if([Config isExistFile:targetPath])//已经下载过一次该音乐
+        {
+            return [NSURL fileURLWithPath:targetPath];
+            
+        }
+        
+        
+    }
+    
+    return nil;
+    
+    
+    
+    
+}
 
 
 
@@ -862,7 +904,7 @@
     [requestForm startSynchronous];
     
     //输入返回的信息
-    NSLog(@"response\n%@",[requestForm responseString]);
+   // NSLog(@"response\n%@",[requestForm responseString]);
     [requestForm release];
 }
 

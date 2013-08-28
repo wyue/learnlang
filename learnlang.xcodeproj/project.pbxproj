@@ -211,6 +211,13 @@
 		22E425F817C2F55300C75A21 /* PDColoredProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E425F717C2F55300C75A21 /* PDColoredProgressView.m */; };
 		22E425FB17C2F6C900C75A21 /* drawing.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E425FA17C2F6C800C75A21 /* drawing.m */; };
 		22E425FE17C367C100C75A21 /* AudioToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E425FD17C367C100C75A21 /* AudioToolBar.m */; };
+		22EA08D617CB3679009B83D5 /* NewsWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22EA08D417CB3679009B83D5 /* NewsWebViewController.m */; };
+		22EA08D717CB3679009B83D5 /* NewsWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 22EA08D517CB3679009B83D5 /* NewsWebViewController.xib */; };
+		22EA08D917CB3813009B83D5 /* news_detail.html in Resources */ = {isa = PBXBuildFile; fileRef = 22EA08D817CB3813009B83D5 /* news_detail.html */; };
+		22EA08DC17CB3CB5009B83D5 /* CustomToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 22EA08DB17CB3CB5009B83D5 /* CustomToolbar.m */; };
+		22EA08DE17CB48AB009B83D5 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22EA08DD17CB48AB009B83D5 /* CoreMedia.framework */; };
+		22EA08E217CC65C8009B83D5 /* 1.lrc in Resources */ = {isa = PBXBuildFile; fileRef = 22EA08E117CC65C8009B83D5 /* 1.lrc */; };
+		22EA08FD17CC7158009B83D5 /* 1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 22EA08FC17CC7158009B83D5 /* 1.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -531,6 +538,15 @@
 		22E425FA17C2F6C800C75A21 /* drawing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = drawing.m; sourceTree = "<group>"; };
 		22E425FC17C367C100C75A21 /* AudioToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioToolBar.h; sourceTree = "<group>"; };
 		22E425FD17C367C100C75A21 /* AudioToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioToolBar.m; sourceTree = "<group>"; };
+		22EA08D317CB3679009B83D5 /* NewsWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsWebViewController.h; sourceTree = "<group>"; };
+		22EA08D417CB3679009B83D5 /* NewsWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsWebViewController.m; sourceTree = "<group>"; };
+		22EA08D517CB3679009B83D5 /* NewsWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsWebViewController.xib; sourceTree = "<group>"; };
+		22EA08D817CB3813009B83D5 /* news_detail.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = news_detail.html; sourceTree = "<group>"; };
+		22EA08DA17CB3CB5009B83D5 /* CustomToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomToolbar.h; sourceTree = "<group>"; };
+		22EA08DB17CB3CB5009B83D5 /* CustomToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomToolbar.m; sourceTree = "<group>"; };
+		22EA08DD17CB48AB009B83D5 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		22EA08E117CC65C8009B83D5 /* 1.lrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 1.lrc; sourceTree = "<group>"; };
+		22EA08FC17CC7158009B83D5 /* 1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = 1.mp3; path = Controllers/1.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -538,6 +554,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22EA08DE17CB48AB009B83D5 /* CoreMedia.framework in Frameworks */,
 				223E5F6317B9D3CD00EEA8E7 /* Social.framework in Frameworks */,
 				2238E3AB17AA4C9F00E85157 /* libsqlite3.0.dylib in Frameworks */,
 				228DDDCA17A6149600324ACB /* AVFoundation.framework in Frameworks */,
@@ -643,6 +660,7 @@
 		224D15C0179CCEDC00C5B8B2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				22EA08DD17CB48AB009B83D5 /* CoreMedia.framework */,
 				223E5F6917BA140500EEA8E7 /* Accounts.framework */,
 				223E5F6217B9D3CD00EEA8E7 /* Social.framework */,
 				2238E3AA17AA4C9F00E85157 /* libsqlite3.0.dylib */,
@@ -688,6 +706,8 @@
 		224D15CA179CCEDC00C5B8B2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				22EA08FC17CC7158009B83D5 /* 1.mp3 */,
+				22EA08E117CC65C8009B83D5 /* 1.lrc */,
 				224D15CB179CCEDC00C5B8B2 /* learnlang-Info.plist */,
 				224D15CC179CCEDC00C5B8B2 /* InfoPlist.strings */,
 				224D15CF179CCEDC00C5B8B2 /* main.m */,
@@ -695,6 +715,7 @@
 				224D15D5179CCEDC00C5B8B2 /* Default.png */,
 				224D15D7179CCEDC00C5B8B2 /* Default@2x.png */,
 				224D15D9179CCEDC00C5B8B2 /* Default-568h@2x.png */,
+				22EA08D817CB3813009B83D5 /* news_detail.html */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -915,6 +936,9 @@
 				224D16FF179E87D700C5B8B2 /* NewsDetailViewController.h */,
 				224D1700179E87D700C5B8B2 /* NewsDetailViewController.m */,
 				224D1701179E87D800C5B8B2 /* NewsDetailViewController.xib */,
+				22EA08D317CB3679009B83D5 /* NewsWebViewController.h */,
+				22EA08D417CB3679009B83D5 /* NewsWebViewController.m */,
+				22EA08D517CB3679009B83D5 /* NewsWebViewController.xib */,
 				2238E3AC17AB3C1900E85157 /* SavedViewController.h */,
 				2238E3AD17AB3C1900E85157 /* SavedViewController.m */,
 				2238E3AE17AB3C1900E85157 /* SavedViewController.xib */,
@@ -1033,6 +1057,8 @@
 		224D167E179D274300C5B8B2 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				22EA08DA17CB3CB5009B83D5 /* CustomToolbar.h */,
+				22EA08DB17CB3CB5009B83D5 /* CustomToolbar.m */,
 				224D171E17A24EDF00C5B8B2 /* NewsToolbar.h */,
 				224D171F17A24EDF00C5B8B2 /* NewsToolbar.m */,
 				22E425FC17C367C100C75A21 /* AudioToolBar.h */,
@@ -1318,6 +1344,10 @@
 				223E5FCF17BDFC2C00EEA8E7 /* topbar-bg_02.png in Resources */,
 				22E425F117C1E9EB00C75A21 /* detail_tab_button_highlight.png in Resources */,
 				22E425F217C1E9EB00C75A21 /* detail_tab_button.png in Resources */,
+				22EA08D717CB3679009B83D5 /* NewsWebViewController.xib in Resources */,
+				22EA08D917CB3813009B83D5 /* news_detail.html in Resources */,
+				22EA08E217CC65C8009B83D5 /* 1.lrc in Resources */,
+				22EA08FD17CC7158009B83D5 /* 1.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1428,6 +1458,8 @@
 				22E425F817C2F55300C75A21 /* PDColoredProgressView.m in Sources */,
 				22E425FB17C2F6C900C75A21 /* drawing.m in Sources */,
 				22E425FE17C367C100C75A21 /* AudioToolBar.m in Sources */,
+				22EA08D617CB3679009B83D5 /* NewsWebViewController.m in Sources */,
+				22EA08DC17CB3CB5009B83D5 /* CustomToolbar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
