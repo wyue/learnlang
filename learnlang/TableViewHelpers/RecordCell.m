@@ -181,7 +181,7 @@ self.selectionStyle = UITableViewCellSelectionStyleNone;
 	else
 	{
 		m_checked = NO;
-		self.selectionStyle = UITableViewCellSelectionStyleBlue;
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		self.backgroundView = nil;
 		
 		if (m_checkImageView)

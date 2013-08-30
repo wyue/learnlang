@@ -24,6 +24,7 @@
 		2225709E17B4916100E68EA1 /* BUIControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 2225709917B4916100E68EA1 /* BUIControl.m */; };
 		2225709F17B4916100E68EA1 /* BUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2225709B17B4916100E68EA1 /* BUIView.m */; };
 		222570A017B4916100E68EA1 /* ZXObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2225709D17B4916100E68EA1 /* ZXObject.m */; };
+		2233846F17D041B7001C29BF /* CustomAudioToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2233846E17D041B7001C29BF /* CustomAudioToolbar.m */; };
 		2238E3A017AA4B6800E85157 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 2238E39217AA4B6800E85157 /* FMDatabase.m */; };
 		2238E3A117AA4B6800E85157 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2238E39417AA4B6800E85157 /* FMDatabaseAdditions.m */; };
 		2238E3A217AA4B6800E85157 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 2238E39617AA4B6800E85157 /* FMDatabasePool.m */; };
@@ -251,6 +252,8 @@
 		2225709B17B4916100E68EA1 /* BUIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BUIView.m; sourceTree = "<group>"; };
 		2225709C17B4916100E68EA1 /* ZXObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXObject.h; sourceTree = "<group>"; };
 		2225709D17B4916100E68EA1 /* ZXObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXObject.m; sourceTree = "<group>"; };
+		2233846D17D041B7001C29BF /* CustomAudioToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAudioToolbar.h; sourceTree = "<group>"; };
+		2233846E17D041B7001C29BF /* CustomAudioToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAudioToolbar.m; sourceTree = "<group>"; };
 		2238E39117AA4B6800E85157 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		2238E39217AA4B6800E85157 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
 		2238E39317AA4B6800E85157 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
@@ -1059,6 +1062,8 @@
 			children = (
 				22EA08DA17CB3CB5009B83D5 /* CustomToolbar.h */,
 				22EA08DB17CB3CB5009B83D5 /* CustomToolbar.m */,
+				2233846D17D041B7001C29BF /* CustomAudioToolbar.h */,
+				2233846E17D041B7001C29BF /* CustomAudioToolbar.m */,
 				224D171E17A24EDF00C5B8B2 /* NewsToolbar.h */,
 				224D171F17A24EDF00C5B8B2 /* NewsToolbar.m */,
 				22E425FC17C367C100C75A21 /* AudioToolBar.h */,
@@ -1460,6 +1465,7 @@
 				22E425FE17C367C100C75A21 /* AudioToolBar.m in Sources */,
 				22EA08D617CB3679009B83D5 /* NewsWebViewController.m in Sources */,
 				22EA08DC17CB3CB5009B83D5 /* CustomToolbar.m in Sources */,
+				2233846F17D041B7001C29BF /* CustomAudioToolbar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

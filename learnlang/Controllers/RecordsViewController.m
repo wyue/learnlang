@@ -8,7 +8,7 @@
 
 #import "RecordsViewController.h"
 #import "RecordCell.h"
-#import "NewsDetailViewController.h"
+#import "NewsWebViewController.h"
 #import "PlayButton.h"
 #import "AudioToolBar.h"
 
@@ -49,6 +49,7 @@
     
     self.tableview.allowsSelectionDuringEditing = YES;
    // self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStyleDone target:self action:@selector(tableViewEdit:)];
+     self.tableview.backgroundColor = [UIColor colorWithHexString:@"F4F4F4"];
     self.tableview.separatorStyle=UITableViewCellSeparatorStyleNone;
     self.tableview.tableHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0,0,5,5)] autorelease];
     
@@ -175,7 +176,7 @@
     
      FileModel *n = [array objectAtIndex:self.currentIndex.row];
     if (n) {
-        NewsDetailViewController *newsDetailViewController = [[[NewsDetailViewController alloc] initWithNibName:@"NewsDetailViewController" bundle:nil] autorelease];
+        NewsWebViewController *newsDetailViewController = [[[NewsWebViewController alloc] initWithNibName:@"NewsWebViewController" bundle:nil] autorelease];
         newsDetailViewController.news = n.news;
         [self.navigationController pushViewController:newsDetailViewController animated:YES];
     }
@@ -408,6 +409,7 @@
         
         
     }
+    
     [cell.extButton addTarget:self action:@selector(extButtonAction:event:) forControlEvents:UIControlEventTouchUpInside];
     
     FileModel *fileModel = [array objectAtIndex:indexPath.row];

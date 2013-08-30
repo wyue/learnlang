@@ -8,7 +8,7 @@
 
 #import "DownloadViewController.h"
 #import "DownloadCell.h"
-#import "NewsDetailViewController.h"
+#import "NewsWebViewController.h"
 
 @interface DownloadViewController ()
 
@@ -45,7 +45,7 @@
     
     self.tableview.allowsSelectionDuringEditing = YES;
        //  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStyleDone target:self action:@selector(tableViewEdit:)];
-    
+     self.tableview.backgroundColor = [UIColor colorWithHexString:@"F4F4F4"];
     self.tableview.separatorStyle=UITableViewCellSeparatorStyleNone;
     self.tableview.tableHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0,0,5,5)] autorelease];
     self.navigationItem.title=@"我的下载";
@@ -55,7 +55,14 @@
     [super viewDidAppear:animated];
     [self reLoad];
 }
-
+-(void)viewDidDisappear:(BOOL)animatedd{
+    
+    // CGRect rect_view =[self.view bounds];
+    // toolBar.frame=CGRectMake(rect_view.origin.x, rect_view.size.height-kToolBarHeight, rect_view.size.width, kToolBarHeight);
+    [toolBar pause:nil];
+    
+    [super viewDidDisappear:YES];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -171,7 +178,7 @@
     
     if (!toolBar) {
         CGRect rect_view =[self.view bounds];
-        toolBar = [[AudioToolBar alloc]initWithFrame:CGRectMake(rect_view.origin.x, rect_view.size.height-kNewsToolBarHeight, rect_view.size.width, kNewsToolBarHeight)];
+        toolBar = [[CustomAudioToolbar alloc]initWithFrame:CGRectMake(rect_view.origin.x, rect_view.size.height-kNewsToolBarHeight, rect_view.size.width, kNewsToolBarHeight)];
         toolBar.autoresizingMask=UIViewAutoresizingFlexibleTopMargin;
         
         toolBar.parentViewController=self;
@@ -187,15 +194,21 @@
         
         toolBar.news=n;
         
-        
-        [self.toolBar setIsAllPlay:NO];
-        
-        NSURL *url=   [NSURL fileURLWithPath:n.voiceUrl];
-        if (url) {
-            //本地
-            [self.toolBar audioPlay:url andIndex:0 andIsLocalFile:NO  andIsNew:YES];
+        if ([self.toolBar isPlaying]) {
+            [self.toolBar pause:nil];
+        }else{
             
+            NSURL*url= [DataManager isDownloadFile:n];;
+            if (url) {
+                //本地
+                [self.toolBar setupAVPlayerForURL:url];
+                [ [NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+                [self.toolBar play:nil];
+            }
         }
+        
+        
+        
         
         
         
@@ -461,7 +474,7 @@
 	}else{
         
             
-            NewsDetailViewController *newsDetailViewController = [[[NewsDetailViewController alloc] initWithNibName:@"NewsDetailViewController" bundle:nil] autorelease];
+            NewsWebViewController *newsDetailViewController = [[[NewsWebViewController alloc] initWithNibName:@"NewsWebViewController" bundle:nil] autorelease];
             
             newsDetailViewController.news = n;
             [self.navigationController pushViewController:newsDetailViewController animated:YES];

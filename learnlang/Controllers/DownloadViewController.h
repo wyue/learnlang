@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AudioToolBar.h"
+#import "CustomAudioToolbar.h"
 
 @interface DownloadViewController  : UIViewController<UITableViewDelegate,UITableViewDataSource>{
     
@@ -26,7 +26,7 @@
     UIButton* postButton;
     UIButton* delButton;
     UIButton* delAllButton;
-    AudioToolBar* toolBar;
+    CustomAudioToolbar* toolBar;
 }
 @property(nonatomic,retain) IBOutlet UITableView* tableview;
 @property(nonatomic,retain) NSMutableArray *array;
@@ -43,7 +43,7 @@
 @property(nonatomic,retain) UIButton* delButton;
 @property(nonatomic,retain) UIButton* delAllButton;
 
-@property(nonatomic,retain) AudioToolBar* toolBar;
+@property(nonatomic,retain) CustomAudioToolbar* toolBar;
 
 
 @end
