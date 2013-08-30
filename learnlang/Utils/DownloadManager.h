@@ -19,9 +19,11 @@
 @property(nonatomic,retain)NSMutableDictionary *downinglist;//正在下载的文件列表(ASIHttpRequest对象)
 @property(nonatomic,retain)id<DownloadDelegate> downloadDelegate;
 
--(void)beginRequest:(FileModel *)fileInfo isBeginDown:(BOOL)isBeginDown;
+-(void)beginRequest:(News *)news isBeginDown:(BOOL)isBeginDown;
+- (Boolean)isDownloaded:(News*)news;
+-(void)removeFile:(News *)news ;
 +(DownloadManager *) Instance;
 
--(void)loadTempfiles;
--(void)loadFinishedfiles;
+//-(void)loadTempfiles;
+//-(void)loadFinishedfiles;
 @end

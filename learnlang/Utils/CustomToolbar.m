@@ -8,7 +8,7 @@
 
 #import "CustomToolbar.h"
 #import <Social/Social.h>
-#import "DownloadsManager.h"
+#import "DownloadManager.h"
 #import "NewsWebViewController.h"
 
 #define kStringArray [NSArray arrayWithObjects:@"收 藏", @"下 载", @"分 享", nil]
@@ -789,19 +789,23 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
                         [Config ToastNotification:@"已下载" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
                         
                     }else{
-                        //保存
-                        
-                        [DataManager insertOrRemoveNews:kDownloadType andID:news._id andString:json];
+                      
                         
                         //下载
-                        if (news.contentAry&&news.contentAry.count>0) {
+                        if (news.voiceUrl&&news.voiceUrl.length>0) {
+                            //保存
+                            
+                            [DataManager insertOrRemoveNews:kDownloadType andID:news._id andString:json];
                             [Config ToastNotification:@"开始下载" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
                             
-                            [[DownloadsManager Instance] beginRequest:news isBeginDown:YES];
+                         
+                            
+                            [[DownloadManager Instance] beginRequest:news isBeginDown:YES];
+                            //增加保存
+                            [DataManager postDownloadToServer:news];
                             
                         }
-                        //增加保存
-                        [DataManager postDownloadToServer:news];
+                        
                     }
                     
                     
@@ -828,16 +832,21 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
                 [Config ToastNotification:@"已下载" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
                 
             }else{
-                //保存
-                
-                [DataManager insertOrRemoveNews:kDownloadType andID:news._id andString:json];
+               
                 
                 //下载
-                if (news.contentAry&&news.contentAry.count>0) {
+                if (news.voiceUrl&&news.voiceUrl.length>0) {
+                    //保存
+                    
+                    [DataManager insertOrRemoveNews:kDownloadType andID:news._id andString:json];
                     [Config ToastNotification:@"开始下载" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
                     
-                    [[DownloadsManager Instance] beginRequest:news isBeginDown:YES];
                     
+                    
+                    
+                    [[DownloadManager Instance] beginRequest:news isBeginDown:YES];
+                    //增加保存
+                    [DataManager postDownloadToServer:news];
                 }
                 
             }

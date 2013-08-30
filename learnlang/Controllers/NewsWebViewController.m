@@ -98,10 +98,11 @@
         {
             _arrayItemList = [[NSMutableArray alloc] init];
         }
-        NSString *lrcPath = [[NSBundle mainBundle] pathForResource:@"1" ofType:@"lrc"];
-        NSError *error=nil;
-        NSString * textContent = [NSString stringWithContentsOfFile:lrcPath encoding:NSUTF8StringEncoding error:&error];
+//        NSString *lrcPath = [[NSBundle mainBundle] pathForResource:@"1" ofType:@"lrc"];
+//        NSError *error=nil;
+//        NSString * textContent = [NSString stringWithContentsOfFile:lrcPath encoding:NSUTF8StringEncoding error:&error];
         //NSLog(@"textContent = %@",[error debugDescription]);
+        NSString * textContent = news.content;
         NSArray * tempArray=[textContent componentsSeparatedByString:@"\n"];
         //NSLog(@"tempArray = %@",tempArray);
         

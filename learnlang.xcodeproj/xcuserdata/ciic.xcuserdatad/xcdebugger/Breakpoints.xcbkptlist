@@ -34,130 +34,13 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "learnlang/Utils/DownloadManager.m"
-         timestampString = "397128837.711178"
+         timestampString = "399522969.132704"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "123"
-         endingLineNumber = "123"
-         landmarkName = "-beginRequest:isBeginDown:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "learnlang/Utils/DownloadManager.m"
-         timestampString = "397128837.711178"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "287"
-         endingLineNumber = "287"
-         landmarkName = "-requestReceivedResponseHeaders:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "learnlang/Utils/DownloadManager.m"
-         timestampString = "397128837.711178"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "319"
-         endingLineNumber = "319"
-         landmarkName = "-request:didReceiveBytes:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "learnlang/Utils/DownloadManager.m"
-         timestampString = "397128837.711178"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "334"
-         endingLineNumber = "334"
-         landmarkName = "-requestFinished:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "learnlang/Utils/DownloadManager.m"
-         timestampString = "397128837.711178"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "275"
-         endingLineNumber = "275"
-         landmarkName = "-requestFailed:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "learnlang/Utils/DownloadManager.m"
-         timestampString = "397128837.711178"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "282"
-         endingLineNumber = "282"
-         landmarkName = "-requestStarted:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "learnlang/Utils/DownloadManager.m"
-         timestampString = "397357586.383814"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "186"
-         endingLineNumber = "186"
-         landmarkName = "-loadTempfiles"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "learnlang/Utils/DownloadManager.m"
-         timestampString = "397358009.193742"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "246"
-         endingLineNumber = "246"
-         landmarkName = "-loadFinishedfiles"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "learnlang/Utils/DownloadManager.m"
-         timestampString = "397360027.85924"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "371"
-         endingLineNumber = "371"
-         landmarkName = "-finishedDownload:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "learnlang/Utils/DownloadManager.m"
-         timestampString = "397360032.531844"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "365"
-         endingLineNumber = "365"
-         landmarkName = "-updateCellProgress:"
-         landmarkType = "5">
+         startingLineNumber = "301"
+         endingLineNumber = "301"
+         landmarkName = "@implementation DownloadManager"
+         landmarkType = "3">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "Yes"
@@ -183,6 +66,19 @@
          startingLineNumber = "215"
          endingLineNumber = "215"
          landmarkName = "-dealloc"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "learnlang/Controllers/SavedViewController.m"
+         timestampString = "399540930.334011"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "207"
+         endingLineNumber = "207"
+         landmarkName = "-play:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

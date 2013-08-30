@@ -11,7 +11,7 @@
 #import "News.h"
 #import "Voice.h"
 #import "SBJson.h"
-#import "DownloadsManager.h"
+#import "DownloadManager.h"
 
 @implementation DataManager
 
@@ -140,24 +140,34 @@
     
     
     news.voiceUrl=[sourceDic objectForKey:@"voiceUrl"];
+    news.voiceUrl=@"http://learn.china.cn/article/mp3/16/p_69.mp3";
+    
+    
+    
+    
     news.pubDate=[sourceDic objectForKey:@"pubDate"];
     news.newsType=[[sourceDic objectForKey:@"type"] intValue];
     news.clickCount=[[sourceDic objectForKey:@"clickCount"] intValue];
     news.saveCount=[[sourceDic objectForKey:@"saveCount"] intValue];
-    //news.content=[sourceDic objectForKey:@"content"];
+    news.content=[sourceDic objectForKey:@"content"];//modify by wangyue 20130829 改变音频获得的方式 通过content记录lrc文件内容
+    
+            NSString *lrcPath = [[NSBundle mainBundle] pathForResource:@"1" ofType:@"lrc"];
+            NSError *error=nil;
+            NSString * textContent = [NSString stringWithContentsOfFile:lrcPath encoding:NSUTF8StringEncoding error:&error];
+    news.content=textContent;
     news.subContent=[sourceDic objectForKey:@"trancontent"];
     
-    
-    NSMutableArray * contentAry = [sourceDic objectForKey:@"content"];
-    NSMutableArray * voiceAry = [[NSMutableArray alloc]initWithCapacity:contentAry.count];
-    for (int k = 0; k<contentAry.count; k++) {
-        NSMutableDictionary *voiceDic=[contentAry objectAtIndex:k];
-        Voice* voice =   [[Voice alloc]initWithParameters:[[voiceDic objectForKey:@"id"] intValue] andText:[voiceDic objectForKey:@"text"] andTrantext:[voiceDic objectForKey:@"trantext"] andVoiceUrl:[voiceDic objectForKey:@"voiceUrl"] andVoiceSize:[[voiceDic objectForKey:@"voiceSize"] floatValue] ];
-        [voiceAry addObject:voice];
-        [voice release];
-    }
-    
-    news.contentAry=voiceAry;
+    //modify by wangyue 20130829 改变音频获得的方式
+//    NSMutableArray * contentAry = [sourceDic objectForKey:@"content"];
+//    NSMutableArray * voiceAry = [[NSMutableArray alloc]initWithCapacity:contentAry.count];
+//    for (int k = 0; k<contentAry.count; k++) {
+//        NSMutableDictionary *voiceDic=[contentAry objectAtIndex:k];
+//        Voice* voice =   [[Voice alloc]initWithParameters:[[voiceDic objectForKey:@"id"] intValue] andText:[voiceDic objectForKey:@"text"] andTrantext:[voiceDic objectForKey:@"trantext"] andVoiceUrl:[voiceDic objectForKey:@"voiceUrl"] andVoiceSize:[[voiceDic objectForKey:@"voiceSize"] floatValue] ];
+//        [voiceAry addObject:voice];
+//        [voice release];
+//    }
+//    
+//    news.contentAry=voiceAry;
     
     
     
@@ -518,7 +528,7 @@
         [setting setObject:arrayMutable forKey:arykey];
         [setting synchronize];
         
-        [[DownloadsManager Instance] removeFile:news isDownloading:FALSE];
+        [[DownloadManager Instance] removeFile:news ];
         
     }
     
@@ -852,10 +862,10 @@
     
     //NSFileManager *fileManager=[NSFileManager defaultManager];
     
-    NSString * path = [[NSBundle mainBundle] pathForResource:@"1" ofType:@"mp3"];
-    
-    NSURL *url = [[[NSURL alloc] initFileURLWithPath:path] autorelease];
-    return url;
+//    NSString * path = [[NSBundle mainBundle] pathForResource:@"1" ofType:@"mp3"];
+//    
+//    NSURL *url = [[[NSURL alloc] initFileURLWithPath:path] autorelease];
+//    return url;
     
     if (news) {
         FileModel *fileInfo=[[FileModel alloc]init];

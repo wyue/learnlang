@@ -115,8 +115,24 @@ static DownloadManager * managerinstance = nil;
 
 
 
--(void)beginRequest:(FileModel *)fileInfo isBeginDown:(BOOL)isBeginDown
+-(void)beginRequest:(News *)news isBeginDown:(BOOL)isBeginDown
 {
+    if (self.downinglist==nil) {
+          self.downinglist=[[[NSMutableDictionary alloc] init] autorelease];
+    }
+    
+    
+    if (news.voiceUrl==nil) {
+        return;
+    }
+    FileModel *fileInfo=[[FileModel alloc]init];
+    NSString * fileExtension = [news.voiceUrl pathExtension];
+    fileInfo.fileName=[NSString stringWithFormat:@"%@%d_%d.%@",kDownloadFileName,news._id,news._id,fileExtension];
+    fileInfo.fileExtension=fileExtension;
+    fileInfo.fileURL=news.voiceUrl;
+    fileInfo.news = news;
+    
+    
     
     //NSString *key =[NSString stringWithFormat:@"%@%d",kDownloadFileName,fileInfo.news._id];
     //如果不存在则创建临时存储目录
@@ -157,7 +173,7 @@ static DownloadManager * managerinstance = nil;
     request.delegate=self;
     [request setDownloadDestinationPath:[[Config getTargetFloderPath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@",fileInfo.fileName]]];
     [request setTemporaryFileDownloadPath:[[Config getTempFolderPath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.temp",fileInfo.fileName]]];
-    [request setDownloadProgressDelegate:self];
+    //[request setDownloadProgressDelegate:self];
     //    [request setDownloadProgressDelegate:downCell.progress];//设置进度条的代理,这里由于下载是在AppDelegate里进行的全局下载，所以没有使用自带的进度条委托，这里自己设置了一个委托，用于更新UI
     [request setAllowResumeForFileDownloads:YES];//支持断点续传
     if(isBeginDown)
@@ -173,99 +189,206 @@ static DownloadManager * managerinstance = nil;
     if (isBeginDown) {
         [request startAsynchronous];
     }
-    [self.downinglist setObject:request forKey:fileInfo.fileName];
+    [self.downinglist setObject:request forKey:[NSString stringWithFormat:@"%d",news._id]];
 }
+
+- (Boolean)isDownloaded:(News*)news
+{
+    
+  
+       
+        if (news) {
+          
+            
+            NSString * fileExtension = [news.voiceUrl pathExtension];
+            
+            
+          NSString * fileName=[NSString stringWithFormat:@"%@%d_%d.%@",kDownloadFileName,news._id,news._id,fileExtension];
+                       
+            
+            
+            
+            //因为是重新下载，则说明肯定该文件已经被下载完，或者有临时文件正在留着，所以检查一下这两个地方，存在则删除掉
+            NSString *targetPath=[[Config getTargetFloderPath]stringByAppendingPathComponent:fileName];
+           // NSString *tempPath=[[[Config getTempFolderPath]stringByAppendingPathComponent:fileName]stringByAppendingString:@".temp"];
+            if([Config isExistFile:targetPath])//已经下载过一次该音乐
+            {
+                return TRUE;
+            }
+            
+        }
+        
+        
+    
+    
+    
+    return FALSE;
+    // }
+    
+    
+    
+}
+
+
+-(void)removeFile:(News *)news 
+{
+    NSString* key=  [NSString stringWithFormat:@"%d",news._id];
+    NSFileManager *fileManager=[NSFileManager defaultManager];
+    NSError *error;
+    
+    if (self.downinglist&&[self.downinglist objectForKey:[NSString stringWithFormat:@"%d",news._id]])//正在下载的表格
+    {
+        ASIHTTPRequest *request=[self.downinglist   objectForKey:key];
+        if([request isExecuting])
+        {
+            [request cancel];
+        }
+        
+        
+    }
+    else//已经完成下载的表格
+    {
+        
+    }
+    
+	
+    
+    if(![fileManager fileExistsAtPath:[Config getTempFolderPath]])
+    {
+        [fileManager createDirectoryAtPath:[Config getTempFolderPath] withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+
+        if (news) {
+            FileModel *fileInfo=[[FileModel alloc]init];
+            
+            NSString * fileExtension = [news.voiceUrl pathExtension];
+            
+            
+            fileInfo.fileName=[NSString stringWithFormat:@"%@%d_%d.%@",kDownloadFileName,news._id,news._id,fileExtension];
+            fileInfo.fileExtension=fileExtension;
+            fileInfo.fileURL=news.voiceUrl;
+            
+            
+            
+            fileInfo.news = news;
+            
+            //因为是重新下载，则说明肯定该文件已经被下载完，或者有临时文件正在留着，所以检查一下这两个地方，存在则删除掉
+            NSString *targetPath=[[Config getTargetFloderPath]stringByAppendingPathComponent:fileInfo.fileName];
+            NSString *tempPath=[[[Config getTempFolderPath]stringByAppendingPathComponent:fileInfo.fileName]stringByAppendingString:@".temp"];
+            if([Config isExistFile:targetPath])//已经下载过一次该音乐
+            {
+                [fileManager removeItemAtPath:targetPath error:&error];
+                
+            }
+            //存在于临时文件夹里
+            if([Config isExistFile:tempPath])
+            {
+                [fileManager removeItemAtPath:tempPath error:&error];
+            }
+            
+        }
+        
+        
+    
+    
+    
+    
+}
+
+
+
 
 -(void)cancelRequest:(ASIHTTPRequest *)request
 {
     
 }
 
--(void)loadTempfiles
-{
-   self.downinglist=[[[NSMutableDictionary alloc] init] autorelease];
-    NSFileManager *fileManager=[NSFileManager defaultManager];
-    NSError *error;
-    NSArray *filelist=[fileManager contentsOfDirectoryAtPath:[Config getTempFolderPath] error:&error];
-    if(!error)
-    {
-        NSLog(@"%@",[error description]);
-    }
-    for(NSString *file in filelist)
-    {
-        if([file rangeOfString:@".rtf"].location<=100)//以.rtf结尾的文件是下载文件的配置文件，存在文件名称，文件总大小，文件下载URL
-        {
-            NSInteger index=[file rangeOfString:@"."].location;
-            NSString *trueName=[file substringToIndex:index];
-            
-            //临时文件的配置文件的内容
-            NSString *msg=[[NSString alloc] initWithData:[NSData dataWithContentsOfFile:[[Config getTempFolderPath]stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.rtf",trueName]]] encoding:NSUTF8StringEncoding];
-            
-            //取得第一个逗号前的文件名
-            index=[msg rangeOfString:@","].location;
-            NSString *name=[msg substringToIndex:index];
-            msg=[msg substringFromIndex:index+1];
-            
-            //取得第一个逗号和第二个逗间的文件总大小
-            index=[msg rangeOfString:@","].location;
-            NSString *totalSize=[msg substringToIndex:index];
-            msg=[msg substringFromIndex:index+1];
-            
-            //取得第二个逗号后的所有内容，即文件下载的URL
-            NSString *url=msg;
-            
-            //按照获取的文件名获取临时文件的大小，即已下载的大小
-            NSData *fileData=[fileManager contentsAtPath:[[Config getTempFolderPath]stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.temp",name]]];
-            NSInteger receivedDataLength=[fileData length];
-            
-            //实例化新的文件对象，添加到下载的全局列表，但不开始下载
-            FileModel *tempFile=[[FileModel alloc] init];
-            tempFile.fileName=name;
-            tempFile.fileSize=totalSize;
-            tempFile.fileReceivedSize=[NSString stringWithFormat:@"%d",receivedDataLength];
-            tempFile.fileURL=url;
-            tempFile.isDownloading=NO;
-            [self beginRequest:tempFile isBeginDown:NO];
-            
-            [ self.downinglist setObject:tempFile forKey:file];
-            
-            [msg release];
-            [tempFile release];
-            
-            
-           
-        }
-    }
-    
-   
-}
-
--(void)loadFinishedfiles
-{
-    self.finishedlist=[[[NSMutableDictionary alloc] init] autorelease];
-    NSFileManager *fileManager=[NSFileManager defaultManager];
-    NSError *error;
-    NSArray *filelist=[fileManager contentsOfDirectoryAtPath:[Config getTargetFloderPath] error:&error];
-    if(!error)
-    {
-        NSLog(@"%@",[error description]);
-    }
-    for(NSString *fileName in filelist)
-    {
-        if([fileName rangeOfString:@"."].location<100)//出去Temp文件夹
-        {
-            FileModel *finishedFile=[[FileModel alloc] init];
-            finishedFile.fileName=fileName;
-            
-            //根据文件名获取文件的大小
-            NSInteger length=[[fileManager contentsAtPath:[[Config getTargetFloderPath] stringByAppendingPathComponent:fileName]] length];
-            finishedFile.fileSize=[Config getFileSizeString:[NSString stringWithFormat:@"%d",length]];
-            
-            [self.finishedlist setObject:finishedFile forKey:fileName];
-            [finishedFile release];
-        }
-    }
-}
+//-(void)loadTempfiles
+//{
+//   self.downinglist=[[[NSMutableDictionary alloc] init] autorelease];
+//    NSFileManager *fileManager=[NSFileManager defaultManager];
+//    NSError *error;
+//    NSArray *filelist=[fileManager contentsOfDirectoryAtPath:[Config getTempFolderPath] error:&error];
+//    if(!error)
+//    {
+//        NSLog(@"%@",[error description]);
+//    }
+//    for(NSString *file in filelist)
+//    {
+//        if([file rangeOfString:@".rtf"].location<=100)//以.rtf结尾的文件是下载文件的配置文件，存在文件名称，文件总大小，文件下载URL
+//        {
+//            NSInteger index=[file rangeOfString:@"."].location;
+//            NSString *trueName=[file substringToIndex:index];
+//            
+//            //临时文件的配置文件的内容
+//            NSString *msg=[[NSString alloc] initWithData:[NSData dataWithContentsOfFile:[[Config getTempFolderPath]stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.rtf",trueName]]] encoding:NSUTF8StringEncoding];
+//            
+//            //取得第一个逗号前的文件名
+//            index=[msg rangeOfString:@","].location;
+//            NSString *name=[msg substringToIndex:index];
+//            msg=[msg substringFromIndex:index+1];
+//            
+//            //取得第一个逗号和第二个逗间的文件总大小
+//            index=[msg rangeOfString:@","].location;
+//            NSString *totalSize=[msg substringToIndex:index];
+//            msg=[msg substringFromIndex:index+1];
+//            
+//            //取得第二个逗号后的所有内容，即文件下载的URL
+//            NSString *url=msg;
+//            
+//            //按照获取的文件名获取临时文件的大小，即已下载的大小
+//            NSData *fileData=[fileManager contentsAtPath:[[Config getTempFolderPath]stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.temp",name]]];
+//            NSInteger receivedDataLength=[fileData length];
+//            
+//            //实例化新的文件对象，添加到下载的全局列表，但不开始下载
+//            FileModel *tempFile=[[FileModel alloc] init];
+//            tempFile.fileName=name;
+//            tempFile.fileSize=totalSize;
+//            tempFile.fileReceivedSize=[NSString stringWithFormat:@"%d",receivedDataLength];
+//            tempFile.fileURL=url;
+//            tempFile.isDownloading=NO;
+//            [self beginRequest:tempFile isBeginDown:NO];
+//            
+//            [ self.downinglist setObject:tempFile forKey:file];
+//            
+//            [msg release];
+//            [tempFile release];
+//            
+//            
+//           
+//        }
+//    }
+//    
+//   
+//}
+//
+//-(void)loadFinishedfiles
+//{
+//    self.finishedlist=[[[NSMutableDictionary alloc] init] autorelease];
+//    NSFileManager *fileManager=[NSFileManager defaultManager];
+//    NSError *error;
+//    NSArray *filelist=[fileManager contentsOfDirectoryAtPath:[Config getTargetFloderPath] error:&error];
+//    if(!error)
+//    {
+//        NSLog(@"%@",[error description]);
+//    }
+//    for(NSString *fileName in filelist)
+//    {
+//        if([fileName rangeOfString:@"."].location<100)//出去Temp文件夹
+//        {
+//            FileModel *finishedFile=[[FileModel alloc] init];
+//            finishedFile.fileName=fileName;
+//            
+//            //根据文件名获取文件的大小
+//            NSInteger length=[[fileManager contentsAtPath:[[Config getTargetFloderPath] stringByAppendingPathComponent:fileName]] length];
+//            finishedFile.fileSize=[Config getFileSizeString:[NSString stringWithFormat:@"%d",length]];
+//            
+//            [self.finishedlist setObject:finishedFile forKey:fileName];
+//            [finishedFile release];
+//        }
+//    }
+//}
 
 #pragma ASIHttpRequest回调委托
 
@@ -331,21 +454,22 @@ static DownloadManager * managerinstance = nil;
 //将正在下载的文件请求ASIHttpRequest从队列里移除，并将其配置文件删除掉,然后向已下载列表里添加该文件对象
 -(void)requestFinished:(ASIHTTPRequest *)request
 {
-    [self playDownloadSound];
+   // [self playDownloadSound];
     FileModel *fileInfo=(FileModel *)[request.userInfo objectForKey:@"File"];
-    NSInteger index=[fileInfo.fileName rangeOfString:@"."].location;
-    NSString *name=[fileInfo.fileName substringToIndex:index];;
-    NSString *configPath=[[Config getTempFolderPath] stringByAppendingPathComponent:[name stringByAppendingString:@".rtf"]];
-    NSFileManager *fileManager=[NSFileManager defaultManager];
-    NSError *error;
-    if([fileManager fileExistsAtPath:configPath])//如果存在临时文件的配置文件
-    {
-        [fileManager removeItemAtPath:configPath error:&error];
-    }
-    if(!error)
-    {
-        NSLog(@"%@",[error description]);
-    }
+  //  NSInteger index=[fileInfo.fileName rangeOfString:@"."].location;
+  //  NSString *name=[fileInfo.fileName substringToIndex:index];;
+   // NSString *configPath=[[Config getTempFolderPath] stringByAppendingPathComponent:[name stringByAppendingString:@".rtf"]];
+//    NSFileManager *fileManager=[NSFileManager defaultManager];
+//    NSError *error;
+//    if([fileManager fileExistsAtPath:configPath])//如果存在临时文件的配置文件
+//    {
+//        [fileManager removeItemAtPath:configPath error:&error];
+//    }
+//    if(!error)
+//    {
+//        NSLog(@"%@",[error description]);
+//    }
+    [self.downinglist removeObjectForKey:[NSString stringWithFormat:@"%d",fileInfo.news._id]];
     if([self.downloadDelegate respondsToSelector:@selector(finishedDownload:)])
     {
         [self.downloadDelegate finishedDownload:request];

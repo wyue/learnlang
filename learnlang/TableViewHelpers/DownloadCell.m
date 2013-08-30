@@ -7,7 +7,7 @@
 //
 
 #import "DownloadCell.h"
-#import "DownloadsManager.h"
+#import "DownloadManager.h"
 #import "ASINetworkQueue.h"
 #define SizeOfTitleText 14.0f
 
@@ -95,33 +95,36 @@
     //[self.imageView setImageWithURL:[NSURL URLWithString:_news.imgUrl] placeholderImage:[UIImage imageNamed:@"profile-image-placeholder"]];
   
         
-  NSMutableDictionary* downinglist=  [DownloadsManager Instance].downinglist;
+  NSMutableDictionary* downinglist=  [DownloadManager Instance].downinglist;
 //    if (downinglist&&[downinglist objectForKey:[NSString stringWithFormat:@"%d",news._id]]) {
 //      ASINetworkQueue	*networkQueue =   [downinglist objectForKey:[NSString stringWithFormat:@"%d",news._id]];
 //        [networkQueue setUploadProgressDelegate:_downloadProgress];
 //    }
+    if (downinglist&&[downinglist objectForKey:[NSString stringWithFormat:@"%d",news._id]]) {
+        ASIHTTPRequest	*request =   [downinglist objectForKey:[NSString stringWithFormat:@"%d",news._id]];
+        [request setDownloadProgressDelegate:_downloadProgress];
+    }
+
     
-    if([[DownloadsManager Instance] isReDownload:news]){
+    if([[DownloadManager Instance] isDownloaded:news]){
         
         
         //[[DownloadsManager Instance] removeFile:news isDownloading:FALSE];
-       
-        
-        [[DownloadsManager Instance] beginRequest:news isBeginDown:YES];
+     
+        if (downinglist==nil||(downinglist&&![downinglist objectForKey:[NSString stringWithFormat:@"%d",news._id]])){
+            clickCountLabel.text =[NSString stringWithFormat:@"%@",@"已下载完毕" ];
         
     }else{
-          
-        if (downinglist==nil||(downinglist&&![downinglist objectForKey:[NSString stringWithFormat:@"%d",news._id]])){
-              clickCountLabel.text =[NSString stringWithFormat:@"%@",@"已下载完毕" ];
+        
+        if (downinglist&&![downinglist objectForKey:[NSString stringWithFormat:@"%d",news._id]]) {
+            [[DownloadManager Instance] beginRequest:news isBeginDown:YES];
+        }
+        
     }
     }
     
     
-   ASINetworkQueue* queue =    [[DownloadsManager Instance]getQueue:self.news];
-    if (queue) {
-        queue.downloadProgressDelegate=self.downloadProgress;
-        queue.showAccurateProgress=YES;
-    }
+ 
     titleLabel.frame = CGRectMake(titleLabel.frame.origin.x, titleLabel.frame.origin.y, titleLabel.frame.size.width, [DownloadCell heightForLabelWithString:titleLabel.text  andWidth:284]);
    
     
@@ -211,7 +214,7 @@
 	else
 	{
 		m_checked = NO;
-		self.selectionStyle = UITableViewCellSelectionStyleBlue;
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		self.backgroundView = nil;
 		
 		if (m_checkImageView)
@@ -266,4 +269,12 @@
     clickCountLabel.frame=CGRectMake(19,self.frame.size.height-22, 100.0f, 10.0f);
     extButton.frame=CGRectMake(backImageView.frame.origin.x+ backImageView.frame.size.width-40,backImageView.frame.origin.y, 40, backImageView.frame.size.height);
 }
+
+
+
+
+
+
+
+
 @end

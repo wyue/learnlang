@@ -11,6 +11,7 @@
 #import "News.h"
 #import "PDColoredProgressView.h"
 
+
 @interface DownloadCell : UITableViewCell{
 @private
   
