@@ -110,7 +110,7 @@
 #define TextSizeForSmall @"SMALL"
 #define TextSizeForMiddle @"MIDDLE"
 #define TextSizeForLarge @"LARGE"
-#define TextSizeDictionary [NSDictionary dictionaryWithObjectsAndKeys:@"11",TextSizeForSmall,@"12",TextSizeForMiddle,@"14",TextSizeForLarge,nil] 
+#define TextSizeDictionary [NSDictionary dictionaryWithObjectsAndKeys:@"140",TextSizeForSmall,@"160",TextSizeForMiddle,@"180",TextSizeForLarge,nil] 
 
 
 //分享

@@ -64,6 +64,7 @@
         
         [extButton setImage:[[UIImage imageNamed:@"myaudio_20.png"] resizedImageToSize:CGSizeMake(11.5, 5.5)] forState:UIControlStateNormal];
         extButton.frame=CGRectMake(backImageView.frame.origin.x+ backImageView.frame.size.width-40,backImageView.frame.origin.y, 40, backImageView.frame.size.height);
+      // [ extButton setBackgroundImage:[UIImage imageNamed:@"myaudio_20.png"] forState:UIControlStateNormal];
         [self.contentView addSubview:extButton];
 
         

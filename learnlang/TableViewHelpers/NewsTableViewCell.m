@@ -118,7 +118,7 @@ __strong News *_news;
     //[self.imageView setImageWithURL:[NSURL URLWithString:_news.imgUrl] placeholderImage:[UIImage imageNamed:@"profile-image-placeholder"]];
      float w = 240;
    
-    if (_news.imgUrl) {
+    if (_news.imgUrl&&_news.imgUrl.length>0) {
         if (imageView==nil) {
             imageView = [[EGOImageView alloc] initWithPlaceholderImage:[UIImage imageNamed:@"placeholder.png"]];
             imageView.frame = CGRectMake(self.frame.size.width-8-5-kNewsTableImageWidth, 4.5, kNewsTableImageWidth, kNewsTableImageHeight);

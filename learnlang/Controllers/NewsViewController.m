@@ -93,6 +93,13 @@
     
 }
 
+-(void)viewDidAppear:(BOOL)animated {
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+   // self.tableNews.contentInset = UIEdgeInsetsMake(44, 0, 0, 0) ;
+   // self.tableNews.scrollIndicatorInsets = UIEdgeInsetsMake(44, 0, 0, 0) ;
+    [super viewDidAppear:animated];
+}
+
 - (void)doneManualRefresh
 {
     [_refreshHeaderView egoRefreshScrollViewDidScroll:self.tableNews];
@@ -134,6 +141,8 @@
 }
 - (void)reload:(BOOL)noRefresh
 {
+   
+    
     //如果有网络连接
     if ([Config Instance].isNetworkRunning) {
         if (isLoading || isLoadOver) {

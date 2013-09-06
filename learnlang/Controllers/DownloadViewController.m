@@ -49,6 +49,12 @@
     self.tableview.separatorStyle=UITableViewCellSeparatorStyleNone;
     self.tableview.tableHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0,0,5,5)] autorelease];
     self.navigationItem.title=@"我的下载";
+     CGRect rect_view =[self.view bounds];
+    toolBar = [[CustomAudioToolbar alloc]initWithFrame:CGRectMake(rect_view.origin.x, rect_view.size.height-kNewsToolBarHeight, rect_view.size.width, kNewsToolBarHeight) andShare:NO];
+    toolBar.autoresizingMask=UIViewAutoresizingFlexibleTopMargin;
+    toolBar.hidden=YES;
+    toolBar.parentViewController=self;
+    [self.view addSubview:toolBar];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -111,6 +117,11 @@
     }
     
     [self.tableview reloadData];
+    
+    CGRect rect_view =[self.view bounds];
+    toolBar.frame=CGRectMake(rect_view.origin.x, rect_view.size.height-kNewsToolBarHeight, rect_view.size.width, kNewsToolBarHeight);
+    
+    
 }
 
 - (void)tableViewEdit:(id)sender{
@@ -124,6 +135,8 @@
         }
         
         [arrayForEdit removeAllObjects];
+        
+        toolBar.hidden=YES;
         
         //self.navigationItem.rightBarButtonItem.title=@"删除";
         CGRect rect_view =[self.view bounds];
@@ -178,9 +191,9 @@
     
     if (!toolBar) {
         CGRect rect_view =[self.view bounds];
-        toolBar = [[CustomAudioToolbar alloc]initWithFrame:CGRectMake(rect_view.origin.x, rect_view.size.height-kNewsToolBarHeight, rect_view.size.width, kNewsToolBarHeight)];
+        toolBar = [[CustomAudioToolbar alloc]initWithFrame:CGRectMake(rect_view.origin.x, rect_view.size.height-kNewsToolBarHeight, rect_view.size.width, kNewsToolBarHeight) andShare:NO];
         toolBar.autoresizingMask=UIViewAutoresizingFlexibleTopMargin;
-        
+       
         toolBar.parentViewController=self;
         [self.view addSubview:toolBar];
     }else{
@@ -362,6 +375,7 @@
             
            
             
+            
             delButton = [UIButton buttonWithType:UIButtonTypeCustom];
             [ delButton setImage:[UIImage imageNamed:@"mydownload-_06.png"] forState:UIControlStateNormal];
             delButton.frame=CGRectMake(153+8, 0, 152.5, 39.5);
@@ -372,9 +386,16 @@
             [cell.contentView addSubview:playButton];
             
             [cell.contentView addSubview:delButton];
+            
+            
             [playButton release];
            
             [delButton release];
+            
+            UIImageView * splitview = [[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"myaudio_17.png"] ] autorelease];
+            
+            splitview.frame=CGRectMake(153+8, 0, 1, 39.5);
+            [cell.contentView addSubview:splitview];
         }
         
         

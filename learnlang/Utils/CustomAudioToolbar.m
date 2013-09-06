@@ -10,6 +10,8 @@
 #import <Social/Social.h>
 #import "DownloadManager.h"
 
+#import "ASIFormDataRequest.h"  
+
 
 #define kStringArray [NSArray arrayWithObjects:@"收 藏", @"下 载", @"分 享", nil]
 #define kProgressViewHeight 2
@@ -51,7 +53,12 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
 
 @synthesize extMenuTable;
 
-- (id)initWithFrame:(CGRect)frame
+- (void)drawRect:(CGRect)rect {
+    CGContextRef c = UIGraphicsGetCurrentContext();
+    UIImage *image = [UIImage imageNamed:@"floatbg_03.png"];
+    CGContextDrawImage(c, rect, image.CGImage);
+}
+- (id)initWithFrame:(CGRect)frame andShare:(BOOL)isShare
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -62,22 +69,22 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
         //初始化
         
         
-        self.frame=CGRectMake(self.frame.origin.x, self.frame.origin.y+self.frame.size.height-kNewsToolBarHeight, self.frame.size.width, kNewsToolBarHeight);
+        //self.frame=CGRectMake(self.frame.origin.x, self.frame.origin.y+self.frame.size.height-kNewsToolBarHeight, self.frame.size.width, kNewsToolBarHeight);
         
         
         
         
-        if ([self respondsToSelector:@selector(setBackgroundImage:forToolbarPosition:barMetrics:)]) {
-            [self setBackgroundImage:[ [UIImage imageNamed:@"floatbg_03.png"] resizedImageToFitInSize:self.bounds.size scaleIfSmaller:NO] forToolbarPosition:0 barMetrics:0];         //仅5.0以上版本适用
-        }
+//        if ([self respondsToSelector:@selector(setBackgroundImage:forToolbarPosition:barMetrics:)]) {
+//            [self setBackgroundImage:[ [UIImage imageNamed:@"floatbg_03.png"] resizedImageToFitInSize:self.frame.size scaleIfSmaller:NO] forToolbarPosition:0 barMetrics:0];         //仅5.0以上版本适用
+//        }
         
         NSMutableArray *buttons = [[NSMutableArray alloc]initWithCapacity:4];
         
         //设置添加按钮的数量
         
-        // UIBarButtonItem *flexibleSpaceItem;
-        // flexibleSpaceItem =[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:NULL]autorelease];
-        // [buttons addObject:flexibleSpaceItem];
+         UIBarButtonItem *flexibleSpaceItem;
+         flexibleSpaceItem =[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:NULL]autorelease];
+         [buttons addObject:flexibleSpaceItem];
         
         //UIBarButtonSystemItemFixedSpace和UIBarButtonSystemItemFlexibleSpace都是系统提供的用于占位的按钮样式。
         //使按钮与按钮之间有间距
@@ -127,6 +134,26 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
                 ];
         [buttons addObject:Item];
         
+        
+        
+        
+        
+        //空间
+        [buttons addObject:[self barButtonSystemItem:UIBarButtonSystemItemFlexibleSpace]];
+        //竖线
+        
+        UIImageView *splitline = [[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"musicbar-_06.png"]]autorelease];
+        splitline.frame=CGRectMake(58.5, kProgressViewHeight, 1, 58.5);
+        Item = [[UIBarButtonItem alloc]
+                initWithCustomView:splitline
+                ];
+        [buttons addObject:Item];
+        
+        //空间
+        [buttons addObject:[self barButtonSystemItem:UIBarButtonSystemItemFlexibleSpace]];
+
+        
+        
         //添加第3个图标按钮
         audioLabel =     [[UILabel alloc] initWithFrame:CGRectMake(100, kProgressViewHeight, 100, 50)];
         
@@ -137,24 +164,41 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
                 initWithCustomView:audioLabel
                 ];
         [buttons addObject:Item];
+        if (isShare==YES) {
+            //空间
+            [buttons addObject:[self barButtonSystemItem:UIBarButtonSystemItemFlexibleSpace]];
+            //竖线
+            
+            splitline = [[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"musicbar-_06.png"]]autorelease];
+            splitline.frame=CGRectMake(58.5, kProgressViewHeight, 1, 58.5);
+            Item = [[UIBarButtonItem alloc]
+                    initWithCustomView:splitline
+                    ];
+            [buttons addObject:Item];
+            
+            //空间
+            [buttons addObject:[self barButtonSystemItem:UIBarButtonSystemItemFlexibleSpace]];
+            
+            
+            //添加第4个图标按钮
+            shareButton=  [UIButton buttonWithType:UIButtonTypeCustom];
+            [shareButton setImage:[UIImage imageNamed:@"musicbar-_11.png"] forState:UIControlStateNormal];
+            
+            shareButton.frame=CGRectMake(200, kProgressViewHeight, 60, 58.5);
+            
+            [shareButton addTarget:self action:@selector(shareAction:) forControlEvents:UIControlEventTouchUpInside];
+            
+            
+            
+            Item = [[UIBarButtonItem alloc]
+                    initWithCustomView:shareButton
+                    ];
+            [buttons addObject:Item];
+        }
+       
         
-        //        //添加第4个图标按钮
-        //        shareButton=  [UIButton buttonWithType:UIButtonTypeCustom];
-        //        [shareButton setImage:[UIImage imageNamed:@"musicbar-_11.png"] forState:UIControlStateNormal];
-        //
-        //        shareButton.frame=CGRectMake(200, kProgressViewHeight, 60, 58.5);
-        //
-        //        [shareButton addTarget:self action:@selector(popAction:) forControlEvents:UIControlEventTouchUpInside];
-        //
-        //
-        //
-        //        Item = [[UIBarButtonItem alloc]
-        //                initWithCustomView:shareButton
-        //                ];
-        //        [buttons addObject:Item];
-        
-        // flexibleSpaceItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:NULL]autorelease];
-        //[buttons addObject:flexibleSpaceItem];
+    flexibleSpaceItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:NULL]autorelease];
+        [buttons addObject:flexibleSpaceItem];
         
         
         // toolBar.barStyle = UIBarStyleBlackOpaque ;
@@ -176,137 +220,153 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
     }
     return self;
 }
--(id)initWithArrayItem:(NSMutableArray *)arrayItemValue {
-    self = [super init];
-    if (self)
-    {
-        //        if (!_timerPlay)
-        //        {
-        //            _timerPlay = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(currentPlayTime) userInfo:nil repeats:YES];
-        //        }
-        self.arrayItemList = arrayItemValue;
-        
-        
-        
-        
-        
-        
-        //初始化
-        
-        
-        self.frame=CGRectMake(self.frame.origin.x, self.frame.origin.y+self.frame.size.height-kNewsToolBarHeight, self.frame.size.width, kNewsToolBarHeight);
-        
-        
-        
-        
-        if ([self respondsToSelector:@selector(setBackgroundImage:forToolbarPosition:barMetrics:)]) {
-            [self setBackgroundImage:[ [UIImage imageNamed:@"floatbg_03.png"] resizedImageToFitInSize:self.bounds.size scaleIfSmaller:NO] forToolbarPosition:0 barMetrics:0];         //仅5.0以上版本适用
-        }
-        
-        NSMutableArray *buttons = [[NSMutableArray alloc]initWithCapacity:4];
-        
-        //设置添加按钮的数量
-        
-        // UIBarButtonItem *flexibleSpaceItem;
-        // flexibleSpaceItem =[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:NULL]autorelease];
-        // [buttons addObject:flexibleSpaceItem];
-        
-        //UIBarButtonSystemItemFixedSpace和UIBarButtonSystemItemFlexibleSpace都是系统提供的用于占位的按钮样式。
-        //使按钮与按钮之间有间距
-        
-        UIBarButtonItem *Item;
-        
-//        //添加第1个图标按钮
-//        recordButton =     [UIButton buttonWithType:UIButtonTypeCustom];
-//        [recordButton setImage:[UIImage imageNamed:@"musicbar-_05.png"] forState:UIControlStateNormal];
-//        recordButton.frame=CGRectMake(0, kProgressViewHeight, 57.5, 58.5);
-//        [recordButton addTarget:self action:@selector(recordingAction:) forControlEvents:UIControlEventTouchUpInside];
-//        
-//        Item = [[UIBarButtonItem alloc]
-//                initWithCustomView:recordButton
-//                ];
-//        [buttons addObject:Item];
-//        //录音器
-//        self.isRecording = NO;
-//        
-//        
-//        
-//        AVAudioSession *session = [AVAudioSession sharedInstance];
-//        
-//        NSError *sessionError;
-//        [session setCategory:AVAudioSessionCategoryPlayAndRecord error:&sessionError];
-//        
-//        if(session == nil)
-//            NSLog(@"Error creating session: %@", [sessionError description]);
-//        else
-//            [session setActive:YES error:nil];
-//        
-//        
-//        
-        
-        
-        //添加第2个图标按钮
-        
-        playButton=  [UIButton buttonWithType:UIButtonTypeCustom];
-        [playButton setImage:[UIImage imageNamed:@"musicbar-_07.png"] forState:UIControlStateNormal];
-        
-        playButton.frame=CGRectMake(50, kProgressViewHeight, 56.5, 58.5);
-        
-        [playButton addTarget:self action:@selector(playAudio:) forControlEvents:UIControlEventTouchUpInside];
-        
-        Item = [[UIBarButtonItem alloc]
-                initWithCustomView:playButton
-                ];
-        [buttons addObject:Item];
-        
-        //添加第3个图标按钮
-        audioLabel =     [[UILabel alloc] initWithFrame:CGRectMake(100, kProgressViewHeight, 100, 50)];
-        
-        audioLabel.backgroundColor = [UIColor clearColor];
-        audioLabel.textColor=[UIColor colorWithHexString:@"756860"];
-        
-        Item = [[UIBarButtonItem alloc]
-                initWithCustomView:audioLabel
-                ];
-        [buttons addObject:Item];
-        
-//        //添加第4个图标按钮
-//        shareButton=  [UIButton buttonWithType:UIButtonTypeCustom];
-//        [shareButton setImage:[UIImage imageNamed:@"musicbar-_11.png"] forState:UIControlStateNormal];
-//        
-//        shareButton.frame=CGRectMake(200, kProgressViewHeight, 60, 58.5);
-//        
-//        [shareButton addTarget:self action:@selector(popAction:) forControlEvents:UIControlEventTouchUpInside];
-//        
-//        
-//        
-//        Item = [[UIBarButtonItem alloc]
-//                initWithCustomView:shareButton
-//                ];
-//        [buttons addObject:Item];
-        
-        // flexibleSpaceItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:NULL]autorelease];
-        //[buttons addObject:flexibleSpaceItem];
-        
-        
-        // toolBar.barStyle = UIBarStyleBlackOpaque ;
-        [self setItems:buttons animated:YES];
-        [self sizeToFit];
-        
-        //进度条
-        progressView = [[AMProgressView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, kProgressViewHeight)];
-        progressView.gradientColors = @[[UIColor colorWithHexString:@"E20001"],
-                                        [UIColor colorWithHexString:@"ED3F00"],
-                                        [UIColor colorWithHexString:@"FEAB00"]];
-        progressView.verticalGradient = NO;
-        
-        [self addSubview:progressView ];
-        
-        
-        
-    }
-    return self;
+
+-  (UIBarButtonItem*)barButtonSystemItem :(UIBarButtonSystemItem)
+
+systemItem {
+    
+    UIBarButtonItem* button =
+    
+    [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:systemItem
+      
+                                                   target:nil
+      
+                                                   action:nil] autorelease];
+    
+    return button;
+    
 }
+//-(id)initWithArrayItem:(NSMutableArray *)arrayItemValue {
+//    self = [super init];
+//    if (self)
+//    {
+//        //        if (!_timerPlay)
+//        //        {
+//        //            _timerPlay = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(currentPlayTime) userInfo:nil repeats:YES];
+//        //        }
+//        self.arrayItemList = arrayItemValue;
+//        
+//        
+//        
+//        
+//        
+//        
+//        //初始化
+//        
+//        
+//        self.frame=CGRectMake(self.frame.origin.x, self.frame.origin.y+self.frame.size.height-kNewsToolBarHeight, self.frame.size.width, kNewsToolBarHeight);
+//        
+//        
+//        
+//        
+//        if ([self respondsToSelector:@selector(setBackgroundImage:forToolbarPosition:barMetrics:)]) {
+//            [self setBackgroundImage:[ [UIImage imageNamed:@"floatbg_03.png"] resizedImageToFitInSize:self.bounds.size scaleIfSmaller:NO] forToolbarPosition:0 barMetrics:0];         //仅5.0以上版本适用
+//        }
+//        
+//        NSMutableArray *buttons = [[NSMutableArray alloc]initWithCapacity:4];
+//        
+//        //设置添加按钮的数量
+//        
+//        // UIBarButtonItem *flexibleSpaceItem;
+//        // flexibleSpaceItem =[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:NULL]autorelease];
+//        // [buttons addObject:flexibleSpaceItem];
+//        
+//        //UIBarButtonSystemItemFixedSpace和UIBarButtonSystemItemFlexibleSpace都是系统提供的用于占位的按钮样式。
+//        //使按钮与按钮之间有间距
+//        
+//        UIBarButtonItem *Item;
+//        
+////        //添加第1个图标按钮
+////        recordButton =     [UIButton buttonWithType:UIButtonTypeCustom];
+////        [recordButton setImage:[UIImage imageNamed:@"musicbar-_05.png"] forState:UIControlStateNormal];
+////        recordButton.frame=CGRectMake(0, kProgressViewHeight, 57.5, 58.5);
+////        [recordButton addTarget:self action:@selector(recordingAction:) forControlEvents:UIControlEventTouchUpInside];
+////        
+////        Item = [[UIBarButtonItem alloc]
+////                initWithCustomView:recordButton
+////                ];
+////        [buttons addObject:Item];
+////        //录音器
+////        self.isRecording = NO;
+////        
+////        
+////        
+////        AVAudioSession *session = [AVAudioSession sharedInstance];
+////        
+////        NSError *sessionError;
+////        [session setCategory:AVAudioSessionCategoryPlayAndRecord error:&sessionError];
+////        
+////        if(session == nil)
+////            NSLog(@"Error creating session: %@", [sessionError description]);
+////        else
+////            [session setActive:YES error:nil];
+////        
+////        
+////        
+//        
+//        
+//        //添加第2个图标按钮
+//        
+//        playButton=  [UIButton buttonWithType:UIButtonTypeCustom];
+//        [playButton setImage:[UIImage imageNamed:@"musicbar-_07.png"] forState:UIControlStateNormal];
+//        
+//        playButton.frame=CGRectMake(50, kProgressViewHeight, 56.5, 58.5);
+//        
+//        [playButton addTarget:self action:@selector(playAudio:) forControlEvents:UIControlEventTouchUpInside];
+//        
+//        Item = [[UIBarButtonItem alloc]
+//                initWithCustomView:playButton
+//                ];
+//        [buttons addObject:Item];
+//        
+//        //添加第3个图标按钮
+//        audioLabel =     [[UILabel alloc] initWithFrame:CGRectMake(100, kProgressViewHeight, 100, 50)];
+//        
+//        audioLabel.backgroundColor = [UIColor clearColor];
+//        audioLabel.textColor=[UIColor colorWithHexString:@"756860"];
+//        
+//        Item = [[UIBarButtonItem alloc]
+//                initWithCustomView:audioLabel
+//                ];
+//        [buttons addObject:Item];
+//        
+////        //添加第4个图标按钮
+////        shareButton=  [UIButton buttonWithType:UIButtonTypeCustom];
+////        [shareButton setImage:[UIImage imageNamed:@"musicbar-_11.png"] forState:UIControlStateNormal];
+////        
+////        shareButton.frame=CGRectMake(200, kProgressViewHeight, 60, 58.5);
+////        
+////        [shareButton addTarget:self action:@selector(popAction:) forControlEvents:UIControlEventTouchUpInside];
+////        
+////        
+////        
+////        Item = [[UIBarButtonItem alloc]
+////                initWithCustomView:shareButton
+////                ];
+////        [buttons addObject:Item];
+//        
+//        // flexibleSpaceItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:NULL]autorelease];
+//        //[buttons addObject:flexibleSpaceItem];
+//        
+//        
+//        // toolBar.barStyle = UIBarStyleBlackOpaque ;
+//        [self setItems:buttons animated:YES];
+//        [self sizeToFit];
+//        
+//        //进度条
+//        progressView = [[AMProgressView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, kProgressViewHeight)];
+//        progressView.gradientColors = @[[UIColor colorWithHexString:@"E20001"],
+//                                        [UIColor colorWithHexString:@"ED3F00"],
+//                                        [UIColor colorWithHexString:@"FEAB00"]];
+//        progressView.verticalGradient = NO;
+//        
+//        [self addSubview:progressView ];
+//        
+//        
+//        
+//    }
+//    return self;
+//}
 
 
 
@@ -368,19 +428,19 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
         [self pause:nil];
     }else{
         
-        if (self.URL==nil) {
-            NSURL*voiceurl= [DataManager isDownloadFile:news];
-            if (voiceurl) {
-                //本地
-                
-                [self setupAVPlayerForURL:voiceurl];
-                
-            }else{
-                //网络
-                [self setupAVPlayerForURL:[NSURL URLWithString:news.voiceUrl]];
-                
-            }
-        }
+//        if (self.URL==nil) {
+//            NSURL*voiceurl= [DataManager isDownloadFile:news];
+//            if (voiceurl) {
+//                //本地
+//                
+//                [self setupAVPlayerForURL:voiceurl];
+//                
+//            }else{
+//                //网络
+//                [self setupAVPlayerForURL:[NSURL URLWithString:news.voiceUrl]];
+//                
+//            }
+//        }
         
         [self play:nil];
     }
@@ -490,7 +550,7 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
         //js
         
         //[_tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:(NSUInteger )currentIndex inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-        NSLog(@"currentIndex = %d",currentIndex);
+        //NSLog(@"currentIndex = %d",currentIndex);
         return fCurrentTime;
     }
     return -1.0f;
@@ -544,65 +604,7 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
 }
 
 
-//#pragma mark uitableViewDelegate回调
-//-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    return [self.arrayItemList count];
-//}
-//
-//-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//    return 1;
-//}
-//
-//-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    static NSString *cellI = @"CellI";
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellI];
-//    if (!cell)
-//    {
-//        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellI] autorelease];
-//    }
-//
-//    if (cell)
-//    {
-//        NSDictionary *dic = [self.arrayItemList objectAtIndex:indexPath.row];
-//        NSString *key = @"key is nil";
-//        NSString *value = @"value is nil";
-//        if (dic)
-//        {
-//            key = [dic.allKeys objectAtIndex:0];
-//            value = [dic objectForKey:key];
-//            cell.textLabel.text = value;
-//            cell.detailTextLabel.text  = key;
-//        }
-//    }
-//    return cell;
-//}
-//
-//
-//-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    // [self playAudio:nil];
-//
-//
-//    NSDictionary *dic = [self.arrayItemList objectAtIndex:indexPath.row];
-//    NSString *key = @"key is nil";
-//    NSString *value = @"value is nil";
-//    if (dic)
-//    {
-//        key = [dic.allKeys objectAtIndex:0];
-//        value = [dic objectForKey:key];
-//        CMTime t = CMTimeMake([key intValue], 1);
-//        [_player seekToTime:t];
-//
-//    }
-//
-//
-//    //    CMTime t = CMTimeMake(self.nowPlayingTimeScrubber.value, 1);
-//    //    self.nowPlayingCurrentTime.text = [self formatTimeCodeAsString: t.value];
-//    //    self.nowPlayingDuration.text = [self formatTimeCodeAsString:(self.actualDuration - t.value)];
-//    //    [self.avPlayer seekToTime:t];
-//
-//
-//
-//}
+
 
 - (IBAction)play:(id)sender
 {
@@ -657,6 +659,7 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
     //    NSMutableArray *toolbarItems = [NSMutableArray arrayWithArray:[self items]];
     //    [toolbarItems replaceObjectAtIndex:1 withObject:self.mStopButton];
     //    self.mToolbar.items = toolbarItems;
+    [playButton setImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateNormal];
 }
 
 /* Show the play button in the movie player controller. */
@@ -665,6 +668,7 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
     //    NSMutableArray *toolbarItems = [NSMutableArray arrayWithArray:[self.mToolbar items]];
     //    [toolbarItems replaceObjectAtIndex:0 withObject:self.mPlayButton];
     //    self.mToolbar.items = toolbarItems;
+    [playButton setImage:[UIImage imageNamed:@"musicbar-_07.png"] forState:UIControlStateNormal];
 }
 
 /* If the media is playing, show the stop button; otherwise, show the play button. */
@@ -717,265 +721,330 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
 
 
 
-
-
-- (void)recordingAction:(id)sender
+//
+//
+//- (void)recordingAction:(id)sender
+//{
+//    
+//    //recordedFile = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:@"RecordedFile"]];
+//    //获得系统时间
+//    
+//    //If the app is not recording, we want to start recording, disable the play button, and make the record button say "STOP"
+//    if(!self.isRecording)
+//    {
+//        
+//        NSDate *  senddate=[NSDate date];
+//        int time=[senddate timeIntervalSince1970];
+//        NSString *fileName = [NSString stringWithFormat:@"%d-%d.caf",self.news._id,time];
+//        // NSString *strUrl = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+//        
+//        recordedFile = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", DOCUMENTS_FOLDER,fileName]];
+//        
+//        self.isRecording = YES;
+//        [self.recordButton setTitle:@"STOP" forState:UIControlStateNormal];
+//        //[self.playButton setEnabled:NO];
+//        //[self.playButton.titleLabel setAlpha:0.5];
+//        [recorder release];
+//        recorder = nil;
+//        
+//        
+//        
+//        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+//        NSError *err = nil;
+//        [audioSession setCategory :AVAudioSessionCategoryPlayAndRecord error:&err];
+//        if(err){
+//            NSLog(@"audioSession: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
+//            return;
+//        }
+//        [audioSession setActive:YES error:&err];
+//        err = nil;
+//        if(err){
+//            NSLog(@"audioSession: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
+//            return;
+//        }
+//        
+//        NSMutableDictionary * recordSetting = [[NSMutableDictionary alloc] init];
+//        
+//        [recordSetting setValue :[NSNumber numberWithInt:kAudioFormatLinearPCM] forKey:AVFormatIDKey];
+//        [recordSetting setValue:[NSNumber numberWithFloat:44100.0] forKey:AVSampleRateKey];
+//        [recordSetting setValue:[NSNumber numberWithInt: 2] forKey:AVNumberOfChannelsKey];
+//        
+//        [recordSetting setValue :[NSNumber numberWithInt:16] forKey:AVLinearPCMBitDepthKey];
+//        [recordSetting setValue :[NSNumber numberWithBool:NO] forKey:AVLinearPCMIsBigEndianKey];
+//        [recordSetting setValue :[NSNumber numberWithBool:NO] forKey:AVLinearPCMIsFloatKey];
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        NSError *error = nil;
+//        
+//        
+//        
+//        
+//        recorder = [[AVAudioRecorder alloc] initWithURL:recordedFile settings:recordSetting error:&error];
+//        if ([recorder prepareToRecord] == YES){
+//            [recorder record];
+//        }else {
+//            int errorCode = CFSwapInt32HostToBig ([error code]);
+//            NSLog(@"Error: %@ [%4.4s])" , [error localizedDescription], (char*)&errorCode);
+//            
+//        }
+//        
+//    }
+//    //If the app is recording, we want to stop recording, enable the play button, and make the record button say "REC"
+//    else
+//    {
+//        self.isRecording = NO;
+//        [self.recordButton setTitle:@"REC" forState:UIControlStateNormal];
+//        //[self.playButton setEnabled:YES];
+//        //[self.playButton.titleLabel setAlpha:1];
+//        [recorder stop];
+//        
+//        
+//        //        NSError *err = nil;
+//        //        NSData *audioData = [NSData dataWithContentsOfURL:recordedFile options: 0 error:&err];
+//        //        if(!audioData)
+//        //            NSLog(@"audio data: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
+//        recorder = nil;
+//        
+//        
+//        //保存
+//        
+//        [DataManager insertRecord:news andFilePath:recordedFile];
+//        
+//        //        NSError *playerError;
+//        //
+//        //        localplayer = [[AVAudioPlayer alloc] initWithContentsOfURL:recordedFile error:&playerError];
+//        //
+//        //        if (player == nil)
+//        //        {
+//        //            NSLog(@"ERror creating player: %@", [playerError description]);
+//        //        }
+//        //        player.delegate = self;
+//    }
+//}
+//- (void)popAction:(id)sender
+//{
+//    UIButton *button =sender;
+//    
+//    if (extMenuTable==nil) {
+//        extMenuTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 100, 105)];
+//    }
+//    extMenuTable.separatorColor=[UIColor colorWithHexString:@"BEBEBE"];
+//    extMenuTable.delegate = self;
+//    extMenuTable.dataSource = self;
+//    
+//    
+//    PopoverView*   pv = [PopoverView showPopoverAtPoint:CGPointMake(button.bounds.size.width/2,0)
+//                                                 inView:button
+//                                        withContentView:extMenuTable
+//                                               delegate:self]; // Show the string array defined at top of this file
+//    [pv retain];
+//    
+//    
+//    
+//}
+//- (void)saveAction:(id)sender
+//{
+//    NSString * json =  [DataManager getNewsForJson:news];
+//    if (json) {
+//        Boolean isInsert =    [DataManager insertOrRemoveNews:kSaveType andID:news._id andString:json];
+//        
+//        if (isInsert) {
+//            //保存
+//            
+//            [Config ToastNotification:@"收藏成功" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+//        }else{
+//            //取消保存
+//            [Config ToastNotification:@"已取消收藏" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+//        }
+//        
+//        
+//        
+//        //增加保存
+//        [DataManager postSaveToServer:news andCancel:!isInsert];
+//        
+//        
+//    }else{
+//        //无法保存
+//        [Config ToastNotification:@"操作失败" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+//    }
+//    
+//    
+//}
+//
+//- (void)downloadAction:(id)sender
+//{
+//    
+//    
+//    [Config Instance].isNetworkRunning = [CheckNetwork isExistenceNetwork];
+//    if (![Config Instance].isNetworkRunning&&[Config getUserSettingFor3gDownload]) {
+//        UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"您现在非wifi环境，是否继续下载？"
+//                                                           delegate:nil
+//                                                  cancelButtonTitle:@"取消"
+//                                             destructiveButtonTitle:nil
+//                                                  otherButtonTitles:@"下载",nil];
+//        [sheet showInView:self.parentViewController.view withCompletionHandler:^(NSInteger buttonIndex) {
+//            NSLog(@"action:%d",buttonIndex);
+//            
+//            if (buttonIndex==1) {
+//                return ;
+//            }else{
+//                
+//                NSString * json =  [DataManager getNewsForJson:news];
+//                if (json) {
+//                    Boolean isDownload =   [DataManager isDownload:news._id];
+//                    
+//                    
+//                    if (isDownload) {
+//                        
+//                        [Config ToastNotification:@"已下载" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+//                        
+//                    }else{
+//                        
+//                        
+//                        //下载
+//                        if (news.voiceUrl&&news.voiceUrl.length>0) {
+//                            //保存
+//                            
+//                            [DataManager insertOrRemoveNews:kDownloadType andID:news._id andString:json];
+//                            [Config ToastNotification:@"开始下载" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+//                            
+//                            
+//                            
+//                            [[DownloadManager Instance] beginRequest:news isBeginDown:YES];
+//                            //增加保存
+//                            [DataManager postDownloadToServer:news];
+//                            
+//                        }
+//                        
+//                    }
+//                    
+//                    
+//                }else{
+//                    //无法保存
+//                    [Config ToastNotification:@"操作失败" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+//                }
+//                
+//            }
+//            
+//            
+//            
+//        }];
+//        [ [NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+//        
+//    }else{
+//        NSString * json =  [DataManager getNewsForJson:news];
+//        if (json) {
+//            Boolean isDownload =   [DataManager isDownload:news._id];
+//            
+//            
+//            if (isDownload) {
+//                
+//                [Config ToastNotification:@"已下载" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+//                
+//            }else{
+//                
+//                
+//                //下载
+//                if (news.voiceUrl&&news.voiceUrl.length>0) {
+//                    //保存
+//                    
+//                    [DataManager insertOrRemoveNews:kDownloadType andID:news._id andString:json];
+//                    [Config ToastNotification:@"开始下载" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+//                    
+//                    
+//                    
+//                    
+//                    [[DownloadManager Instance] beginRequest:news isBeginDown:YES];
+//                    //增加保存
+//                    [DataManager postDownloadToServer:news];
+//                }
+//                
+//            }
+//        }else{
+//            //无法保存
+//            [Config ToastNotification:@"操作失败" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+//        }
+//        
+//    }
+//    
+//    
+//    
+//}
+//3、上传初始化
+- (void)uploadPotoSave
 {
     
-    //recordedFile = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:@"RecordedFile"]];
-    //获得系统时间
     
-    //If the app is not recording, we want to start recording, disable the play button, and make the record button say "STOP"
-    if(!self.isRecording)
-    {
-        
-        NSDate *  senddate=[NSDate date];
-        int time=[senddate timeIntervalSince1970];
-        NSString *fileName = [NSString stringWithFormat:@"%d-%d.caf",self.news._id,time];
-        // NSString *strUrl = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-        
-        recordedFile = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", DOCUMENTS_FOLDER,fileName]];
-        
-        self.isRecording = YES;
-        [self.recordButton setTitle:@"STOP" forState:UIControlStateNormal];
-        //[self.playButton setEnabled:NO];
-        //[self.playButton.titleLabel setAlpha:0.5];
-        [recorder release];
-        recorder = nil;
-        
-        
-        
-        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-        NSError *err = nil;
-        [audioSession setCategory :AVAudioSessionCategoryPlayAndRecord error:&err];
-        if(err){
-            NSLog(@"audioSession: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
-            return;
-        }
-        [audioSession setActive:YES error:&err];
-        err = nil;
-        if(err){
-            NSLog(@"audioSession: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
-            return;
-        }
-        
-        NSMutableDictionary * recordSetting = [[NSMutableDictionary alloc] init];
-        
-        [recordSetting setValue :[NSNumber numberWithInt:kAudioFormatLinearPCM] forKey:AVFormatIDKey];
-        [recordSetting setValue:[NSNumber numberWithFloat:44100.0] forKey:AVSampleRateKey];
-        [recordSetting setValue:[NSNumber numberWithInt: 2] forKey:AVNumberOfChannelsKey];
-        
-        [recordSetting setValue :[NSNumber numberWithInt:16] forKey:AVLinearPCMBitDepthKey];
-        [recordSetting setValue :[NSNumber numberWithBool:NO] forKey:AVLinearPCMIsBigEndianKey];
-        [recordSetting setValue :[NSNumber numberWithBool:NO] forKey:AVLinearPCMIsFloatKey];
-        
-        
-        
-        
-        
-        
-        
-        
-        NSError *error = nil;
-        
-        
-        
-        
-        recorder = [[AVAudioRecorder alloc] initWithURL:recordedFile settings:recordSetting error:&error];
-        if ([recorder prepareToRecord] == YES){
-            [recorder record];
-        }else {
-            int errorCode = CFSwapInt32HostToBig ([error code]);
-            NSLog(@"Error: %@ [%4.4s])" , [error localizedDescription], (char*)&errorCode);
-            
-        }
-        
-    }
-    //If the app is recording, we want to stop recording, enable the play button, and make the record button say "REC"
-    else
-    {
-        self.isRecording = NO;
-        [self.recordButton setTitle:@"REC" forState:UIControlStateNormal];
-        //[self.playButton setEnabled:YES];
-        //[self.playButton.titleLabel setAlpha:1];
-        [recorder stop];
-        
-        
-        //        NSError *err = nil;
-        //        NSData *audioData = [NSData dataWithContentsOfURL:recordedFile options: 0 error:&err];
-        //        if(!audioData)
-        //            NSLog(@"audio data: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
-        recorder = nil;
-        
-        
-        //保存
-        
-        [DataManager insertRecord:news andFilePath:recordedFile];
-        
-        //        NSError *playerError;
-        //
-        //        localplayer = [[AVAudioPlayer alloc] initWithContentsOfURL:recordedFile error:&playerError];
-        //
-        //        if (player == nil)
-        //        {
-        //            NSLog(@"ERror creating player: %@", [playerError description]);
-        //        }
-        //        player.delegate = self;
-    }
+   
+    NSString *stringImage=[self.URL path];
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://learn.china.com.cn/api?vkey=%@&u=%@",@"",@""]];
+    ASIFormDataRequest *ASIFormDataRequest_=[[ASIFormDataRequest alloc] initWithURL:url];
+    //要上传的图片
+    [ASIFormDataRequest_ setFile:stringImage forKey:@"file_pic_big"];
+    //上传结果委托
+    ASIFormDataRequest_.delegate=self;
+   
+    //上传进度委托
+    ASIFormDataRequest_.uploadProgressDelegate=self;
+    ASIFormDataRequest_.showAccurateProgress=YES;
+    
+    //开始异步上传
+    [ASIFormDataRequest_ startSynchronous];
+    [ASIFormDataRequest_ release];
 }
-- (void)popAction:(id)sender
-{
-    UIButton *button =sender;
+- (void)requestFinished:(ASIFormDataRequest *)requestForm{
+    NSString *string=[requestForm responseString];
+    NSLog(@"string:%@",string);
+//    NSMutableDictionary *_dic=[string JSONValue];
+//    if ([[_dic objectForKey:@"status"] intValue]==1) {
+//        if (isPoto==NO) {
+//            //非图片上传
+//        }else{
+//            //图片上传
+//            UtilMethod *utlMethod=[[UtilMethod alloc] init];
+//            NSString *documemnt=[utlMethod documentFolderPath];
+//            NSString *stringImage=[NSString stringWithFormat:@"%@%@",documemnt,@"/tmp_30.jpg"];
+//            [utlMethod release];
+//            //可以把30×30的图片显示到界面适当的位置上
+//            
+//        }
+//        
+//    }else{
+//        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"发送失败" message:[_dic objectForKey:@"info"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+//        [alert show];
+//        [alert release];
+//        
+//    }
     
-    if (extMenuTable==nil) {
-        extMenuTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 100, 105)];
-    }
-    extMenuTable.separatorColor=[UIColor colorWithHexString:@"BEBEBE"];
-    extMenuTable.delegate = self;
-    extMenuTable.dataSource = self;
     
-    
-    PopoverView*   pv = [PopoverView showPopoverAtPoint:CGPointMake(button.bounds.size.width/2,0)
-                                                 inView:button
-                                        withContentView:extMenuTable
-                                               delegate:self]; // Show the string array defined at top of this file
-    [pv retain];
-    
-    
-    
+    //成功后记录上传成功
+   // [DataManager saveUpload:self.URL.path];
 }
-- (void)saveAction:(id)sender
-{
-    NSString * json =  [DataManager getNewsForJson:news];
-    if (json) {
-        Boolean isInsert =    [DataManager insertOrRemoveNews:kSaveType andID:news._id andString:json];
-        
-        if (isInsert) {
-            //保存
-            
-            [Config ToastNotification:@"收藏成功" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
-        }else{
-            //取消保存
-            [Config ToastNotification:@"已取消收藏" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
-        }
-        
-        
-        
-        //增加保存
-        [DataManager postSaveToServer:news andCancel:!isInsert];
-        
-        
-    }else{
-        //无法保存
-        [Config ToastNotification:@"操作失败" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
-    }
-    
-    
-}
-
-- (void)downloadAction:(id)sender
-{
-    
-    
-    [Config Instance].isNetworkRunning = [CheckNetwork isExistenceNetwork];
-    if (![Config Instance].isNetworkRunning&&[Config getUserSettingFor3gDownload]) {
-        UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"您现在非wifi环境，是否继续下载？"
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"取消"
-                                             destructiveButtonTitle:nil
-                                                  otherButtonTitles:@"下载",nil];
-        [sheet showInView:self.parentViewController.view withCompletionHandler:^(NSInteger buttonIndex) {
-            NSLog(@"action:%d",buttonIndex);
-            
-            if (buttonIndex==1) {
-                return ;
-            }else{
-                
-                NSString * json =  [DataManager getNewsForJson:news];
-                if (json) {
-                    Boolean isDownload =   [DataManager isDownload:news._id];
-                    
-                    
-                    if (isDownload) {
-                        
-                        [Config ToastNotification:@"已下载" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
-                        
-                    }else{
-                        
-                        
-                        //下载
-                        if (news.voiceUrl&&news.voiceUrl.length>0) {
-                            //保存
-                            
-                            [DataManager insertOrRemoveNews:kDownloadType andID:news._id andString:json];
-                            [Config ToastNotification:@"开始下载" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
-                            
-                            
-                            
-                            [[DownloadManager Instance] beginRequest:news isBeginDown:YES];
-                            //增加保存
-                            [DataManager postDownloadToServer:news];
-                            
-                        }
-                        
-                    }
-                    
-                    
-                }else{
-                    //无法保存
-                    [Config ToastNotification:@"操作失败" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
-                }
-                
-            }
-            
-            
-            
-        }];
-        [ [NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
-        
-    }else{
-        NSString * json =  [DataManager getNewsForJson:news];
-        if (json) {
-            Boolean isDownload =   [DataManager isDownload:news._id];
-            
-            
-            if (isDownload) {
-                
-                [Config ToastNotification:@"已下载" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
-                
-            }else{
-                
-                
-                //下载
-                if (news.voiceUrl&&news.voiceUrl.length>0) {
-                    //保存
-                    
-                    [DataManager insertOrRemoveNews:kDownloadType andID:news._id andString:json];
-                    [Config ToastNotification:@"开始下载" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
-                    
-                    
-                    
-                    
-                    [[DownloadManager Instance] beginRequest:news isBeginDown:YES];
-                    //增加保存
-                    [DataManager postDownloadToServer:news];
-                }
-                
-            }
-        }else{
-            //无法保存
-            [Config ToastNotification:@"操作失败" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
-        }
-        
-    }
-    
-    
-    
-}
-
-
 - (void)shareAction:(id)sender
 {
+    
+    //如果没上传先上传
+    if (![DataManager isUpload:self.URL.path]) {
+        
+        
+        
+        [self uploadPotoSave];
+        
+        
+        
+        
+    }
+    
+    
+    
+    
     if([SLComposeViewController class] != nil)
     {
         //
@@ -1013,7 +1082,7 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
         //            [self.parentViewController presentViewController:slComposerSheet animated:YES completion:nil];
         //        }
         SLComposeViewController *currentComposeViewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeSinaWeibo];
-        [currentComposeViewController setInitialText:[NSString stringWithFormat:@"我正在通过%@学习%@，快来一起吧 ",AppTitle,AppLang]];
+        [currentComposeViewController setInitialText:[NSString stringWithFormat:@"我正在通过%@分享一段学习音频，快来听听说的怎么样 ",AppTitle]];
         //[currentComposeViewController addImage:[UIImage imageNamed:@"1.jpg"]];
         [currentComposeViewController addURL:[NSURL URLWithString:AppUrl]];
         currentComposeViewController.completionHandler = ^(SLComposeViewControllerResult result){

@@ -9,6 +9,7 @@
 #import "Config.h"
 #import "AESCrypt.h"
 #import "MainNavigationViewController.h"
+#import "BDKNotifyHUD.h"
 
 
 @implementation Config
@@ -239,6 +240,7 @@ static Config * instance = nil;
 }
 +(id)customControllerWithRootViewControllerForMain:(UIViewController *)root {
     MainNavigationViewController *nav = [[[NSBundle mainBundle] loadNibNamed:@"MainNavigationViewController" owner:self options:nil] objectAtIndex:0];
+    
     [nav setViewControllers:[NSArray arrayWithObject:root]];
     return nav;
 }
@@ -249,9 +251,23 @@ static Config * instance = nil;
 
 + (void)ToastNotification:(NSString *)text andView:(UIView *)view andLoading:(BOOL)isLoading andIsBottom:(BOOL)isBottom
 {
-    GCDiscreetNotificationView *notificationView = [[GCDiscreetNotificationView alloc] initWithText:text showActivity:isLoading inPresentationMode:isBottom?GCDiscreetNotificationViewPresentationModeBottom:GCDiscreetNotificationViewPresentationModeTop inView:view];
-    [notificationView show:YES];
-    [notificationView hideAnimatedAfter:2.6];
+//    GCDiscreetNotificationView *notificationView = [[GCDiscreetNotificationView alloc] initWithText:text showActivity:isLoading inPresentationMode:isBottom?GCDiscreetNotificationViewPresentationModeBottom:GCDiscreetNotificationViewPresentationModeTop inView:view];
+//    [notificationView show:YES];
+//    [notificationView hideAnimatedAfter:2.6];
+    
+    
+    
+    
+    // Create the HUD object
+    BDKNotifyHUD *hud = [BDKNotifyHUD notifyHUDWithImage:[UIImage imageNamed:@"Checkmark.png"]
+                                                    text:text];
+    hud.center = CGPointMake(view.center.x, view.center.y - 20);
+    
+    // Animate it, then get rid of it. These settings last 1 second, takes a half-second fade.
+    [view addSubview:hud];
+    [hud presentWithDuration:1.0f speed:0.5f inView:view completion:^{
+        [hud removeFromSuperview];
+    }];
 }
 
 + (void)showHUD:(NSString *)text andView:(UIView *)view andHUD:(MBProgressHUD *)hud

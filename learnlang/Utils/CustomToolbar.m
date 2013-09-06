@@ -25,6 +25,7 @@ NSString * const kStatusKey         = @"status";
 NSString * const kRateKey			= @"rate";
 NSString * const kCurrentItemKey	= @"currentItem";
 
+
 @interface CustomToolbar (Player)
 - (void)removePlayerTimeObserver;
 - (CMTime)playerItemDuration;
@@ -55,6 +56,12 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
 @synthesize sharingImage,sharingText,slComposerSheet;
 
 @synthesize extMenuTable;
+
+- (void)drawRect:(CGRect)rect {
+    CGContextRef c = UIGraphicsGetCurrentContext();
+    UIImage *image = [UIImage imageNamed:@"floatbg_03.png"];
+    CGContextDrawImage(c, rect, image.CGImage);
+}
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -87,17 +94,22 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
         
     
         
-        if ([self respondsToSelector:@selector(setBackgroundImage:forToolbarPosition:barMetrics:)]) {
-            [self setBackgroundImage:[ [UIImage imageNamed:@"floatbg_03.png"] resizedImageToFitInSize:self.bounds.size scaleIfSmaller:NO] forToolbarPosition:0 barMetrics:0];         //仅5.0以上版本适用
-        }
+//        if ([self respondsToSelector:@selector(setBackgroundImage:forToolbarPosition:barMetrics:)]) {
+//            [self setBackgroundImage:[ [UIImage imageNamed:@"floatbg_03.png"] resizedImageToFitInSize:self.bounds.size scaleIfSmaller:NO] forToolbarPosition:0 barMetrics:0];         //仅5.0以上版本适用
+//        }
+        
+        
+   
+        
+        
         
         NSMutableArray *buttons = [[NSMutableArray alloc]initWithCapacity:4];
         
         //设置添加按钮的数量
         
-        // UIBarButtonItem *flexibleSpaceItem;
-        // flexibleSpaceItem =[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:NULL]autorelease];
-        // [buttons addObject:flexibleSpaceItem];
+         UIBarButtonItem *flexibleSpaceItem;
+         flexibleSpaceItem =[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:NULL]autorelease];
+         [buttons addObject:flexibleSpaceItem];
         
         //UIBarButtonSystemItemFixedSpace和UIBarButtonSystemItemFlexibleSpace都是系统提供的用于占位的按钮样式。
         //使按钮与按钮之间有间距
@@ -130,8 +142,19 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
             [session setActive:YES error:nil];
         
         
+        //空间
+        [buttons addObject:[self barButtonSystemItem:UIBarButtonSystemItemFlexibleSpace]];
+        //竖线
         
+        UIImageView *splitline = [[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"musicbar-_06.png"]]autorelease];
+        splitline.frame=CGRectMake(58.5, kProgressViewHeight, 1, 58.5);
+        Item = [[UIBarButtonItem alloc]
+                initWithCustomView:splitline
+                ];
+        [buttons addObject:Item];
         
+        //空间
+        [buttons addObject:[self barButtonSystemItem:UIBarButtonSystemItemFlexibleSpace]];
         
         //添加第2个图标按钮
         
@@ -146,6 +169,19 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
                 initWithCustomView:playButton
                 ];
         [buttons addObject:Item];
+        //空间
+        [buttons addObject:[self barButtonSystemItem:UIBarButtonSystemItemFlexibleSpace]];
+        //竖线
+        splitline = [[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"musicbar-_06.png"]]autorelease];
+      
+        splitline.frame=CGRectMake(99, kProgressViewHeight, 1, 58.5);
+        Item = [[UIBarButtonItem alloc]
+                initWithCustomView:splitline
+                ];
+        [buttons addObject:Item];
+        
+        //空间
+        [buttons addObject:[self barButtonSystemItem:UIBarButtonSystemItemFlexibleSpace]];
         
         //添加第3个图标按钮
         audioLabel =     [[UILabel alloc] initWithFrame:CGRectMake(100, kProgressViewHeight, 100, 50)];
@@ -157,6 +193,20 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
                 initWithCustomView:audioLabel
                 ];
         [buttons addObject:Item];
+        //空间
+        [buttons addObject:[self barButtonSystemItem:UIBarButtonSystemItemFlexibleSpace]];
+        //竖线
+        
+        splitline = [[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"musicbar-_06.png"]]autorelease];
+        splitline.frame=CGRectMake(199, kProgressViewHeight, 1, 58.5);
+        Item = [[UIBarButtonItem alloc]
+                initWithCustomView:splitline
+                ];
+        [buttons addObject:Item];
+        
+        //空间
+        [buttons addObject:[self barButtonSystemItem:UIBarButtonSystemItemFlexibleSpace]];
+        
         
         //添加第4个图标按钮
         shareButton=  [UIButton buttonWithType:UIButtonTypeCustom];
@@ -173,8 +223,8 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
                 ];
         [buttons addObject:Item];
         
-        // flexibleSpaceItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:NULL]autorelease];
-        //[buttons addObject:flexibleSpaceItem];
+         flexibleSpaceItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:NULL]autorelease];
+        [buttons addObject:flexibleSpaceItem];
         
         
         // toolBar.barStyle = UIBarStyleBlackOpaque ;
@@ -196,7 +246,21 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
     return self;
 }
 
+-  (UIBarButtonItem*)barButtonSystemItem :(UIBarButtonSystemItem)
 
+systemItem {
+    
+    UIBarButtonItem* button =
+    
+    [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:systemItem
+      
+                                                   target:nil
+      
+                                                   action:nil] autorelease];
+    
+    return button;
+    
+}
 
 - (void)viewDidUnload
 {
@@ -378,7 +442,7 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
         //js
         
         //[_tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:(NSUInteger )currentIndex inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-        NSLog(@"currentIndex = %d",currentIndex);
+        //NSLog(@"currentIndex = %d",currentIndex);
         return fCurrentTime;
     }
     return -1.0f;
@@ -545,6 +609,7 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
 //    NSMutableArray *toolbarItems = [NSMutableArray arrayWithArray:[self items]];
 //    [toolbarItems replaceObjectAtIndex:1 withObject:self.mStopButton];
 //    self.mToolbar.items = toolbarItems;
+    [playButton setImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateNormal];
 }
 
 /* Show the play button in the movie player controller. */
@@ -553,6 +618,7 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
 //    NSMutableArray *toolbarItems = [NSMutableArray arrayWithArray:[self.mToolbar items]];
 //    [toolbarItems replaceObjectAtIndex:0 withObject:self.mPlayButton];
 //    self.mToolbar.items = toolbarItems;
+    [playButton setImage:[UIImage imageNamed:@"musicbar-_07.png"] forState:UIControlStateNormal];
 }
 
 /* If the media is playing, show the stop button; otherwise, show the play button. */
@@ -625,6 +691,8 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
         recordedFile = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", DOCUMENTS_FOLDER,fileName]];
         
         self.isRecording = YES;
+        [self showOnWindow:nil];
+        
         [self.recordButton setTitle:@"STOP" forState:UIControlStateNormal];
         //[self.playButton setEnabled:NO];
         //[self.playButton.titleLabel setAlpha:0.5];
@@ -683,6 +751,11 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
     else
     {
         self.isRecording = NO;
+        
+        
+        [HUD hide:YES];
+        
+        
         [self.recordButton setTitle:@"REC" forState:UIControlStateNormal];
         //[self.playButton setEnabled:YES];
         //[self.playButton.titleLabel setAlpha:1];
@@ -711,6 +784,40 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
         //        player.delegate = self;
     }
 }
+
+
+- (IBAction)showOnWindow:(id)sender {
+	// The hud will dispable all input on the window
+    if (self.parentViewController) {
+      NewsWebViewController* web=  (NewsWebViewController*)self.parentViewController;
+        if (web) {
+            HUD = [[MBProgressHUD alloc] initWithView:web.scrollView];
+            [web.scrollView addSubview:HUD];
+            
+            HUD.delegate = self;
+            
+            HUD.labelText = @"录音中";
+            [HUD show:YES];
+        }
+  
+        
+        
+        //[HUD showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];
+        
+    }
+}
+#pragma mark -
+#pragma mark MBProgressHUDDelegate methods
+
+- (void)hudWasHidden:(MBProgressHUD *)hud {
+	// Remove HUD from screen when the HUD was hidded
+	[HUD removeFromSuperview];
+	[HUD release];
+	HUD = nil;
+}
+
+
+
 - (void)popAction:(id)sender
 {
     UIButton *button =sender;
@@ -1368,6 +1475,8 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
 		[super observeValueForKeyPath:path ofObject:object change:change context:context];
 	}
 }
+
+
 
 
 @end

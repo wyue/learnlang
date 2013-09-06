@@ -21,7 +21,7 @@
 #import <StoreKit/StoreKit.h>
 @class SLComposeViewController;
 
-@interface CustomToolbar : UIToolbar<PopoverViewDelegate,UITableViewDataSource,UITableViewDelegate>{
+@interface CustomToolbar : UIToolbar<PopoverViewDelegate,UITableViewDataSource,UITableViewDelegate,MBProgressHUDDelegate>{
     News* news;
     UIViewController *parentViewController;
     //功能组件
@@ -55,7 +55,7 @@
     SLComposeViewController *slComposerSheet;
     NSString *sharingText;
     UIImage *sharingImage;
-
+MBProgressHUD *HUD;
 }
 
 @property(nonatomic,retain)  News* news;

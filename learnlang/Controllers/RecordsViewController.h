@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "LocalAudioPlay.h"
-@class AudioToolBar;
+@class CustomAudioToolbar;
 @interface RecordsViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>{
     
     UITableView *tableview;
@@ -26,7 +26,7 @@
     UIButton* postButton;
     UIButton* delButton;
     UIButton* delAllButton;
-    AudioToolBar* toolBar;
+    CustomAudioToolbar* toolBar;
     
     
     
@@ -46,6 +46,6 @@
 @property(nonatomic,retain) UIButton* delButton;
 @property(nonatomic,retain) UIButton* delAllButton;
 
-@property(nonatomic,retain) AudioToolBar* toolBar;
+@property(nonatomic,retain) CustomAudioToolbar* toolBar;
 
 @end

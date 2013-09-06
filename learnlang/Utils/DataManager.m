@@ -140,7 +140,8 @@
     
     
     news.voiceUrl=[sourceDic objectForKey:@"voiceUrl"];
-    news.voiceUrl=@"http://learn.china.cn/article/mp3/16/p_69.mp3";
+    //测试数据
+    //news.voiceUrl=@"http://learn.china.cn/article/mp3/16/p_69.mp3";
     
     
     
@@ -149,12 +150,12 @@
     news.newsType=[[sourceDic objectForKey:@"type"] intValue];
     news.clickCount=[[sourceDic objectForKey:@"clickCount"] intValue];
     news.saveCount=[[sourceDic objectForKey:@"saveCount"] intValue];
-    news.content=[sourceDic objectForKey:@"content"];//modify by wangyue 20130829 改变音频获得的方式 通过content记录lrc文件内容
-    
-            NSString *lrcPath = [[NSBundle mainBundle] pathForResource:@"1" ofType:@"lrc"];
-            NSError *error=nil;
-            NSString * textContent = [NSString stringWithContentsOfFile:lrcPath encoding:NSUTF8StringEncoding error:&error];
-    news.content=textContent;
+    news.content=[sourceDic objectForKey:@"text"];//modify by wangyue 20130829 改变音频获得的方式 通过content记录lrc文件内容
+//测试数据
+            //NSString *lrcPath = [[NSBundle mainBundle] pathForResource:@"1" ofType:@"lrc"];
+           // NSError *error=nil;
+            //NSString * textContent = [NSString stringWithContentsOfFile:lrcPath encoding:NSUTF8StringEncoding error:&error];
+   // news.content=textContent;
     news.subContent=[sourceDic objectForKey:@"trancontent"];
     
     //modify by wangyue 20130829 改变音频获得的方式
@@ -934,8 +935,26 @@
 }
 
 
++(void)saveUpload:(NSString *)idStr{
+    NSUserDefaults * setting = [NSUserDefaults standardUserDefaults];
+   NSString *dickey = [NSString stringWithFormat:@"record-upload"];
+    NSDictionary *dic = [setting objectForKey:dickey];
+    [dic setValue:@"YES" forKey:idStr];
+    
+    [setting setObject:dic forKey:dickey];
+    [setting synchronize];
+}
 
-
++(BOOL)isUpload:(NSString *)idStr{
+    NSUserDefaults * setting = [NSUserDefaults standardUserDefaults];
+    NSString *dickey = [NSString stringWithFormat:@"record-upload"];
+    NSDictionary *dic = [setting objectForKey:dickey];
+    
+    if ([dic objectForKey:idStr]) {
+        return YES;
+    }
+    return NO;
+}
 
 
 @end

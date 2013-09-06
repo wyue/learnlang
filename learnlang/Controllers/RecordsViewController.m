@@ -10,7 +10,7 @@
 #import "RecordCell.h"
 #import "NewsWebViewController.h"
 #import "PlayButton.h"
-#import "AudioToolBar.h"
+#import "CustomAudioToolbar.h"
 
 @interface RecordsViewController ()
 
@@ -54,6 +54,13 @@
     self.tableview.tableHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0,0,5,5)] autorelease];
     
     self.navigationItem.title=@"我的录音";
+    
+    CGRect rect_view =[self.view bounds];
+    toolBar = [[CustomAudioToolbar alloc]initWithFrame:CGRectMake(rect_view.origin.x, rect_view.size.height-kNewsToolBarHeight, rect_view.size.width, kNewsToolBarHeight) andShare:YES];
+    toolBar.autoresizingMask=UIViewAutoresizingFlexibleTopMargin;
+    toolBar.hidden=YES;
+    toolBar.parentViewController=self;
+    [self.view addSubview:toolBar];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -110,6 +117,11 @@
     }
     
     [self.tableview reloadData];
+    
+    CGRect rect_view =[self.view bounds];
+    toolBar.frame=CGRectMake(rect_view.origin.x, rect_view.size.height-kNewsToolBarHeight, rect_view.size.width, kNewsToolBarHeight);
+    
+    
 }
 - (void)tableViewEdit:(id)sender{
     [tableview setEditing:!self.tableview.editing animated:YES];
@@ -122,6 +134,7 @@
         }
         
         [arrayForEdit removeAllObjects];
+        toolBar.hidden=YES;
         
        // self.navigationItem.rightBarButtonItem.title=@"删除";
         CGRect rect_view =[self.view bounds];
@@ -185,14 +198,13 @@
 
 
 
-
 - (void)play:(id)sender
 {
     
-  
+    
     if (!toolBar) {
         CGRect rect_view =[self.view bounds];
-        toolBar = [[AudioToolBar alloc]initWithFrame:CGRectMake(rect_view.origin.x, rect_view.size.height-kNewsToolBarHeight, rect_view.size.width, kNewsToolBarHeight)];
+        toolBar = [[CustomAudioToolbar alloc]initWithFrame:CGRectMake(rect_view.origin.x, rect_view.size.height-kNewsToolBarHeight, rect_view.size.width, kNewsToolBarHeight) andShare:YES];
         toolBar.autoresizingMask=UIViewAutoresizingFlexibleTopMargin;
         
         toolBar.parentViewController=self;
@@ -203,21 +215,27 @@
     
     FileModel *n = [array objectAtIndex:self.currentIndex.row];
     if (n) {
-       
+        
         
         
         toolBar.news=n.news;
         
-        
-        [self.toolBar setIsAllPlay:NO];
-      
-     NSURL *url=   [NSURL fileURLWithPath:n.fileURL];
-        if (url) {
-            //本地
-            [self.toolBar audioPlay:url andIndex:0 andIsLocalFile:YES  andIsNew:YES];
+        if ([self.toolBar isPlaying]) {
+            [self.toolBar pause:nil];
+        }else{
             
+            NSURL *url=   [NSURL fileURLWithPath:n.fileURL];
+            if (url) {
+                //本地
+                [self.toolBar setupAVPlayerForURL:url];
+                [ [NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+                [self.toolBar play:nil];
+            }
         }
-    
+        
+        
+        
+        
         
         
         
@@ -226,6 +244,47 @@
     
     
 }
+//
+//- (void)play:(id)sender
+//{
+//    
+//  
+//    if (!toolBar) {
+//        CGRect rect_view =[self.view bounds];
+//        toolBar = [[CustomAudioToolbar alloc]initWithFrame:CGRectMake(rect_view.origin.x, rect_view.size.height-kNewsToolBarHeight, rect_view.size.width, kNewsToolBarHeight)];
+//        toolBar.autoresizingMask=UIViewAutoresizingFlexibleTopMargin;
+//        
+//        toolBar.parentViewController=self;
+//        [self.view addSubview:toolBar];
+//    }else{
+//        [toolBar setHidden:NO];
+//    }
+//    
+//    FileModel *n = [array objectAtIndex:self.currentIndex.row];
+//    if (n) {
+//       
+//        
+//        
+//        toolBar.news=n.news;
+//        
+//        
+//        [self.toolBar setIsAllPlay:NO];
+//      
+//     NSURL *url=   [NSURL fileURLWithPath:n.fileURL];
+//        if (url) {
+//            //本地
+//            [self.toolBar audioPlay:url andIndex:0 andIsLocalFile:YES  andIsNew:YES];
+//            
+//        }
+//    
+//        
+//        
+//        
+//    }
+//    
+//    
+//    
+//}
 
 
 
@@ -387,6 +446,16 @@
             [playButton release];
             [postButton release];
             [delButton release];
+            
+            UIImageView * splitview = [[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"myaudio_17.png"] ] autorelease];
+            
+            splitview.frame=CGRectMake(102+8, 0, 1, 39.5);
+            [cell.contentView addSubview:splitview];
+            
+             splitview = [[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"myaudio_17.png"] ] autorelease];
+            
+            splitview.frame=CGRectMake(101+102+8, 0, 1, 39.5);
+            [cell.contentView addSubview:splitview];
         }
         
         

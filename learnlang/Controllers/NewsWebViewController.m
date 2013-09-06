@@ -15,6 +15,8 @@
 #import "AudioButton.h"
 #import "DownloadsManager.h"
 
+#define NavBarHeight 44.0
+
 @interface NewsWebViewController ()
 
 @end
@@ -25,13 +27,18 @@
 @synthesize toolBar;
 @synthesize webView;
 
+@synthesize scrollView;
+@synthesize titleLabel;
+@synthesize imageView;
+@synthesize leftButton;
+@synthesize rightButton;
 
 
 @synthesize textSize;
 
 
 
-
+@synthesize isChinese = _isChinese;
 
 
 
@@ -50,15 +57,18 @@
 {
     [super viewDidLoad];
     
-    
+    self.navigationItem.title=AppTitle;
     
     // Do any additional setup after loading the view from its nib.
 
     
-    textSize= [Config getUserSettingForTextSize];
-    if (textSize==0) {
-        textSize=[[TextSizeDictionary objectForKey:TextSizeForMiddle]intValue];
-    }
+    //为了实现随着滚动隐藏nav begin
+    self.scrollView.delegate = self;
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    self.scrollView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0) ;
+    self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(44, 0, 0, 0) ;
+      //为了实现随着滚动隐藏nav end
+    
     
     
     //初始化控件
@@ -80,11 +90,35 @@
     //backButton.tintColor=[UIColor colorWithRed:74/255.0 green:74/255.0 blue:74/255.0 alpha:1.0];
     
  
+    [leftButton setHighlighted:YES];
     
+    [rightButton setHighlighted:NO];
     
     
     //初始化数据
     if (news) {
+        
+        
+        if (news.imgBigUrl&&news.imgBigUrl.length>0) {
+            
+        }else{
+            
+            
+            
+            
+             self.rightButton.frame=CGRectMake(self.rightButton.frame.origin.x, self.rightButton.frame.origin.y-self.imageView.frame.size.height+self.rightButton.frame.size.height, self.rightButton.frame.size.width, self.rightButton.frame.size.height);
+            
+             self.leftButton.frame=CGRectMake(self.leftButton.frame.origin.x, self.leftButton.frame.origin.y-self.imageView.frame.size.height+self.leftButton.frame.size.height, self.leftButton.frame.size.width, self.leftButton.frame.size.height);
+            
+            self.webView.frame=CGRectMake(self.webView.frame.origin.x, self.leftButton.frame.origin.y+self.leftButton.frame.size.height, self.webView.frame.size.width, self.webView.frame.size.height);
+            
+        }
+        [self.scrollView bringSubviewToFront:self.titleLabel];
+        [self.scrollView bringSubviewToFront:self.leftButton];
+        [self.scrollView bringSubviewToFront:self.rightButton];
+        
+        buttonY=self.leftButton.frame.origin.y;
+        
         //增加点击数
         [DataManager postClickToServer:news];
         
@@ -118,26 +152,18 @@
         
         // NSLog(@"_tempArray = %@",_tempArrayList);
         
+  
         
-        NSMutableString * str = [[NSMutableString alloc] init];
-        for (int i=0; i<_arrayItemList.count; i++) {
-            NSDictionary *dic = [_arrayItemList objectAtIndex:i];
-            NSString *key = @"key is nil";
-            NSString *value = @"value is nil";
-            if (dic)
-            {
-                key = [dic.allKeys objectAtIndex:0];
-                value = [dic objectForKey:key];
-                [str appendFormat:@"<font id=%d onclick='noticeAudioPlay(this)' name='voice_span'  size=6>%@</font>",i,value];
-            }
-        }
+        [titleLabel setText:news.title];
+        [imageView setImageWithURL:[NSURL URLWithString:news.imgBigUrl] placeholderImage:[UIImage imageNamed:@"profile-image-placeholder"]];
         
-       
+        //切换按钮
+        isChinese = false;
         
         
         CGRect rect_view =[self.view bounds];
         
-        self.webView = [[UIWebView alloc]initWithFrame:rect_view];
+        //self.webView = [[UIWebView alloc]initWithFrame:rect_view];
         webView.backgroundColor = [UIColor clearColor];
         webView.scalesPageToFit =YES;
         webView.delegate =self;
@@ -153,11 +179,13 @@
         NSString * htmlFile = [[NSBundle mainBundle] pathForResource:@"news_detail" ofType:@"html"];
         NSString * htmlString = [NSString stringWithContentsOfFile:htmlFile encoding:(NSUTF8StringEncoding) error:nil];
         
-         htmlString=[NSString stringWithFormat:htmlString ,str];
+         htmlString=[NSString stringWithFormat:htmlString ,[self getHtmlContentForTemplate]];
         
         
         [webView loadHTMLString:htmlString baseURL:baseURL];
-        [self.view addSubview:webView];
+        [self sizeUp];
+        
+       // [self.scrollView addSubview:webView];
         
        
        
@@ -235,6 +263,12 @@
     [toolBar release];
     [webView release];
     
+    [scrollView release];
+    [titleLabel release];
+    [imageView release];
+    [leftButton release];
+    [rightButton release];
+    
     [_tempArrayList release];
     [_arrayItemList release];
 
@@ -246,10 +280,107 @@
 
 - (void)popViewController
 {
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     
     [self.navigationController popViewControllerAnimated:YES];
     
 }
+
+-(void)sizeUp{
+    textSize= [Config getUserSettingForTextSize];
+    if (textSize==0) {
+        textSize=[[TextSizeDictionary objectForKey:TextSizeForMiddle]intValue];
+    }
+    
+//NSString *bodysize=[[NSString alloc] initWithFormat:@"document.getElementsByTagName('body')[0].style.fontSize='%dpx'",textSize];
+//	[self.webView stringByEvaluatingJavaScriptFromString:bodysize];
+    NSString *str = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '%d%%'",textSize];
+    
+    [webView stringByEvaluatingJavaScriptFromString:str];
+}
+
+-(NSMutableString*)getHtmlContentForTemplate{
+    
+    
+    NSMutableString * str = [[NSMutableString alloc] init];
+    for (int i=0; i<_arrayItemList.count; i++) {
+        NSDictionary *dic = [_arrayItemList objectAtIndex:i];
+        NSString *key = @"key is nil";
+        NSString *value = @"value is nil";
+        if (dic)
+        {
+            key = [dic.allKeys objectAtIndex:0];
+            value = [dic objectForKey:key];
+            [str appendFormat:@"<font id=%d onclick='noticeAudioPlay(this)' name='voice_span'  >%@</font>",i,value];
+        }
+    }
+    
+    return str;
+    
+}
+
+
+- (IBAction)tabButtonAction:(id)sender
+{
+    UIButton* button =(UIButton *)sender;
+    if (button) {
+        if([button isEqual:rightButton]){
+            isChinese=TRUE;
+        }else{
+            isChinese=FALSE;
+        }
+    }
+    
+    if (isChinese) {
+        
+     
+        
+        [leftButton setHighlighted:NO];
+        [leftButton setSelected:NO];
+        [rightButton setHighlighted:YES];
+        [rightButton setSelected:YES];
+        NSString * path = [[NSBundle mainBundle] bundlePath];
+        NSURL * baseURL = [NSURL fileURLWithPath:path];
+      
+        
+        NSString * htmlFile = [[NSBundle mainBundle] pathForResource:@"news_detail" ofType:@"html"];
+        NSString * htmlString = [NSString stringWithContentsOfFile:htmlFile encoding:(NSUTF8StringEncoding) error:nil];
+        
+        htmlString=[NSString stringWithFormat:htmlString ,[NSString stringWithFormat:@"<font >%@</font>" ,news.subContent]];
+        
+        [webView loadHTMLString:htmlString baseURL:baseURL];
+        
+        
+        
+        
+        
+    }else{
+        
+        
+        
+     
+        
+        [leftButton setHighlighted:YES];
+        [leftButton setSelected:YES];
+        [rightButton setHighlighted:NO];
+        [rightButton setSelected:NO];
+        NSString * path = [[NSBundle mainBundle] bundlePath];
+        NSURL * baseURL = [NSURL fileURLWithPath:path];
+        NSString * htmlFile = [[NSBundle mainBundle] pathForResource:@"news_detail" ofType:@"html"];
+        NSString * htmlString = [NSString stringWithContentsOfFile:htmlFile encoding:(NSUTF8StringEncoding) error:nil];
+        
+        htmlString=[NSString stringWithFormat:htmlString ,[self getHtmlContentForTemplate]];
+        
+       
+        [webView loadHTMLString:htmlString baseURL:baseURL];
+        
+        
+    }
+    
+    
+    
+}
+
 
 //事件方法
 //- (void)handleSingleTap:(UIGestureRecognizer *)gestureRecognizer
@@ -400,6 +531,47 @@
     return [NSString stringWithFormat:@"%f",finishSecond];
 }
 
+
+
+- (void) scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat yOffset = -self.scrollView.contentOffset.y ;
+    if (yOffset<0)
+    {
+        yOffset = 0 ;
+    }
+    else if (yOffset>NavBarHeight){
+        yOffset = NavBarHeight ;
+    }
+    if (self.scrollView.contentInset.top!=yOffset) {
+        self.scrollView.contentInset = UIEdgeInsetsMake(yOffset, 0, 0, 0) ;
+    }
+    
+    if (self.navigationController.navigationBar.frame.origin.y!=(yOffset-NavBarHeight)) {
+        self.navigationController.navigationBar.frame = CGRectMake(0, yOffset-NavBarHeight, 320, NavBarHeight) ;
+    }
+    
+    if (yOffset<NavBarHeight) yOffset = NavBarHeight ;
+    if (self.scrollView.scrollIndicatorInsets.top!=yOffset) {
+        self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(yOffset, 0, 0, 0) ;
+    }
+    
+    
+//    if (self.scrollView.contentOffset.y>0) {
+//        self.titleLabel.frame=CGRectMake(self.titleLabel.frame.origin.x, self.scrollView.contentOffset.y, self.titleLabel.frame.size.width,  self.titleLabel.frame.size.height);
+//      
+//       
+//        
+//    }
+    
+//    if (self.scrollView.contentOffset.y>buttonY ){
+//        self.leftButton.frame=CGRectMake(self.leftButton.frame.origin.x,self.scrollView.contentOffset.y, self.leftButton.frame.size.width,  self.leftButton.frame.size.height);
+//        self.rightButton.frame=CGRectMake(self.rightButton.frame.origin.x,self.scrollView.contentOffset.y, self.rightButton.frame.size.width,  self.rightButton.frame.size.height);
+//        
+//    }
+
+}
+
+
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     NSURL * url = [request URL];
     if (url&&[[url scheme] isEqualToString:@"voice"]) {
@@ -437,6 +609,30 @@
     return YES;
 }
 
+
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView { //webview 自适应高度
+    
+    
+    [self sizeUp];
+    const CGFloat defaultWebViewHeight = 22.0;
+    //reset webview size
+    CGRect originalFrame = self.webView.frame;
+    self.webView.frame = CGRectMake(originalFrame.origin.x, originalFrame.origin.y, 320, defaultWebViewHeight);
+    
+    CGSize actualSize = [self.webView sizeThatFits:CGSizeZero];
+    if (actualSize.height <= defaultWebViewHeight) {
+        actualSize.height = defaultWebViewHeight;
+    }
+    CGRect webViewFrame = self.webView.frame;
+    webViewFrame.size.height = actualSize.height;
+    self.webView.frame = webViewFrame;
+    //tableView reloadData
+    
+    //设置scrollView内容高度
+    [scrollView setContentSize:CGSizeMake(scrollView.frame.size.width, 214+self.toolBar.frame.size.height+self.webView.frame.size.height)];
+    
+}
 
 
 

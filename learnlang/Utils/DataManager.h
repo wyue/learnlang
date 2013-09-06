@@ -51,4 +51,7 @@
 +(void)postClickToServer:(News*)News;
 +(void)postDownloadToServer:(News*)News;
 
++(void)saveUpload:(NSString *)idStr;
++(BOOL)isUpload:(NSString *)idStr;
+
 @end

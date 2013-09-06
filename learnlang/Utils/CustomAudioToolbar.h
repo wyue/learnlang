@@ -91,9 +91,9 @@
 
 @property (nonatomic,retain) UITableView *extMenuTable;
 
--(id)initWithArrayItem:(NSMutableArray *)arrayItemValue;
+//-(id)initWithArrayItem:(NSMutableArray *)arrayItemValue;
 
-
+- (id)initWithFrame:(CGRect)frame andShare:(BOOL)isShare;
 
 
 //音频播放
