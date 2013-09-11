@@ -63,10 +63,10 @@
 
     
     //为了实现随着滚动隐藏nav begin
-    self.scrollView.delegate = self;
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-    self.scrollView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0) ;
-    self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(44, 0, 0, 0) ;
+    //self.scrollView.delegate = self;
+    //self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    //self.scrollView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0) ;
+   // self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(44, 0, 0, 0) ;
       //为了实现随着滚动隐藏nav end
     
     
@@ -280,7 +280,8 @@
 
 - (void)popViewController
 {
-    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    //navigation隐藏使用
+    //self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     
     [self.navigationController popViewControllerAnimated:YES];
     
@@ -533,43 +534,43 @@
 
 
 
-- (void) scrollViewDidScroll:(UIScrollView *)scrollView {
-    CGFloat yOffset = -self.scrollView.contentOffset.y ;
-    if (yOffset<0)
-    {
-        yOffset = 0 ;
-    }
-    else if (yOffset>NavBarHeight){
-        yOffset = NavBarHeight ;
-    }
-    if (self.scrollView.contentInset.top!=yOffset) {
-        self.scrollView.contentInset = UIEdgeInsetsMake(yOffset, 0, 0, 0) ;
-    }
-    
-    if (self.navigationController.navigationBar.frame.origin.y!=(yOffset-NavBarHeight)) {
-        self.navigationController.navigationBar.frame = CGRectMake(0, yOffset-NavBarHeight, 320, NavBarHeight) ;
-    }
-    
-    if (yOffset<NavBarHeight) yOffset = NavBarHeight ;
-    if (self.scrollView.scrollIndicatorInsets.top!=yOffset) {
-        self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(yOffset, 0, 0, 0) ;
-    }
-    
-    
-//    if (self.scrollView.contentOffset.y>0) {
-//        self.titleLabel.frame=CGRectMake(self.titleLabel.frame.origin.x, self.scrollView.contentOffset.y, self.titleLabel.frame.size.width,  self.titleLabel.frame.size.height);
-//      
-//       
-//        
+//- (void) scrollViewDidScroll:(UIScrollView *)scrollView {
+//    CGFloat yOffset = -self.scrollView.contentOffset.y ;
+//    if (yOffset<0)
+//    {
+//        yOffset = 0 ;
 //    }
-    
-//    if (self.scrollView.contentOffset.y>buttonY ){
-//        self.leftButton.frame=CGRectMake(self.leftButton.frame.origin.x,self.scrollView.contentOffset.y, self.leftButton.frame.size.width,  self.leftButton.frame.size.height);
-//        self.rightButton.frame=CGRectMake(self.rightButton.frame.origin.x,self.scrollView.contentOffset.y, self.rightButton.frame.size.width,  self.rightButton.frame.size.height);
-//        
+//    else if (yOffset>NavBarHeight){
+//        yOffset = NavBarHeight ;
 //    }
-
-}
+//    if (self.scrollView.contentInset.top!=yOffset) {
+//        self.scrollView.contentInset = UIEdgeInsetsMake(yOffset, 0, 0, 0) ;
+//    }
+//    
+//    if (self.navigationController.navigationBar.frame.origin.y!=(yOffset-NavBarHeight)) {
+//        self.navigationController.navigationBar.frame = CGRectMake(0, yOffset-NavBarHeight, 320, NavBarHeight) ;
+//    }
+//    
+//    if (yOffset<NavBarHeight) yOffset = NavBarHeight ;
+//    if (self.scrollView.scrollIndicatorInsets.top!=yOffset) {
+//        self.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(yOffset, 0, 0, 0) ;
+//    }
+//    
+//    
+////    if (self.scrollView.contentOffset.y>0) {
+////        self.titleLabel.frame=CGRectMake(self.titleLabel.frame.origin.x, self.scrollView.contentOffset.y, self.titleLabel.frame.size.width,  self.titleLabel.frame.size.height);
+////      
+////       
+////        
+////    }
+//    
+////    if (self.scrollView.contentOffset.y>buttonY ){
+////        self.leftButton.frame=CGRectMake(self.leftButton.frame.origin.x,self.scrollView.contentOffset.y, self.leftButton.frame.size.width,  self.leftButton.frame.size.height);
+////        self.rightButton.frame=CGRectMake(self.rightButton.frame.origin.x,self.scrollView.contentOffset.y, self.rightButton.frame.size.width,  self.rightButton.frame.size.height);
+////        
+////    }
+//
+//}
 
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {

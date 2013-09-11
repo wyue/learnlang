@@ -10,6 +10,7 @@
 #import <Social/Social.h>
 #import "DownloadManager.h"
 #import "NewsWebViewController.h"
+#import "lame.h"
 
 #define kStringArray [NSArray arrayWithObjects:@"收 藏", @"下 载", @"分 享", nil]
 #define kProgressViewHeight 2
@@ -691,7 +692,7 @@ systemItem {
         recordedFile = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", DOCUMENTS_FOLDER,fileName]];
         
         self.isRecording = YES;
-        [self showOnWindow:nil];
+        [self showOnWindow:@"录音中"];
         
         [self.recordButton setTitle:@"STOP" forState:UIControlStateNormal];
         //[self.playButton setEnabled:NO];
@@ -725,6 +726,7 @@ systemItem {
         [recordSetting setValue :[NSNumber numberWithBool:NO] forKey:AVLinearPCMIsBigEndianKey];
         [recordSetting setValue :[NSNumber numberWithBool:NO] forKey:AVLinearPCMIsFloatKey];
         
+           
         
         
         
@@ -754,9 +756,10 @@ systemItem {
         
         
         [HUD hide:YES];
+        [Config ToastNotification:@"录音完毕" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
         
         
-        [self.recordButton setTitle:@"REC" forState:UIControlStateNormal];
+        //[self.recordButton setTitle:@"REC" forState:UIControlStateNormal];
         //[self.playButton setEnabled:YES];
         //[self.playButton.titleLabel setAlpha:1];
         [recorder stop];
@@ -770,8 +773,16 @@ systemItem {
         
         
         //保存
+       NSString* mp3url =  [self audio_PCMtoMP3:[recordedFile path]];
+        if ([NSURL fileURLWithPath:mp3url]) {
+              [DataManager insertRecord:news andFilePath:[NSURL fileURLWithPath:mp3url]];
+        } else{
+            [DataManager insertRecord:news andFilePath:recordedFile];
+        }
         
-        [DataManager insertRecord:news andFilePath:recordedFile];
+        
+        
+        //[self audio_PCMtoMP3:[recordedFile path]];
         
         //        NSError *playerError;
         //
@@ -785,8 +796,78 @@ systemItem {
     }
 }
 
+- (NSString*)audio_PCMtoMP3:(NSString*)cafFilePath
+{
+    //NSString *cafFilePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/downloadFile.caf"];
+    
+   NSString* fileName =  [[cafFilePath lastPathComponent] stringByDeletingPathExtension];
+    
+    NSString *mp3FilePath = [NSString stringWithFormat:@"%@/%@.mp3", DOCUMENTS_FOLDER,fileName];//[NSHomeDirectory() stringByAppendingPathComponent:@"Documents/downloadFile.mp3"];
+    
+    
+    NSFileManager* fileManager=[NSFileManager defaultManager];
+    if([fileManager removeItemAtPath:mp3FilePath error:nil])
+    {
+        NSLog(@"删除");
+    }
+    
+    @try {
+        int read, write;
+        
+        FILE *pcm = fopen([cafFilePath cStringUsingEncoding:1], "rb");  //source 被转换的音频文件位置
+        fseek(pcm, 4*1024, SEEK_CUR);                                   //skip file header
+        FILE *mp3 = fopen([mp3FilePath cStringUsingEncoding:1], "wb");  //output 输出生成的Mp3文件位置
+        
+        const int PCM_SIZE = 8192;
+        const int MP3_SIZE = 8192;
+        short int pcm_buffer[PCM_SIZE*2];
+        unsigned char mp3_buffer[MP3_SIZE];
+        
+        lame_t lame = lame_init();
+        lame_set_in_samplerate(lame, 11025.0);
+        lame_set_VBR(lame, vbr_default);
+        lame_init_params(lame);
+        
+        do {
+            read = fread(pcm_buffer, 2*sizeof(short int), PCM_SIZE, pcm);
+            if (read == 0)
+                write = lame_encode_flush(lame, mp3_buffer, MP3_SIZE);
+            else
+                write = lame_encode_buffer_interleaved(lame, pcm_buffer, read, mp3_buffer, MP3_SIZE);
+            
+            fwrite(mp3_buffer, write, 1, mp3);
+            
+        } while (read != 0);
+        
+        lame_close(lame);
+        fclose(mp3);
+        fclose(pcm);
+        
+        
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@",[exception description]);
+        mp3FilePath=cafFilePath;
+    }
+    @finally {
+//        [playButton setEnabled:YES];
+//        NSError *playerError;
+//        AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[[[NSURL alloc] initFileURLWithPath:mp3FilePath] autorelease] error:&playerError];
+//        self.player = audioPlayer;
+//        player.volume = 1.0f;
+//        if (player == nil)
+//        {
+//            NSLog(@"ERror creating player: %@", [playerError description]);
+//        }
+//        [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategorySoloAmbient error: nil];
+//        player.delegate = self;
+//        [audioPlayer release];
+    }
+    
+    return mp3FilePath;
+}
 
-- (IBAction)showOnWindow:(id)sender {
+- (IBAction)showOnWindow:(NSString*)text {
 	// The hud will dispable all input on the window
     if (self.parentViewController) {
       NewsWebViewController* web=  (NewsWebViewController*)self.parentViewController;
@@ -796,7 +877,7 @@ systemItem {
             
             HUD.delegate = self;
             
-            HUD.labelText = @"录音中";
+            HUD.labelText = text;
             [HUD show:YES];
         }
   

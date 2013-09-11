@@ -11,7 +11,7 @@
 
 
 @class News;
-@interface NewsWebViewController  : UIViewController<UIWebViewDelegate,UIScrollViewDelegate>{
+@interface NewsWebViewController  : UIViewController<UIWebViewDelegate>{
 @private News *news;
     
 @private IBOutlet CustomToolbar *toolBar;

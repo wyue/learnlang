@@ -24,6 +24,7 @@
 		2225709E17B4916100E68EA1 /* BUIControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 2225709917B4916100E68EA1 /* BUIControl.m */; };
 		2225709F17B4916100E68EA1 /* BUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2225709B17B4916100E68EA1 /* BUIView.m */; };
 		222570A017B4916100E68EA1 /* ZXObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2225709D17B4916100E68EA1 /* ZXObject.m */; };
+		22263AC017E0487D00FA87D8 /* libmp3lame.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 22263ABF17E0487D00FA87D8 /* libmp3lame.a */; };
 		2233846F17D041B7001C29BF /* CustomAudioToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2233846E17D041B7001C29BF /* CustomAudioToolbar.m */; };
 		2238E3A017AA4B6800E85157 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 2238E39217AA4B6800E85157 /* FMDatabase.m */; };
 		2238E3A117AA4B6800E85157 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2238E39417AA4B6800E85157 /* FMDatabaseAdditions.m */; };
@@ -254,6 +255,8 @@
 		2225709B17B4916100E68EA1 /* BUIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BUIView.m; sourceTree = "<group>"; };
 		2225709C17B4916100E68EA1 /* ZXObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXObject.h; sourceTree = "<group>"; };
 		2225709D17B4916100E68EA1 /* ZXObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXObject.m; sourceTree = "<group>"; };
+		22263ABE17E0487D00FA87D8 /* lame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lame.h; sourceTree = "<group>"; };
+		22263ABF17E0487D00FA87D8 /* libmp3lame.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libmp3lame.a; sourceTree = "<group>"; };
 		2233846D17D041B7001C29BF /* CustomAudioToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAudioToolbar.h; sourceTree = "<group>"; };
 		2233846E17D041B7001C29BF /* CustomAudioToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAudioToolbar.m; sourceTree = "<group>"; };
 		2238E39117AA4B6800E85157 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
@@ -577,6 +580,7 @@
 				224D15C4179CCEDC00C5B8B2 /* Foundation.framework in Frameworks */,
 				224D15C6179CCEDC00C5B8B2 /* CoreGraphics.framework in Frameworks */,
 				224D15C8179CCEDC00C5B8B2 /* CoreData.framework in Frameworks */,
+				22263AC017E0487D00FA87D8 /* libmp3lame.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -595,6 +599,15 @@
 				2225709D17B4916100E68EA1 /* ZXObject.m */,
 			);
 			path = BlockUI;
+			sourceTree = "<group>";
+		};
+		22263ABD17E0487D00FA87D8 /* lame */ = {
+			isa = PBXGroup;
+			children = (
+				22263ABE17E0487D00FA87D8 /* lame.h */,
+				22263ABF17E0487D00FA87D8 /* libmp3lame.a */,
+			);
+			path = lame;
 			sourceTree = "<group>";
 		};
 		2238E38F17AA4B6800E85157 /* WYData */ = {
@@ -637,6 +650,7 @@
 		224D15B5179CCEDC00C5B8B2 = {
 			isa = PBXGroup;
 			children = (
+				22263ABD17E0487D00FA87D8 /* lame */,
 				2225709617B4916000E68EA1 /* BlockUI */,
 				2238E38F17AA4B6800E85157 /* WYData */,
 				228DDDD017A7A4B500324ACB /* PopoverView */,
@@ -1579,6 +1593,10 @@
 				GCC_PREFIX_HEADER = "learnlang/learnlang-Prefix.pch";
 				INFOPLIST_FILE = "learnlang/learnlang-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/lame\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -1596,6 +1614,10 @@
 				GCC_PREFIX_HEADER = "learnlang/learnlang-Prefix.pch";
 				INFOPLIST_FILE = "learnlang/learnlang-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/lame\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";

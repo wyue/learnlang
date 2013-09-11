@@ -48,7 +48,7 @@
 
 #define api_news_list @"http://learn.china.cn/api/"
 
-#define api_post_guid @"http://lang.china.cn/api/deviceReg.do"
+#define api_post_guid @"http://learn.china.cn/api/deviceReg.do"
 
 
 

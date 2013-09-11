@@ -982,12 +982,12 @@ systemItem {
     
     
    
-    NSString *stringImage=[self.URL path];
+    NSString *filePath=[self.URL path];
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://learn.china.com.cn/api?vkey=%@&u=%@",@"",@""]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://learn.china.cn/upload/clientupload.do?articleId=%d",news._id]];
     ASIFormDataRequest *ASIFormDataRequest_=[[ASIFormDataRequest alloc] initWithURL:url];
     //要上传的图片
-    [ASIFormDataRequest_ setFile:stringImage forKey:@"file_pic_big"];
+    [ASIFormDataRequest_ setFile:filePath forKey:@"resource"];
     //上传结果委托
     ASIFormDataRequest_.delegate=self;
    
@@ -998,6 +998,8 @@ systemItem {
     //开始异步上传
     [ASIFormDataRequest_ startSynchronous];
     [ASIFormDataRequest_ release];
+    
+    //return [NSString stringWithFormat:@"http://learn.china.com.cn/%d/%@",news._id,[filePath lastPathComponent] ];
 }
 - (void)requestFinished:(ASIFormDataRequest *)requestForm{
     NSString *string=[requestForm responseString];
@@ -1029,7 +1031,8 @@ systemItem {
 }
 - (void)shareAction:(id)sender
 {
-    
+    NSString *filePath=[self.URL path];
+    NSString* shareurl = [NSString stringWithFormat:@"http://learn.china.cn/mp3/%d/%@",news._id,[filePath lastPathComponent] ];
     //如果没上传先上传
     if (![DataManager isUpload:self.URL.path]) {
         
@@ -1084,7 +1087,7 @@ systemItem {
         SLComposeViewController *currentComposeViewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeSinaWeibo];
         [currentComposeViewController setInitialText:[NSString stringWithFormat:@"我正在通过%@分享一段学习音频，快来听听说的怎么样 ",AppTitle]];
         //[currentComposeViewController addImage:[UIImage imageNamed:@"1.jpg"]];
-        [currentComposeViewController addURL:[NSURL URLWithString:AppUrl]];
+        [currentComposeViewController addURL:[NSURL URLWithString:shareurl]];
         currentComposeViewController.completionHandler = ^(SLComposeViewControllerResult result){
             switch (result)
             {

@@ -923,15 +923,60 @@
 
 
 +(void)postSaveToServer:(News*)News andCancel:(BOOL)isCancel{
+    NSString * url = [NSString stringWithFormat:@"http://learn.china.cn//api/counting.do?type=%d&articleId=%d",2,News._id];
+    
+    if (isCancel) {
+        return;
+    }
+    
+    ASIFormDataRequest *requestForm = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:url]];
+    
+    //设置需要POST的数据，这里提交两个数据，A=a&B=b
+    [requestForm setPostValue:[Config Instance].getIOSGuid forKey:@"guid"];
+    
+    [requestForm startSynchronous];
+    
+    //输入返回的信息
+    // NSLog(@"response\n%@",[requestForm responseString]);
+    [requestForm release];
+  
     
     
 }
 +(void)postClickToServer:(News*)News{
+    NSString * url = [NSString stringWithFormat:@"http://learn.china.cn//api/counting.do?type=%d&articleId=%d",1,News._id];
     
+  
+    
+    ASIFormDataRequest *requestForm = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:url]];
+    
+    //设置需要POST的数据，这里提交两个数据，A=a&B=b
+    [requestForm setPostValue:[Config Instance].getIOSGuid forKey:@"guid"];
+    
+    [requestForm startSynchronous];
+    
+    //输入返回的信息
+    // NSLog(@"response\n%@",[requestForm responseString]);
+    [requestForm release];
+    
+
 }
 
 +(void)postDownloadToServer:(News*)News{
+    NSString * url = [NSString stringWithFormat:@"http://learn.china.cn//api/counting.do?type=%d&articleId=%d",3,News._id];
     
+    
+    
+    ASIFormDataRequest *requestForm = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:url]];
+    
+    //设置需要POST的数据，这里提交两个数据，A=a&B=b
+    [requestForm setPostValue:[Config Instance].getIOSGuid forKey:@"guid"];
+    
+    [requestForm startSynchronous];
+    
+    //输入返回的信息
+    // NSLog(@"response\n%@",[requestForm responseString]);
+    [requestForm release];
 }
 
 
