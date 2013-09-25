@@ -8,14 +8,14 @@
 
 #import "NewsTableViewCell.h"
 #import "News.h"
-#import "EGOImageView.h"
+
 #import "UIImageView+AFNetworking.h"
 
 //tableview 固定参数
 
 
 #define kNewsTableImageHeight 52.5
-#define kNewsTableImageWidth 52.5
+#define kNewsTableImageWidth 106
 
 #define SizeOfTitleText 14.0f
 
@@ -23,9 +23,11 @@
 @implementation NewsTableViewCell{
 @private
 __strong News *_news;
+    
 }
 
 @synthesize news = _news;
+@synthesize titleLabel;
 
 - (void)dealloc {
 	[imageView release];
@@ -33,10 +35,20 @@ __strong News *_news;
     [titleLabel release];
     [saveCountLabel release];
     [whiteRoundedCornerView release];
+    
     [super dealloc];
 }
 
-
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    [super setSelected:selected animated:animated];
+    
+    // Configure the view for the selected state
+//    if (selected==YES) {
+//         self.titleLabel.textColor=[UIColor grayColor];
+//    }
+   
+}
 
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -64,7 +76,7 @@ __strong News *_news;
        
    
     
-    titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(16.0f, 5.0f, 240, 30.0f)];
+    titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(16.0f, 5.0f, 186, 30.0f)];//w:240
    titleLabel.font = [UIFont systemFontOfSize:SizeOfTitleText];
     //titleLabel.adjustsFontSizeToFitWidth = YES;
     titleLabel.textColor = [UIColor colorWithHexString:@"212121"];
@@ -81,7 +93,7 @@ __strong News *_news;
     [self.contentView addSubview:clickCountLabel];
     
    
-    saveCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(58.0f, 46.0f, 43.0f, 10.0f)];
+    saveCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(58.0f, 46.0f, 53.0f, 10.0f)];
     saveCountLabel.font = [UIFont systemFontOfSize:11.0f];
     saveCountLabel.numberOfLines = 0;
     saveCountLabel.textColor = [UIColor colorWithHexString:@"AE8359"];
@@ -95,13 +107,13 @@ __strong News *_news;
     
     return self;
 }
-- (void)willMoveToSuperview:(UIView *)newSuperview {
-	[super willMoveToSuperview:newSuperview];
-	
-	if(!newSuperview) {
-		[imageView cancelImageLoad];
-	}
-}
+//- (void)willMoveToSuperview:(UIView *)newSuperview {
+//	[super willMoveToSuperview:newSuperview];
+//	
+//	if(!newSuperview) {
+//		[imageView cancelImageLoad];
+//	}
+//}
 - (float) heightForLabel:(UILabel *)label
 {
     [label setNumberOfLines:0];
@@ -116,31 +128,30 @@ __strong News *_news;
     clickCountLabel.text = [NSString stringWithFormat:@"%d阅读",_news.clickCount];
     saveCountLabel.text = [NSString stringWithFormat:@"|  %d收藏",_news.saveCount];
     //[self.imageView setImageWithURL:[NSURL URLWithString:_news.imgUrl] placeholderImage:[UIImage imageNamed:@"profile-image-placeholder"]];
-     float w = 240;
+     float w = 186;
    
     if (_news.imgUrl&&_news.imgUrl.length>0) {
         if (imageView==nil) {
-            imageView = [[EGOImageView alloc] initWithPlaceholderImage:[UIImage imageNamed:@"placeholder.png"]];
-            imageView.frame = CGRectMake(self.frame.size.width-8-5-kNewsTableImageWidth, 4.5, kNewsTableImageWidth, kNewsTableImageHeight);
+            imageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width-8-5-kNewsTableImageWidth, 4.5, kNewsTableImageWidth, kNewsTableImageHeight)];
             [self.contentView addSubview:imageView];
         }
+        [imageView setImageWithURL:[NSURL URLWithString:_news.imgUrl] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         
-        
-        if (!imageView.imageURL  ) {
-            
-            
-            imageView.imageURL = [NSURL URLWithString:_news.imgUrl];
-        }
-        else{
-            
-            if(_news.imgUrl&&![[imageView.imageURL absoluteString] isEqualToString:_news.imgUrl]){
-                imageView.imageURL = [NSURL URLWithString:_news.imgUrl];
-            }
-            
-        }
+//        if (!imageView.imageURL  ) {
+//            
+//            
+//            imageView.imageURL = [NSURL URLWithString:_news.imgUrl];
+//        }
+//        else{
+//            
+//            if(![[imageView.imageURL absoluteString] isEqualToString:_news.imgUrl]){
+//                imageView.imageURL = [NSURL URLWithString:_news.imgUrl];
+//            }
+//            
+//        }
       
     }else{
-         w=288;
+         w=288;//w:288
         titleLabel.frame = CGRectMake(16.0f, 5.0f, 288, 30.0f);
     }
     titleLabel.frame = CGRectMake(titleLabel.frame.origin.x, titleLabel.frame.origin.y, titleLabel.frame.size.width, [NewsTableViewCell heightForLabelWithString:news.title  andWidth:w]);
@@ -151,7 +162,7 @@ __strong News *_news;
 }
 
 + (CGFloat)heightForCellWithNews:(News *)news {
-    float w = 240;
+    float w = 186;
     if (!news.imgUrl) {
         w=288;
     }
@@ -197,7 +208,7 @@ __strong News *_news;
     whiteRoundedCornerView.frame=CGRectMake(8,0,self.frame.size.width-16,self.frame.size.height-7);
     
 clickCountLabel.frame=CGRectMake(16.0f,self.frame.size.height-23, 43.0f, 10.0f);
-    saveCountLabel.frame=CGRectMake(58,self.frame.size.height-23, 43.0f, 10.0f);
+    saveCountLabel.frame=CGRectMake(58,self.frame.size.height-23, 53.0f, 10.0f);
 }
 
 @end

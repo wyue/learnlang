@@ -189,7 +189,7 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
         
         audioLabel.backgroundColor = [UIColor clearColor];
         audioLabel.textColor=[UIColor colorWithHexString:@"756860"];
-        
+        audioLabel.text=@"Read:0:0/0:0";
         Item = [[UIBarButtonItem alloc]
                 initWithCustomView:audioLabel
                 ];
@@ -465,7 +465,7 @@ systemItem {
         if (CMTIME_IS_INVALID(playerDuration))
         {
             [progressView setProgress:0.0f];
-            audioLabel.text=@"";
+            audioLabel.text=@"0:0/0:0";
             return;
         }
         
@@ -676,6 +676,51 @@ systemItem {
 
 - (void)recordingAction:(id)sender
 {
+    
+ NewsWebViewController *viewController=   (NewsWebViewController*)self.parentViewController;
+    if (viewController) {
+        
+        if (!viewController.recordToolBar) {
+            
+            viewController.recordToolBar= [[[RecordToolbar alloc]initWithFrame:viewController.toolBar.frame]autorelease];
+            viewController.recordToolBar.frame=viewController.toolBar.frame;
+            viewController.recordToolBar.news=self.news;
+            viewController.recordToolBar.parentViewController=self.parentViewController;
+            [viewController.view addSubview:viewController.recordToolBar];
+            
+            
+            
+            
+            
+            
+            
+        }else{
+            [viewController.recordToolBar setHidden:NO];
+        }
+        CATransition *theAnimation1;    //定义动画
+        
+        //左右摇摆
+        theAnimation1=[CATransition animation];
+        theAnimation1.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        theAnimation1.type = kCATransitionMoveIn;//{kCATransitionMoveIn, kCATransitionPush, kCATransitionReveal, kCATransitionFade};
+        theAnimation1.subtype = kCATransitionFromLeft;//{kCATransitionFromLeft, kCATransitionFromRight, kCATransitionFromTop, kCATransitionFromBottom};
+theAnimation1.delegate = self;
+        //theAnimation1.duration=5.5;//动画持续时间
+       // theAnimation1.repeatCount=6;//动画重复次数
+       // theAnimation1.autoreverses=YES;//是否自动重复
+        
+        [viewController.recordToolBar.layer addAnimation:theAnimation1 forKey:@"animateLayer"];
+        
+        [self setHidden:YES];
+        [viewController.recordToolBar recordingAction:nil];
+    
+        
+    }
+    return;
+    
+    
+    
+    
     
     //recordedFile = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:@"RecordedFile"]];
     //获得系统时间

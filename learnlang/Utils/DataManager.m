@@ -65,7 +65,7 @@
     
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
     NSMutableArray* oldAry = [DataManager readNewsAryByDic:olds];
-    NSMutableArray *mutablearray = [[NSMutableArray alloc]init];
+    
     
      //SBJsonParser *jsonParser = [[SBJsonParser alloc]init];
     
@@ -80,7 +80,7 @@
         NSMutableDictionary *itemDic= [items objectAtIndex:i];
         
         NSMutableArray* source = [itemDic objectForKey:@"source"];
-        
+        NSMutableArray *mutablearray = [[NSMutableArray alloc]init];
         
         for (int j = 0; j<source.count; j++) {
             NSMutableDictionary *sourceDic= [source objectAtIndex:j];
@@ -126,9 +126,10 @@
         
         NSString* ext =[imageUrl pathExtension];
         NSString *filename=[imageUrl substringToIndex:imageUrl.length-ext.length-1];
-        
-        news.imgUrl=[NSString stringWithFormat:@"%@%@%@",filename,@"-sque.",ext];
-        news.imgBigUrl=[NSString stringWithFormat:@"%@%@%@",filename,@"-title.",ext];
+        news.imgUrl=[NSString stringWithFormat:@"%@%@%@",filename,@".",ext];
+        news.imgBigUrl=[NSString stringWithFormat:@"%@%@%@",filename,@".",ext];
+//        news.imgUrl=[NSString stringWithFormat:@"%@%@%@",filename,@"-sque.",ext];
+//        news.imgBigUrl=[NSString stringWithFormat:@"%@%@%@",filename,@"-title.",ext];
         
         
     }else{
@@ -912,7 +913,7 @@
     //设置需要POST的数据，这里提交两个数据，A=a&B=b
     [requestForm setPostValue:[Config Instance].getIOSGuid forKey:@"guid"];
     
-    [requestForm startSynchronous];
+    [requestForm startAsynchronous];
     
     //输入返回的信息
    // NSLog(@"response\n%@",[requestForm responseString]);
@@ -934,7 +935,7 @@
     //设置需要POST的数据，这里提交两个数据，A=a&B=b
     [requestForm setPostValue:[Config Instance].getIOSGuid forKey:@"guid"];
     
-    [requestForm startSynchronous];
+    [requestForm startAsynchronous];
     
     //输入返回的信息
     // NSLog(@"response\n%@",[requestForm responseString]);
@@ -953,7 +954,7 @@
     //设置需要POST的数据，这里提交两个数据，A=a&B=b
     [requestForm setPostValue:[Config Instance].getIOSGuid forKey:@"guid"];
     
-    [requestForm startSynchronous];
+    [requestForm startAsynchronous];
     
     //输入返回的信息
     // NSLog(@"response\n%@",[requestForm responseString]);
@@ -972,7 +973,7 @@
     //设置需要POST的数据，这里提交两个数据，A=a&B=b
     [requestForm setPostValue:[Config Instance].getIOSGuid forKey:@"guid"];
     
-    [requestForm startSynchronous];
+    [requestForm startAsynchronous];
     
     //输入返回的信息
     // NSLog(@"response\n%@",[requestForm responseString]);

@@ -146,10 +146,13 @@
             [self.delAllButton addTarget:self action:@selector(tableViewEdit:) forControlEvents:UIControlEventTouchUpInside];
             
             [self.view addSubview:self.delAllButton];
+           
         }else{
             [self.delAllButton setHidden:NO];
              self.delAllButton.frame=CGRectMake(7.5, rect_view.size.height-41.5, 305, 41.5);
+            
         }
+         [self.tableview setContentSize:CGSizeMake(self.tableview.frame.size.width, self.tableview.contentSize.height+self.delAllButton.frame.size.height)];
         
     }else{
        // self.navigationItem.rightBarButtonItem.title=@"编辑";
@@ -172,6 +175,7 @@
             [self reLoad];
             
         }
+    [self.tableview setContentSize:CGSizeMake(self.tableview.frame.size.width, self.tableview.contentSize.height-40)];
         
         
     }
@@ -405,8 +409,8 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    
+    //static NSString *CellIdentifier = @"Cell";
+    NSString *CellIdentifier = [NSString stringWithFormat:@"Cell%d%d", [indexPath section], [indexPath row]];
    static NSString *CellIdentifierExt = @"CellExt";
     
     

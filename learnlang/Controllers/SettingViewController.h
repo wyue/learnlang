@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SettingViewController : UIViewController{
+@interface SettingViewController : BaseViewController{
     
     UISegmentedControl *textSettingOutlet;
     UISwitch* wifiSettingOutlet;

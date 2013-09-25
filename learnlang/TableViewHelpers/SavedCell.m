@@ -10,6 +10,7 @@
 #import "DownloadsManager.h"
 #import "ASINetworkQueue.h"
 #define SizeOfTitleText 14.0f
+#define WidthOfTitle 250.0f
 
 @implementation SavedCell{
 @private
@@ -44,7 +45,7 @@
         titleLabel.font = [UIFont systemFontOfSize:SizeOfTitleText];
         //titleLabel.adjustsFontSizeToFitWidth = YES;
         titleLabel.textColor = [UIColor colorWithHexString:@"1E1E1E"];
-        titleLabel.frame = CGRectMake(19.0f, 19.0f, 284.0f, 25.0f);
+        titleLabel.frame = CGRectMake(19.0f, 19.0f, WidthOfTitle, 25.0f);
         
         titleLabel.lineBreakMode = UILineBreakModeWordWrap;
         titleLabel.numberOfLines =0;
@@ -89,13 +90,13 @@
     //[self.imageView setImageWithURL:[NSURL URLWithString:_news.imgUrl] placeholderImage:[UIImage imageNamed:@"profile-image-placeholder"]];
     
     
-  titleLabel.frame = CGRectMake(titleLabel.frame.origin.x, titleLabel.frame.origin.y, titleLabel.frame.size.width, [SavedCell heightForLabelWithString:titleLabel.text  andWidth:284]);
+  titleLabel.frame = CGRectMake(titleLabel.frame.origin.x, titleLabel.frame.origin.y, titleLabel.frame.size.width, [SavedCell heightForLabelWithString:titleLabel.text  andWidth:WidthOfTitle]);
     
     [self setNeedsLayout];
 }
 
 + (CGFloat)heightForCellWithNews:(News *)news {
-    float w = 284;
+    float w = WidthOfTitle;
     
     
     float sizeToFit = [self heightForLabelWithString:news.title  andWidth:w];
@@ -148,10 +149,10 @@
 
 - (void) setEditing:(BOOL)editting animated:(BOOL)animated
 {
-	if (self.editing == editting)
-	{
-		return;
-	}
+//	if (self.editing == editting)
+//	{
+//		return;
+//	}
 	
 	[super setEditing:editting animated:animated];
 	

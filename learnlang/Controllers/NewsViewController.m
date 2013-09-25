@@ -332,6 +332,9 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+     //static NSString *NewsTableViewCellIdentifier =@"NewsTableViewCellIdentifier";
+    NSString *NewsTableViewCellIdentifier = [NSString stringWithFormat:@"NewsTableViewCellIdentifier%d%d", [indexPath section], [indexPath row]];
     NSUInteger section = [indexPath section];
     NSString *sectionName = [sectionNames objectAtIndex:section];
     NSMutableArray *ary = [newsDic objectForKey:sectionName];
@@ -339,6 +342,7 @@
         if ([indexPath row] < [ary count])
         {
             NewsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NewsTableViewCellIdentifier];
+            
             if (!cell) {
 //                NSArray *objects = [[NSBundle mainBundle] loadNibNamed:@"NewsTableViewCell" owner:self options:nil];
 //                for (NSObject *o in objects) {
@@ -369,7 +373,12 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+   // [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    //文字变灰，证明读过
+    NewsTableViewCell *cell = (NewsTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    cell.titleLabel.textColor=[UIColor grayColor];
+    
+ 
     
     NSUInteger section = [indexPath section];
     NSString *sectionName = [sectionNames objectAtIndex:section];

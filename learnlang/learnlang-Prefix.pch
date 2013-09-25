@@ -43,6 +43,8 @@
 
 #import "CheckNetwork.h"
 
+#import "BaseViewController.h"
+
 #import "UIColor-Expanded.h"
 #import "UIImage+Resize.h"
 
@@ -54,7 +56,7 @@
 
 
 
-#define NewsTableViewCellIdentifier @"NewsTableViewCellIdentifier"
+//#define NewsTableViewCellIdentifier @"NewsTableViewCellIdentifier"
 
 
 #define loadNext20Tip @"下面 20 项 . . ."
@@ -110,7 +112,7 @@
 #define TextSizeForSmall @"SMALL"
 #define TextSizeForMiddle @"MIDDLE"
 #define TextSizeForLarge @"LARGE"
-#define TextSizeDictionary [NSDictionary dictionaryWithObjectsAndKeys:@"140",TextSizeForSmall,@"160",TextSizeForMiddle,@"180",TextSizeForLarge,nil] 
+#define TextSizeDictionary [NSDictionary dictionaryWithObjectsAndKeys:@"180",TextSizeForSmall,@"200",TextSizeForMiddle,@"220",TextSizeForLarge,nil] 
 
 
 //分享

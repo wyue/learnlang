@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CustomAudioToolbar.h"
 
-@interface DownloadViewController  : UIViewController<UITableViewDelegate,UITableViewDataSource>{
+@interface DownloadViewController  : BaseViewController<UITableViewDelegate,UITableViewDataSource>{
     
     UITableView *tableview;
     NSMutableArray *array;

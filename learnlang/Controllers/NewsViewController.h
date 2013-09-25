@@ -11,7 +11,7 @@
 #import "MBProgressHUD.h"
 
 
-@interface NewsViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,EGORefreshTableHeaderDelegate,MBProgressHUDDelegate, UITabBarControllerDelegate,UIAlertViewDelegate>
+@interface NewsViewController : BaseViewController<UITableViewDelegate,UITableViewDataSource,EGORefreshTableHeaderDelegate,MBProgressHUDDelegate, UITabBarControllerDelegate,UIAlertViewDelegate>
 {
     NSMutableArray * newsAry;
     NSMutableDictionary *newsDic;

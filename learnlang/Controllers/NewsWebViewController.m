@@ -14,6 +14,9 @@
 #import "VoiceUILabel.h"
 #import "AudioButton.h"
 #import "DownloadsManager.h"
+#import "DetailModaoPanel.h"
+#import "UANoisyGradientBackground.h"
+#import "UAGradientBackground.h"
 
 #define NavBarHeight 44.0
 
@@ -24,7 +27,7 @@
 @implementation NewsWebViewController
 
 @synthesize news;
-@synthesize toolBar;
+@synthesize toolBar,recordToolBar;
 @synthesize webView;
 
 @synthesize scrollView;
@@ -86,6 +89,23 @@
     
     [lBtn release];
     [lBarBtn release];
+    
+    
+    
+    
+    
+    UIImage *rImg = [UIImage imageNamed:@"topbar-btn-settxt.png"];
+    UIButton *rBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    rBtn.frame = CGRectMake(0, 0, 36.5, 45);
+    [rBtn addTarget:self action:@selector(rightNavButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [rBtn setImage:rImg forState:UIControlStateNormal];
+    rBtn.backgroundColor = [UIColor clearColor];
+    UIBarButtonItem *rBarBtn = [[UIBarButtonItem alloc] initWithCustomView:rBtn];
+    self.navigationItem.rightBarButtonItem = rBarBtn;
+    
+    
+    [rBtn release];
+    [rBarBtn release];
     
     //backButton.tintColor=[UIColor colorWithRed:74/255.0 green:74/255.0 blue:74/255.0 alpha:1.0];
     
@@ -235,6 +255,42 @@
     // CGRect rect_view =[self.view bounds];
     // toolBar.frame=CGRectMake(rect_view.origin.x, rect_view.size.height-kToolBarHeight, rect_view.size.width, kToolBarHeight);
     [toolBar pause:nil];
+    
+    if (self.recordToolBar&&self.recordToolBar.isRecording==YES) {
+        self.recordToolBar.isRecording = NO;
+        
+        
+        
+        [Config ToastNotification:@"录音完毕" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+        
+        
+        //[self.recordButton setTitle:@"REC" forState:UIControlStateNormal];
+        //[self.playButton setEnabled:YES];
+        //[self.playButton.titleLabel setAlpha:1];
+        [self.recordToolBar.recorder stop];
+        
+        
+        //        NSError *err = nil;
+        //        NSData *audioData = [NSData dataWithContentsOfURL:recordedFile options: 0 error:&err];
+        //        if(!audioData)
+        //            NSLog(@"audio data: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
+        self.recordToolBar.recorder = nil;
+        
+        
+        //保存
+        NSString*   mp3url =  [self.recordToolBar audio_PCMtoMP3:[self.recordToolBar.recordedFile path]];
+        if ([NSURL fileURLWithPath:mp3url]) {
+            [DataManager insertRecord:news andFilePath:[NSURL fileURLWithPath:mp3url]];
+        } else{
+            [DataManager insertRecord:news andFilePath:self.recordToolBar.recordedFile];
+        }
+        
+        
+        
+    }
+
+    
+    
    
     [super viewDidDisappear:YES];
 }
@@ -261,6 +317,7 @@
     
     [news release];
     [toolBar release];
+    [recordToolBar release];
     [webView release];
     
     [scrollView release];
@@ -275,7 +332,21 @@
     
     [super dealloc];
 }
-
+- (void)rightNavButtonAction:(id)sender{
+    
+    
+    
+    DetailModaoPanel *modalPanel = [[[DetailModaoPanel alloc] initWithFrame:self.view.bounds title:@"设置"] autorelease];
+    
+    ///////////////////////////////////
+    modalPanel.delegate = self;
+	// Add the panel to our view
+	[self.view addSubview:modalPanel];
+	
+	///////////////////////////////////
+	// Show the panel from the center of the button that was pressed
+	[modalPanel showFromPoint:[sender center]];
+}
 
 
 - (void)popViewController
@@ -626,13 +697,60 @@
         actualSize.height = defaultWebViewHeight;
     }
     CGRect webViewFrame = self.webView.frame;
-    webViewFrame.size.height = actualSize.height;
+    webViewFrame.size.height = actualSize.height+30;
     self.webView.frame = webViewFrame;
     //tableView reloadData
     
     //设置scrollView内容高度
     [scrollView setContentSize:CGSizeMake(scrollView.frame.size.width, 214+self.toolBar.frame.size.height+self.webView.frame.size.height)];
     
+}
+
+
+
+
+
+#pragma mark - UAModalDisplayPanelViewDelegate
+
+// Optional: This is called before the open animations.
+//   Only used if delegate is set.
+- (void)willShowModalPanel:(UAModalPanel *)modalPanel {
+	UADebugLog(@"willShowModalPanel called with modalPanel: %@", modalPanel);
+}
+
+// Optional: This is called after the open animations.
+//   Only used if delegate is set.
+- (void)didShowModalPanel:(UAModalPanel *)modalPanel {
+	UADebugLog(@"didShowModalPanel called with modalPanel: %@", modalPanel);
+}
+
+// Optional: This is called when the close button is pressed
+//   You can use it to perform validations
+//   Return YES to close the panel, otherwise NO
+//   Only used if delegate is set.
+- (BOOL)shouldCloseModalPanel:(UAModalPanel *)modalPanel {
+	UADebugLog(@"shouldCloseModalPanel called with modalPanel: %@", modalPanel);
+	return YES;
+}
+
+// Optional: This is called when the action button is pressed
+//   Action button is only visible when its title is non-nil;
+//   Only used if delegate is set and not using blocks.
+- (void)didSelectActionButton:(UAModalPanel *)modalPanel {
+	UADebugLog(@"didSelectActionButton called with modalPanel: %@", modalPanel);
+}
+
+// Optional: This is called before the close animations.
+//   Only used if delegate is set.
+- (void)willCloseModalPanel:(UAModalPanel *)modalPanel {
+	UADebugLog(@"willCloseModalPanel called with modalPanel: %@", modalPanel);
+    [self sizeUp];
+}
+
+// Optional: This is called after the close animations.
+//   Only used if delegate is set.
+- (void)didCloseModalPanel:(UAModalPanel *)modalPanel {
+	UADebugLog(@"didCloseModalPanel called with modalPanel: %@", modalPanel);
 }
 
 

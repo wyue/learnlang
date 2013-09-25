@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "LocalAudioPlay.h"
 @class CustomAudioToolbar;
-@interface RecordsViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>{
+@interface RecordsViewController : BaseViewController<UITableViewDelegate,UITableViewDataSource>{
     
     UITableView *tableview;
     NSMutableArray *array;

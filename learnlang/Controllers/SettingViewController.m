@@ -242,6 +242,11 @@
     
     [[EGOCache currentCache] clearCache];
     
+    
+    
+    
+    
+    
     [Config ToastNotification:@"缓存已清除" andView:self.view andLoading:NO andIsBottom:NO];
 }
 

@@ -7,17 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
-@class EGOImageView;
+
+//@class EGOImageView;
 @class News;
 
 @interface NewsTableViewCell : UITableViewCell{
 @private
-IBOutlet EGOImageView* imageView;
+IBOutlet UIImageView* imageView;
  IBOutlet   UILabel * titleLabel;
  IBOutlet   UILabel* clickCountLabel;
     IBOutlet   UILabel* saveCountLabel;
     UIView *whiteRoundedCornerView;
+    
 }
+@property (nonatomic, retain)   UILabel * titleLabel;
 
 @property (nonatomic, strong) News *news;
 + (CGFloat)heightForCellWithNews:(News *)news;

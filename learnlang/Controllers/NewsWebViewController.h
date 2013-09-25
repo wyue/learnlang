@@ -8,13 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "CustomToolbar.h"
-
-
+#import "RecordToolbar.h"
+#import "UAModalPanel.h"
 @class News;
-@interface NewsWebViewController  : UIViewController<UIWebViewDelegate>{
+@interface NewsWebViewController  : UIViewController<UIWebViewDelegate,UAModalPanelDelegate>{
 @private News *news;
     
 @private IBOutlet CustomToolbar *toolBar;
+    @private  RecordToolbar *recordToolBar;
 @private IBOutlet UIWebView *webView;
     
 @private IBOutlet UIScrollView *scrollView;
@@ -41,6 +42,7 @@
 @property(nonatomic,retain)News *news;
 
 @property(nonatomic,retain)CustomToolbar *toolBar;
+ @property(nonatomic,retain) RecordToolbar *recordToolBar;
 @property(nonatomic,retain)UIWebView *webView;
 
 
