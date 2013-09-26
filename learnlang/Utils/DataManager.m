@@ -641,9 +641,12 @@
         NSDictionary *dic = [setting objectForKey:dickey];
         NSArray *ary = [setting objectForKey:arykey];
         if (dic==nil) {
-            ary = [[NSMutableArray alloc]init];
+           
             dic = [[NSMutableDictionary alloc]init];
             
+        }
+        if (ary==nil) {
+             ary = [[NSMutableArray alloc]init];
         }
         NSMutableDictionary *dictMutable = [dic mutableCopy];
         
@@ -708,6 +711,21 @@
             
             
         }
+        
+        
+        
+        
+        NSString* fileName =  [[url lastPathComponent] stringByDeletingPathExtension];
+        
+        NSString *mp3FilePath = [NSString stringWithFormat:@"%@/%@.mp3", DOCUMENTS_FOLDER,fileName];
+        
+     
+        
+        if([Config isExistFile:mp3FilePath]) {
+            [fileManager removeItemAtPath:mp3FilePath error:&error];
+        }
+        
+        
     }
     
     

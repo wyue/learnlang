@@ -99,8 +99,21 @@
     [self.delAllButton removeFromSuperview];
     self.delAllButton = nil;
     [self.delAllButton release];
+    [toolBar removeFromSuperview];
+    toolBar=nil;
+    [toolBar release];
+    
+    if (!toolBar) {
+        CGRect rect_view =[self.view bounds];
+        toolBar = [[CustomAudioToolbar alloc]initWithFrame:CGRectMake(rect_view.origin.x, rect_view.size.height-kNewsToolBarHeight, rect_view.size.width, kNewsToolBarHeight) andShare:YES];
+        toolBar.autoresizingMask=UIViewAutoresizingFlexibleTopMargin;
+        
+        toolBar.parentViewController=self;
+        [self.view addSubview:toolBar];
+    }
     
     if (toolBar) {
+        
         [toolBar setHidden:YES];
         
     }
@@ -121,7 +134,7 @@
     CGRect rect_view =[self.view bounds];
     toolBar.frame=CGRectMake(rect_view.origin.x, rect_view.size.height-kNewsToolBarHeight, rect_view.size.width, kNewsToolBarHeight);
     
-    
+    [self.tableview setContentSize:CGSizeMake(self.tableview.frame.size.width, self.tableview.contentSize.height+kNewsToolBarHeight )];
 }
 - (void)tableViewEdit:(id)sender{
     [tableview setEditing:!self.tableview.editing animated:YES];

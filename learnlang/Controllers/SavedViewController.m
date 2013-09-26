@@ -122,7 +122,7 @@
     CGRect rect_view =[self.view bounds];
     toolBar.frame=CGRectMake(rect_view.origin.x, rect_view.size.height-kNewsToolBarHeight, rect_view.size.width, kNewsToolBarHeight);
     
-    
+     [self.tableview setContentSize:CGSizeMake(self.tableview.frame.size.width, self.tableview.contentSize.height+kNewsToolBarHeight )];
 }
 
 

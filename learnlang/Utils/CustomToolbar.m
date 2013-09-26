@@ -12,6 +12,8 @@
 #import "NewsWebViewController.h"
 #import "lame.h"
 
+#import <ShareSDK/ShareSDK.h>
+
 #define kStringArray [NSArray arrayWithObjects:@"收 藏", @"下 载", @"分 享", nil]
 #define kProgressViewHeight 2
 
@@ -1029,7 +1031,7 @@ theAnimation1.delegate = self;
                             //保存
                             
                             [DataManager insertOrRemoveNews:kDownloadType andID:news._id andString:json];
-                            [Config ToastNotification:@"开始下载" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+                            [Config ToastNotification:@"开始下载,请在我的下载中查看" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
                             
                          
                             
@@ -1072,7 +1074,7 @@ theAnimation1.delegate = self;
                     //保存
                     
                     [DataManager insertOrRemoveNews:kDownloadType andID:news._id andString:json];
-                    [Config ToastNotification:@"开始下载" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+                    [Config ToastNotification:@"开始下载,请在我的下载中查看" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
                     
                     
                     
@@ -1097,70 +1099,84 @@ theAnimation1.delegate = self;
 
 - (void)shareAction:(id)sender
 {
-    if([SLComposeViewController class] != nil)
-    {
-        //
-        //
-        //        [slComposerSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
-        //            NSLog(@"start completion block");
-        //            NSString *output;
-        //            switch (result) {
-        //                case SLComposeViewControllerResultCancelled:
-        //                    output = @"Action Cancelled";
-        //                    break;
-        //                case SLComposeViewControllerResultDone:
-        //                    output = @"Post Successfull";
-        //                    break;
-        //                default:
-        //                    break;
-        //            }
-        //            if (result != SLComposeViewControllerResultCancelled)
-        //            {
-        //                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"分享内容" message:output delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-        //                [alert show];
-        //            }
-        //        }];
-        //        if([SLComposeViewController isAvailableForServiceType:SLServiceTypeSinaWeibo])
-        //        {
-        //            slComposerSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeSinaWeibo];
-        //
-        //            self.sharingText=[NSString stringWithFormat:@"我正在通过%@学习%@，快来一起吧 %@",AppTitle,AppLang,AppUrl];
-        //
-        //
-        //
-        //            [slComposerSheet setInitialText:self.sharingText];
-        //            [slComposerSheet addImage:self.sharingImage];
-        //            [slComposerSheet addURL:[NSURL URLWithString:@"http://www.weibo.com/"]];
-        //            [self.parentViewController presentViewController:slComposerSheet animated:YES completion:nil];
-        //        }
-        SLComposeViewController *currentComposeViewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeSinaWeibo];
-        [currentComposeViewController setInitialText:[NSString stringWithFormat:@"我正在通过%@学习%@，快来一起吧 ",AppTitle,AppLang]];
-        //[currentComposeViewController addImage:[UIImage imageNamed:@"1.jpg"]];
-        [currentComposeViewController addURL:[NSURL URLWithString:AppUrl]];
-        currentComposeViewController.completionHandler = ^(SLComposeViewControllerResult result){
-            switch (result)
-            {
-                case SLComposeViewControllerResultDone:
-                    
-                    break;
-                case SLComposeViewControllerResultCancelled:
-                    
-                default:
-                    break;
-            }
-            [currentComposeViewController	dismissViewControllerAnimated:YES
-                                                             completion:nil];
-        };
-        [self.parentViewController presentViewController:currentComposeViewController
-                                                animated:YES
-                                              completion:nil];
-        
-    } else {
-        UIAlertView *osAlert = [[UIAlertView alloc] initWithTitle:@"抱歉" message:@"您的iOS版本低于6.0，无法支持微博分享功能." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [osAlert show];
-        NSLog(@"Your iOS version is below iOS6");
-        
-    }
+    
+    NSArray *shareList = [ShareSDK getShareListWithType:
+                          ShareTypeSinaWeibo,
+                          ShareTypeTencentWeibo,
+                          nil];
+    
+    //NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"ShareSDK"  ofType:@"jpg"];
+    
+    //构造分享内容
+    id<ISSContent> publishContent = [ShareSDK content:[NSString stringWithFormat:@"我正在通过%@学习%@，快来一起吧 ",AppTitle,AppLang]
+                                       defaultContent:@""
+                                                image:nil//[ShareSDK imageWithPath:imagePath]
+                                                title:@"ShareSDK"
+                                                  url:AppUrl
+                                          description:@""
+                                            mediaType:SSPublishContentMediaTypeNews];
+    
+    NSArray *oneKeyShareList = [ShareSDK getShareListWithType:
+                                ShareTypeSinaWeibo,
+                                ShareTypeTencentWeibo,
+                                nil];
+    id<ISSShareOptions> shareOptions = [ShareSDK defaultShareOptionsWithTitle:nil      //分享视图标题
+                                                              oneKeyShareList:oneKeyShareList           //一键分享菜单
+                                                               qqButtonHidden:YES                               //QQ分享按钮是否隐藏
+                                                        wxSessionButtonHidden:YES                   //微信好友分享按钮是否隐藏
+                                                       wxTimelineButtonHidden:YES                 //微信朋友圈分享按钮是否隐藏
+                                                         showKeyboardOnAppear:NO                  //是否显示键盘
+                                                            shareViewDelegate:nil                            //分享视图委托
+                                                          friendsViewDelegate:nil                          //好友视图委托
+                                                        picViewerViewDelegate:nil];
+    
+    [ShareSDK showShareActionSheet:nil
+                         shareList:shareList
+                           content:publishContent
+                     statusBarTips:YES
+                       authOptions:nil
+                      shareOptions: shareOptions
+                            result:^(ShareType type, SSPublishContentState state, id<ISSStatusInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+                                if (state == SSPublishContentStateSuccess)
+                                {
+                                    NSLog(@"分享成功");
+                                }
+                                else if (state == SSPublishContentStateFail)
+                                {
+                                    NSLog(@"分享失败,错误码:%d,错误描述:%@", [error errorCode], [error errorDescription]);
+                                }
+                            }];
+//    if([SLComposeViewController class] != nil)
+//    {
+//
+//        SLComposeViewController *currentComposeViewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeSinaWeibo];
+//        [currentComposeViewController setInitialText:[NSString stringWithFormat:@"我正在通过%@学习%@，快来一起吧 ",AppTitle,AppLang]];
+//        //[currentComposeViewController addImage:[UIImage imageNamed:@"1.jpg"]];
+//        [currentComposeViewController addURL:[NSURL URLWithString:AppUrl]];
+//        currentComposeViewController.completionHandler = ^(SLComposeViewControllerResult result){
+//            switch (result)
+//            {
+//                case SLComposeViewControllerResultDone:
+//                    
+//                    break;
+//                case SLComposeViewControllerResultCancelled:
+//                    
+//                default:
+//                    break;
+//            }
+//            [currentComposeViewController	dismissViewControllerAnimated:YES
+//                                                             completion:nil];
+//        };
+//        [self.parentViewController presentViewController:currentComposeViewController
+//                                                animated:YES
+//                                              completion:nil];
+//        
+//    } else {
+//        UIAlertView *osAlert = [[UIAlertView alloc] initWithTitle:@"抱歉" message:@"您的iOS版本低于6.0，无法支持微博分享功能." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+//        [osAlert show];
+//        NSLog(@"Your iOS version is below iOS6");
+//        
+//    }
     
     
     

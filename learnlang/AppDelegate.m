@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import <ShareSDK/ShareSDK.h>
 
 #import "MasterViewController.h"
 
@@ -42,6 +43,18 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    
+    [ShareSDK registerApp:@"9b3db77f3b0"];     //参数为ShareSDK官网中添加应用后得到的AppKey
+    //添加新浪微博应用
+    [ShareSDK connectSinaWeiboWithAppKey:@"3201194191"
+                               appSecret:@"0334252914651e8f76bad63337b3b78f"
+                             redirectUri:@"http://appgo.cn"];
+    
+    //添加腾讯微博应用
+    [ShareSDK connectTencentWeiboWithAppKey:@"801307650"
+                                  appSecret:@"ae36f4ee3946e1cbb98d6965b0b2ff5c"
+                                redirectUri:@"http://www.sharesdk.cn"];
+    
     
     
     

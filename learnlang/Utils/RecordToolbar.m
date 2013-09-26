@@ -339,7 +339,8 @@ systemItem {
         [NSThread detachNewThreadSelector:@selector(audio_PCMtoMP3:) toTarget:self withObject:[recordedFile path]];
         //[self audio_PCMtoMP3:[recordedFile path]];
         if ([NSURL fileURLWithPath:mp3url]) {
-            [DataManager insertRecord:news andFilePath:[NSURL fileURLWithPath:mp3url]];
+            //[DataManager insertRecord:news andFilePath:[NSURL fileURLWithPath:mp3url]];
+            [DataManager insertRecord:news andFilePath:recordedFile];
         } else{
             [DataManager insertRecord:news andFilePath:recordedFile];
         }
@@ -675,7 +676,8 @@ systemItem {
         [NSThread detachNewThreadSelector:@selector(audio_PCMtoMP3:) toTarget:self withObject:[recordedFile path]];
         //[self audio_PCMtoMP3:[recordedFile path]];
         if ([NSURL fileURLWithPath:mp3url]) {
-            [DataManager insertRecord:news andFilePath:[NSURL fileURLWithPath:mp3url]];
+            //[DataManager insertRecord:news andFilePath:[NSURL fileURLWithPath:mp3url]];
+            [DataManager insertRecord:news andFilePath:recordedFile];
         } else{
             [DataManager insertRecord:news andFilePath:recordedFile];
         }
@@ -830,7 +832,8 @@ systemItem {
         [NSThread detachNewThreadSelector:@selector(audio_PCMtoMP3:) toTarget:self withObject:[recordedFile path]];
         //[self audio_PCMtoMP3:[recordedFile path]];
         if ([NSURL fileURLWithPath:mp3url]) {
-            [DataManager insertRecord:news andFilePath:[NSURL fileURLWithPath:mp3url]];
+            //[DataManager insertRecord:news andFilePath:[NSURL fileURLWithPath:mp3url]];
+            [DataManager insertRecord:news andFilePath:recordedFile];
         } else{
             [DataManager insertRecord:news andFilePath:recordedFile];
         }
