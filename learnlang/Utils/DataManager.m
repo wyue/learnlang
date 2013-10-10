@@ -100,8 +100,8 @@
         
         
         
-        
-         [dic setObject:mutablearray forKey:[itemDic objectForKey:@"createDate"]];
+        NSString* dickey = [NSString stringWithFormat:@"%@  %@",[itemDic objectForKey:@"day"],[itemDic objectForKey:@"week"]];
+         [dic setObject:mutablearray forKey:dickey];
         
     }
     
@@ -200,9 +200,9 @@
                 
                 
                 
-                NSString *test1 = obj1;
+                NSString *test1 = [obj1 substringWithRange:NSMakeRange(0,10)];
                 
-                NSString *test2 = obj2;
+                NSString *test2 = [obj2 substringWithRange:NSMakeRange(0,10)];;
                 
                 
                 
@@ -215,7 +215,7 @@
                 //NSTimeZone *timeZone = [NSTimeZone localTimeZone];
                 //[formatter setTimeZone:timeZone];
                 
-                [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"]; //设置日期格式
+                [dateFormatter setDateFormat:@"yyyy-MM-dd"]; //设置日期格式
                 NSDate *date1 = [dateFormatter dateFromString:test1]; //当前日期
                 
              

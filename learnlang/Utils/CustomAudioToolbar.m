@@ -1044,8 +1044,11 @@ systemItem {
 }
 - (void)shareAction:(id)sender
 {
-    NSString *filePath=[self.URL path];
-    NSString* shareurl = [NSString stringWithFormat:@"http://learn.china.cn/mp3/%d/%@",news._id,[filePath lastPathComponent] ];
+   // NSString *filePath=[self.URL path];
+    NSString* fileName =  [[self.URL lastPathComponent] stringByDeletingPathExtension];
+    
+    NSString *mp3FilePath = [NSString stringWithFormat:@"%@/%@.mp3", DOCUMENTS_FOLDER,fileName];
+    NSString* shareurl = [NSString stringWithFormat:@"http://learn.china.cn/mp3/%d/%@",news._id,[mp3FilePath lastPathComponent] ];
     //如果没上传先上传
     if (![DataManager isUpload:self.URL.path]) {
         
@@ -1057,6 +1060,8 @@ systemItem {
         
         
     }
+    
+   
     NSArray *shareList = [ShareSDK getShareListWithType:
                           ShareTypeSinaWeibo,
                           ShareTypeTencentWeibo,
@@ -1065,10 +1070,10 @@ systemItem {
     //NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"ShareSDK"  ofType:@"jpg"];
     
     //构造分享内容
-    id<ISSContent> publishContent = [ShareSDK content:[NSString stringWithFormat:@"我正在通过%@分享一段学习音频，快来听听说的怎么样 ",AppTitle]
+    id<ISSContent> publishContent = [ShareSDK content:[NSString stringWithFormat:@"我正在通过%@分享一段学习音频，快来听听说的怎么样 %@",AppTitle,shareurl]
                                        defaultContent:@""
                                                 image:nil//[ShareSDK imageWithPath:imagePath]
-                                                title:@"ShareSDK"
+                                                title:@"德语达人"
                                                   url:shareurl
                                           description:@""
                                             mediaType:SSPublishContentMediaTypeNews];

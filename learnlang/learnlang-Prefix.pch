@@ -118,7 +118,7 @@
 //分享
 #define AppTitle @"德语达人"
 #define AppLang @"德语"
-#define AppUrl @""
+#define AppUrl @"http://www.china.com.cn"
 #define kAppVersion @"AppVersion"
 
 //menu

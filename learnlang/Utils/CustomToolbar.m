@@ -1108,10 +1108,10 @@ theAnimation1.delegate = self;
     //NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"ShareSDK"  ofType:@"jpg"];
     
     //构造分享内容
-    id<ISSContent> publishContent = [ShareSDK content:[NSString stringWithFormat:@"我正在通过%@学习%@，快来一起吧 ",AppTitle,AppLang]
+    id<ISSContent> publishContent = [ShareSDK content:[NSString stringWithFormat:@"我正在通过%@学习%@，快来一起吧 %@",AppTitle,AppLang,AppUrl]
                                        defaultContent:@""
                                                 image:nil//[ShareSDK imageWithPath:imagePath]
-                                                title:@"ShareSDK"
+                                                title:@"德语达人"
                                                   url:AppUrl
                                           description:@""
                                             mediaType:SSPublishContentMediaTypeNews];

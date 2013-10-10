@@ -57,7 +57,7 @@ __strong FileModel *_fileModel;
         clickCountLabel.font = [UIFont systemFontOfSize:11.0f];
         clickCountLabel.textColor=[UIColor colorWithHexString:@"A7A7A7"];
         clickCountLabel.numberOfLines = 1;
-        clickCountLabel.frame = CGRectMake(19,38, 200.0f, 10.0f);
+        clickCountLabel.frame = CGRectMake(19,38, 200.0f, 14.0f);
         [self.contentView addSubview:clickCountLabel];
 
         
@@ -236,7 +236,7 @@ self.selectionStyle = UITableViewCellSelectionStyleNone;
     
     backImageView.frame=CGRectMake(8,7,self.frame.size.width-16,self.frame.size.height-7);
     
-    clickCountLabel.frame=CGRectMake(19,self.frame.size.height-22, 200.0f, 10.0f);
+    clickCountLabel.frame=CGRectMake(19,self.frame.size.height-22, 200.0f, 14.0f);
      extButton.frame=CGRectMake(backImageView.frame.origin.x+ backImageView.frame.size.width-40,backImageView.frame.origin.y, 40, backImageView.frame.size.height);
 }
 

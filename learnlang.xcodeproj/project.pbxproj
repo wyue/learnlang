@@ -146,8 +146,6 @@
 		224D15CE179CCEDC00C5B8B2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 224D15CC179CCEDC00C5B8B2 /* InfoPlist.strings */; };
 		224D15D0179CCEDC00C5B8B2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 224D15CF179CCEDC00C5B8B2 /* main.m */; };
 		224D15D4179CCEDC00C5B8B2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 224D15D3179CCEDC00C5B8B2 /* AppDelegate.m */; };
-		224D15D6179CCEDC00C5B8B2 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 224D15D5179CCEDC00C5B8B2 /* Default.png */; };
-		224D15D8179CCEDC00C5B8B2 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 224D15D7179CCEDC00C5B8B2 /* Default@2x.png */; };
 		224D15DA179CCEDC00C5B8B2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 224D15D9179CCEDC00C5B8B2 /* Default-568h@2x.png */; };
 		224D15DD179CCEDC00C5B8B2 /* learnlang.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 224D15DB179CCEDC00C5B8B2 /* learnlang.xcdatamodeld */; };
 		224D15E0179CCEDC00C5B8B2 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224D15DF179CCEDC00C5B8B2 /* MasterViewController.m */; };
@@ -176,7 +174,6 @@
 		224D1654179D22BC00C5B8B2 /* whiteArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 224D161E179D22BC00C5B8B2 /* whiteArrow.png */; };
 		224D1655179D22BC00C5B8B2 /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 224D161F179D22BC00C5B8B2 /* whiteArrow@2x.png */; };
 		224D1656179D22BC00C5B8B2 /* GCDiscreetNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 224D1622179D22BC00C5B8B2 /* GCDiscreetNotificationView.m */; };
-		224D1657179D22BC00C5B8B2 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 224D1628179D22BC00C5B8B2 /* Icon@2x.png */; };
 		224D1658179D22BC00C5B8B2 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 224D162A179D22BC00C5B8B2 /* MBProgressHUD.m */; };
 		224D1659179D22BC00C5B8B2 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 224D162E179D22BC00C5B8B2 /* SBJsonParser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		224D165A179D22BC00C5B8B2 /* SBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 224D1630179D22BC00C5B8B2 /* SBJsonStreamParser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -241,8 +238,6 @@
 		224D171D17A2453100C5B8B2 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 224D171C17A2453000C5B8B2 /* AudioToolbox.framework */; };
 		224D172017A24EE000C5B8B2 /* NewsToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 224D171F17A24EDF00C5B8B2 /* NewsToolbar.m */; };
 		22549DD617A5F8240056C711 /* AMProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22549DD317A5F8240056C711 /* AMProgressView.m */; };
-		228C098017F2C50100254693 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 228C097E17F2C50100254693 /* Icon.png */; };
-		228C098117F2C50100254693 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 228C097F17F2C50100254693 /* Icon@2x.png */; };
 		228C09CB17F2D27900254693 /* DouBanConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 228C098417F2D27900254693 /* DouBanConnection.framework */; };
 		228C09CC17F2D27900254693 /* DropboxConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 228C098517F2D27900254693 /* DropboxConnection.framework */; };
 		228C09CD17F2D27900254693 /* EverNoteConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 228C098617F2D27900254693 /* EverNoteConnection.framework */; };
@@ -510,7 +505,6 @@
 		224D15D1179CCEDC00C5B8B2 /* learnlang-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "learnlang-Prefix.pch"; sourceTree = "<group>"; };
 		224D15D2179CCEDC00C5B8B2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		224D15D3179CCEDC00C5B8B2 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		224D15D5179CCEDC00C5B8B2 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		224D15D7179CCEDC00C5B8B2 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		224D15D9179CCEDC00C5B8B2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		224D15DC179CCEDC00C5B8B2 /* learnlang.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = learnlang.xcdatamodel; sourceTree = "<group>"; };
@@ -674,6 +668,7 @@
 		224D171F17A24EDF00C5B8B2 /* NewsToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsToolbar.m; sourceTree = "<group>"; };
 		22549DD217A5F8240056C711 /* AMProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMProgressView.h; sourceTree = "<group>"; };
 		22549DD317A5F8240056C711 /* AMProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMProgressView.m; sourceTree = "<group>"; };
+		2289441F17F5766600AC8D63 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		228C097E17F2C50100254693 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		228C097F17F2C50100254693 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		228C098417F2D27900254693 /* DouBanConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DouBanConnection.framework; sourceTree = "<group>"; };
@@ -1094,6 +1089,7 @@
 		224D15CA179CCEDC00C5B8B2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2289441F17F5766600AC8D63 /* Default.png */,
 				228C097E17F2C50100254693 /* Icon.png */,
 				228C097F17F2C50100254693 /* Icon@2x.png */,
 				22EA08FC17CC7158009B83D5 /* 1.mp3 */,
@@ -1102,7 +1098,6 @@
 				224D15CC179CCEDC00C5B8B2 /* InfoPlist.strings */,
 				224D15CF179CCEDC00C5B8B2 /* main.m */,
 				224D15D1179CCEDC00C5B8B2 /* learnlang-Prefix.pch */,
-				224D15D5179CCEDC00C5B8B2 /* Default.png */,
 				224D15D7179CCEDC00C5B8B2 /* Default@2x.png */,
 				224D15D9179CCEDC00C5B8B2 /* Default-568h@2x.png */,
 				22EA08D817CB3813009B83D5 /* news_detail.html */,
@@ -1816,8 +1811,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				224D15CE179CCEDC00C5B8B2 /* InfoPlist.strings in Resources */,
-				224D15D6179CCEDC00C5B8B2 /* Default.png in Resources */,
-				224D15D8179CCEDC00C5B8B2 /* Default@2x.png in Resources */,
 				224D15DA179CCEDC00C5B8B2 /* Default-568h@2x.png in Resources */,
 				224D15E6179CCEDC00C5B8B2 /* MasterViewController.xib in Resources */,
 				224D15E9179CCEDC00C5B8B2 /* DetailViewController.xib in Resources */,
@@ -1829,7 +1822,6 @@
 				224D1653179D22BC00C5B8B2 /* grayArrow@2x.png in Resources */,
 				224D1654179D22BC00C5B8B2 /* whiteArrow.png in Resources */,
 				224D1655179D22BC00C5B8B2 /* whiteArrow@2x.png in Resources */,
-				224D1657179D22BC00C5B8B2 /* Icon@2x.png in Resources */,
 				224D1685179D28F100C5B8B2 /* MenuViewController.xib in Resources */,
 				224D1698179D333D00C5B8B2 /* LICENSE in Resources */,
 				224D169C179D333D00C5B8B2 /* README.md in Resources */,
@@ -1940,8 +1932,6 @@
 				2241D9BA17F18C0000BAEB64 /* recording-2.png in Resources */,
 				2241D9BB17F18C0000BAEB64 /* recordoff.png in Resources */,
 				2241D9BD17F18C1100BAEB64 /* topbar-btn-settxt.png in Resources */,
-				228C098017F2C50100254693 /* Icon.png in Resources */,
-				228C098117F2C50100254693 /* Icon@2x.png in Resources */,
 				228C09D217F2D27900254693 /* InstapaperResource.bundle in Resources */,
 				228C09E717F2D27900254693 /* ShareSDKLocalizable.strings in Resources */,
 				228C09E817F2D27900254693 /* Resource.bundle in Resources */,

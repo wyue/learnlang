@@ -229,6 +229,7 @@
     }else{
         [toolBar setHidden:NO];
     }
+    [self.tableview setContentSize:CGSizeMake(self.tableview.frame.size.width, self.tableview.contentSize.height+kNewsToolBarHeight )];
     
     FileModel *n = [array objectAtIndex:self.currentIndex.row];
     if (n) {
