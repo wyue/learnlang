@@ -37,29 +37,19 @@
 {
     [super viewDidLoad];
     
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStyleBordered target:self.navigationController action:@selector(toggleMenu)];
-    
-    
-    
-//    if ([[[UIDevice currentDevice] systemVersion] intValue] >= 5) {      //for ios5.*
-//        UIBarButtonItem *rbtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self.navigationController action:@selector(toggleMenu:)];
-//        UIImage *rightBarBtn = [[UIImage imageNamed:@"barBtn"] resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 5.0, 0.0, 5.0)];
-//        [rbtn setBackgroundImage:rightBarBtn forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-//        self.navigationItem.rightBarButtonItem = rbtn;
-//        [rbtn release];
-//    }
-//    else {      //for ios4.*
-        UIImage *rImg = [UIImage imageNamed:@"choosebtn_03.png"];
-        UIButton *rBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        rBtn.frame = CGRectMake(0, 0, 40, 30);
-        [rBtn addTarget:self.navigationController action:@selector(toggleMenu:) forControlEvents:UIControlEventTouchUpInside];
-        [rBtn setImage:rImg forState:UIControlStateNormal];
-        rBtn.backgroundColor = [UIColor clearColor];
-        UIBarButtonItem *rBarBtn = [[UIBarButtonItem alloc] initWithCustomView:rBtn];
-        self.navigationItem.rightBarButtonItem = rBarBtn;
-    [rBtn release];
-        [rBarBtn release];
-//    }
+
+//
+//        UIImage *rImg = [UIImage imageNamed:@"choosebtn_03.png"];
+//        UIButton *rBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        rBtn.frame = CGRectMake(0, 0, 40, 30);
+//        [rBtn addTarget:self.navigationController action:@selector(toggleMenu:) forControlEvents:UIControlEventTouchUpInside];
+//        [rBtn setImage:rImg forState:UIControlStateNormal];
+//        rBtn.backgroundColor = [UIColor clearColor];
+//        UIBarButtonItem *rBarBtn = [[UIBarButtonItem alloc] initWithCustomView:rBtn];
+//        self.navigationItem.rightBarButtonItem = rBarBtn;
+//    [rBtn release];
+//        [rBarBtn release];
+
     
 
     
@@ -149,6 +139,7 @@
             return;
         }
         if (!noRefresh) {
+            
             allCount = 0;
         }
         int pageIndex = allCount/newsPageSize;
@@ -167,9 +158,9 @@
                                       
                                       // NSLog(@"%@",operation.responseString);
                                        isLoading = NO;
-                                       if (!noRefresh) {
-                                           [self clear];
-                                       }
+//                                       if (!noRefresh) {
+//                                           [self clear];
+//                                       }
                                        
                                        @try {
                                            NSMutableDictionary *newNewsDic = self.catalog <= 1 ?
@@ -219,24 +210,48 @@
                                        }
                                    }];
         isLoading = YES;//显示正在加载
-        [self.tableNews reloadData];
+        //[self.tableNews reloadData];
     }
     //如果没有网络连接
     else
     {
         NSString *value = [DataManager getCache:5 andID:self.catalog];
-        if (value) {
+        if (value)
+        {
+            
             NSMutableDictionary *newNewsDic = [DataManager readNewsDic:value andOld:newsDic];
-            [self.tableNews reloadData];
-            isLoadOver = YES;
+            NSMutableArray *newNews=[DataManager readNewsAryByDic:newNewsDic];
+            if (newNews == nil) {
+                [self.tableNews reloadData];
+            }
+            else if(newNews.count <= 0){
+                [self.tableNews reloadData];
+                isLoadOver = YES;
+            }
+            else if(newNews.count < newsPageSize){
+                isLoadOver = YES;
+            }
+            [newsAry addObjectsFromArray:newNews];
             [newsDic addEntriesFromDictionary:newNewsDic];
-            
             sectionNames = [DataManager readNewsSectionsyByDic:newsDic];
-            
-             //isLoading = NO;
             [self.tableNews reloadData];
+            
             [self doneLoadingTableViewData];
         }
+       
+//        NSString *value = [DataManager getCache:5 andID:self.catalog];
+//        if (value) {
+//            NSMutableDictionary *newNewsDic = [DataManager readNewsDic:value andOld:newsDic];
+//            [self.tableNews reloadData];
+//            isLoadOver = YES;
+//            [newsDic addEntriesFromDictionary:newNewsDic];
+//            
+//            sectionNames = [DataManager readNewsSectionsyByDic:newsDic];
+//            
+//             isLoading = NO;
+//            [self.tableNews reloadData];
+//            [self doneLoadingTableViewData];
+//        }
     }
 }
 
@@ -441,6 +456,10 @@
 }
 - (void)refresh
 {
+    
+  
+    
+    
     [Config Instance].isNetworkRunning = [CheckNetwork isExistenceNetwork];
     if ([Config Instance].isNetworkRunning) {
         isLoadOver = NO;
@@ -464,10 +483,17 @@
             else if(newNews.count < newsPageSize){
                 isLoadOver = YES;
             }
-            [newsAry addObjectsFromArray:newNews];
-            [newsDic addEntriesFromDictionary:newNewsDic];
+            
+            if(newNews&&newNews.count > 0){
+                [newsAry addObjectsFromArray:newNews];
+                [newsDic addEntriesFromDictionary:newNewsDic];
+            }
+          
             sectionNames = [DataManager readNewsSectionsyByDic:newsDic];
             [self.tableNews reloadData];
+            [Config ToastNotification:@"错误 网络无连接" andView:self.view andLoading:NO andIsBottom:NO];
+            
+            //[self doneLoadingTableViewData];
            [self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3.0];
         }
         

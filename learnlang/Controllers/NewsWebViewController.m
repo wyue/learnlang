@@ -422,7 +422,7 @@
         
         [webView loadHTMLString:htmlString baseURL:baseURL];
         
-        
+        [titleLabel setText:news.subTitle];
         
         
         
@@ -445,7 +445,7 @@
         
        
         [webView loadHTMLString:htmlString baseURL:baseURL];
-        
+        [titleLabel setText:news.title];
         
     }
     

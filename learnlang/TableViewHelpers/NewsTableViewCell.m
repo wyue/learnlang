@@ -76,7 +76,7 @@ __strong News *_news;
        
    
     
-    titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(16.0f, 5.0f, 186, 30.0f)];//w:240
+    titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(16.0f, 5.0f, 182, 30.0f)];//w:240
    titleLabel.font = [UIFont systemFontOfSize:SizeOfTitleText];
     //titleLabel.adjustsFontSizeToFitWidth = YES;
     titleLabel.textColor = [UIColor colorWithHexString:@"212121"];
@@ -124,11 +124,11 @@ __strong News *_news;
 - (void)setNews:(News *)news {
     _news = news;
     
-    titleLabel.text = _news.title;
+    titleLabel.text = [NSString stringWithFormat:@"%@\n%@",_news.title,_news.subTitle];
     clickCountLabel.text = [NSString stringWithFormat:@"%d阅读",_news.clickCount];
     saveCountLabel.text = [NSString stringWithFormat:@"|  %d收藏",_news.saveCount];
     //[self.imageView setImageWithURL:[NSURL URLWithString:_news.imgUrl] placeholderImage:[UIImage imageNamed:@"profile-image-placeholder"]];
-     float w = 186;
+     float w = 182;
    
     if (_news.imgUrl&&_news.imgUrl.length>0) {
         if (imageView==nil) {
@@ -154,7 +154,7 @@ __strong News *_news;
          w=288;//w:288
         titleLabel.frame = CGRectMake(16.0f, 5.0f, 288, 30.0f);
     }
-    titleLabel.frame = CGRectMake(titleLabel.frame.origin.x, titleLabel.frame.origin.y, titleLabel.frame.size.width, [NewsTableViewCell heightForLabelWithString:news.title  andWidth:w]);
+    titleLabel.frame = CGRectMake(titleLabel.frame.origin.x, titleLabel.frame.origin.y, titleLabel.frame.size.width, [NewsTableViewCell heightForLabelWithString:titleLabel.text  andWidth:w]);
    
     
     
@@ -162,12 +162,14 @@ __strong News *_news;
 }
 
 + (CGFloat)heightForCellWithNews:(News *)news {
-    float w = 186;
+    float w = 182;
     if (!news.imgUrl) {
         w=288;
     }
     
-    float sizeToFit = [self heightForLabelWithString:news.title  andWidth:w];
+   NSString* title= [NSString stringWithFormat:@"%@\n%@",news.title,news.subTitle];
+    
+    float sizeToFit = [self heightForLabelWithString:title  andWidth:w];
     
     
 //    CGSize sizeToFit = [news.title sizeWithFont:[UIFont systemFontOfSize:12.0f] constrainedToSize:CGSizeMake(w, 20000) lineBreakMode:UILineBreakModeWordWrap];

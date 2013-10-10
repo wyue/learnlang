@@ -29,7 +29,7 @@
 		////////////////////////////////////
 		// Show the defaults mostly, but once in awhile show a completely random funky one
 		// Margin between edge of container frame and panel. Default = {20.0, 20.0, 20.0, 20.0}
-        self.margin = UIEdgeInsetsMake(20.0, 20.0, 250.0, 20.0);
+        self.margin = UIEdgeInsetsMake(120.0, 20.0, 150.0, 20.0);//上，左，下，右
         
         // Padding between edge of panel and the content area. Default = {20.0, 20.0, 20.0, 20.0}
         self.padding = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0);
