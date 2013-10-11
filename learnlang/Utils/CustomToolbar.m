@@ -333,6 +333,9 @@ systemItem {
             }else{
                 //网络
                 [self setupAVPlayerForURL:[NSURL URLWithString:news.voiceUrl]];
+                if ([CheckNetwork isExistence3G]&&[Config getUserSettingFor3gDownload]) {
+                    [Config ToastNotification:@"请注意，您在3G环境下播放音频" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+                }
                 
             }
         }
@@ -579,6 +582,9 @@ systemItem {
     }
 	[self.mPlayer play];
     
+   
+    
+    
     if (!_timerPlay)
     {
         _timerPlay = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(currentPlayTime) userInfo:nil repeats:YES];
@@ -682,6 +688,13 @@ systemItem {
  NewsWebViewController *viewController=   (NewsWebViewController*)self.parentViewController;
     if (viewController) {
         
+        //暂停音频
+        
+        
+            [viewController.toolBar pause:nil];
+        
+        
+        
         if (!viewController.recordToolBar) {
             
             viewController.recordToolBar= [[[RecordToolbar alloc]initWithFrame:viewController.toolBar.frame]autorelease];
@@ -731,6 +744,8 @@ theAnimation1.delegate = self;
     if(!self.isRecording)
     {
         
+        
+      
         NSDate *  senddate=[NSDate date];
         int time=[senddate timeIntervalSince1970];
         NSString *fileName = [NSString stringWithFormat:@"%d-%d.caf",self.news._id,time];
@@ -1001,7 +1016,7 @@ theAnimation1.delegate = self;
     
     
     [Config Instance].isNetworkRunning = [CheckNetwork isExistenceNetwork];
-    if (![Config Instance].isNetworkRunning&&[Config getUserSettingFor3gDownload]) {
+    if ((![Config Instance].isNetworkRunning||[CheckNetwork isExistence3G])&&[Config getUserSettingFor3gDownload]) {
         UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"您现在非wifi环境，是否继续下载？"
                                                            delegate:nil
                                                   cancelButtonTitle:@"取消"

@@ -10,4 +10,5 @@
 
 @interface CheckNetwork : NSObject
 +(BOOL)isExistenceNetwork;
++(BOOL)isExistence3G;
 @end

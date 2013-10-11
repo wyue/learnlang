@@ -189,45 +189,52 @@
 {
     
     
-    if (!toolBar) {
-        CGRect rect_view =[self.view bounds];
-        toolBar = [[CustomAudioToolbar alloc]initWithFrame:CGRectMake(rect_view.origin.x, rect_view.size.height-kNewsToolBarHeight, rect_view.size.width, kNewsToolBarHeight) andShare:NO];
-        toolBar.autoresizingMask=UIViewAutoresizingFlexibleTopMargin;
-       
-        toolBar.parentViewController=self;
-        [self.view addSubview:toolBar];
-    }else{
-        [toolBar setHidden:NO];
-    }
-    [self.tableview setContentSize:CGSizeMake(self.tableview.frame.size.width, self.tableview.contentSize.height+kNewsToolBarHeight )];
+//    if (!toolBar) {
+//        CGRect rect_view =[self.view bounds];
+//        toolBar = [[CustomAudioToolbar alloc]initWithFrame:CGRectMake(rect_view.origin.x, rect_view.size.height-kNewsToolBarHeight, rect_view.size.width, kNewsToolBarHeight) andShare:NO];
+//        toolBar.autoresizingMask=UIViewAutoresizingFlexibleTopMargin;
+//       
+//        toolBar.parentViewController=self;
+//        [self.view addSubview:toolBar];
+//    }else{
+//        [toolBar setHidden:NO];
+//    }
+//    [self.tableview setContentSize:CGSizeMake(self.tableview.frame.size.width, self.tableview.contentSize.height+kNewsToolBarHeight )];
+//    News  *n = [array objectAtIndex:self.currentIndex.row];
+//    if (n) {
+//        
+//        
+//        
+//        toolBar.news=n;
+//        
+//        if ([self.toolBar isPlaying]) {
+//            [self.toolBar pause:nil];
+//        }else{
+//            
+//            NSURL*url= [DataManager isDownloadFile:n];;
+//            if (url) {
+//                //本地
+//                [self.toolBar setupAVPlayerForURL:url];
+//                [ [NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+//                [self.toolBar play:nil];
+//            }
+//        }
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//    }
     News  *n = [array objectAtIndex:self.currentIndex.row];
     if (n) {
+        NewsWebViewController *newsDetailViewController = [[[NewsWebViewController alloc] initWithNibName:@"NewsWebViewController" bundle:nil] autorelease];
         
-        
-        
-        toolBar.news=n;
-        
-        if ([self.toolBar isPlaying]) {
-            [self.toolBar pause:nil];
-        }else{
-            
-            NSURL*url= [DataManager isDownloadFile:n];;
-            if (url) {
-                //本地
-                [self.toolBar setupAVPlayerForURL:url];
-                [ [NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
-                [self.toolBar play:nil];
-            }
-        }
-        
-        
-        
-        
-        
-        
-        
+        newsDetailViewController.news = n;
+        newsDetailViewController.isAutoPlay=YES;
+        [self.navigationController pushViewController:newsDetailViewController animated:YES];
     }
-    
     
     
 }

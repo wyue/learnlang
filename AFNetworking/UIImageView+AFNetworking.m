@@ -22,6 +22,7 @@
 
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
+#import "NSString+MD5.h"
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
 #import "UIImageView+AFNetworking.h"
@@ -91,60 +92,219 @@ static char kAFImageRequestOperationObjectKey;
 
     [self setImageWithURLRequest:request placeholderImage:placeholderImage success:nil failure:nil];
 }
-
 - (void)setImageWithURLRequest:(NSURLRequest *)urlRequest
               placeholderImage:(UIImage *)placeholderImage
                        success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image))success
                        failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error))failure
 {
     [self cancelImageRequestOperation];
-
+    
+    
     UIImage *cachedImage = [[[self class] af_sharedImageCache] cachedImageForRequest:urlRequest];
     if (cachedImage) {
+        
+        self.image = cachedImage;
+        self.af_imageRequestOperation = nil;
+        
         if (success) {
             success(nil, nil, cachedImage);
-        } else {
-            self.image = cachedImage;
         }
-
-        self.af_imageRequestOperation = nil;
     } else {
-        if (placeholderImage) {
-            self.image = placeholderImage;
+        NSString *urlString = [[urlRequest URL] absoluteString];
+        NSData *data = [self loadImageData:[self pathInCacheDirectory:@"WendaleCache"] imageName:[urlString md5]];
+        if (data) {
+            self.image = [UIImage imageWithData:data];
+            self.af_imageRequestOperation = nil;
+            
+            if (success) {
+                success(nil, nil, self.image);
+            }
+            return;
         }
-
+        
+        self.image = placeholderImage;
+        
         AFImageRequestOperation *requestOperation = [[AFImageRequestOperation alloc] initWithRequest:urlRequest];
         [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-            if ([urlRequest isEqual:[self.af_imageRequestOperation request]]) {
+            if ([[urlRequest URL] isEqual:[[self.af_imageRequestOperation request] URL]]) {
                 if (success) {
                     success(operation.request, operation.response, responseObject);
-                } else if (responseObject) {
-                    self.image = responseObject;
+                }else if (responseObject) {
+                    self.image = responseObject;}
+                //图片本地缓存
+                if ([self createDirInCache:@"WendaleCache"]) {
+                    NSString *imageType = @"jpg";
+                    //从url中获取图片类型
+               NSMutableArray *arr = (NSMutableArray *)[urlString componentsSeparatedByString:@"."];
+                    if (arr) {
+                        imageType = [arr objectAtIndex:arr.count-1];
+                    }
+                    [self saveImageToCacheDir:[self pathInCacheDirectory:@"WendaleCache"] image: responseObject imageName:[urlString md5] imageType:imageType];
                 }
-
-                if (self.af_imageRequestOperation == operation) {
-                    self.af_imageRequestOperation = nil;
-                }
+                
+                
+                
+                self.af_imageRequestOperation = nil;
             }
-
+            
             [[[self class] af_sharedImageCache] cacheImage:responseObject forRequest:urlRequest];
+            
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            if ([urlRequest isEqual:[self.af_imageRequestOperation request]]) {
+            if ([[urlRequest URL] isEqual:[[self.af_imageRequestOperation request] URL]]) {
                 if (failure) {
                     failure(operation.request, operation.response, error);
                 }
-
-                if (self.af_imageRequestOperation == operation) {
-                    self.af_imageRequestOperation = nil;
-                }
+                
+                self.af_imageRequestOperation = nil;
             }
         }];
-
+        
         self.af_imageRequestOperation = requestOperation;
-
+        
         [[[self class] af_sharedImageRequestOperationQueue] addOperation:self.af_imageRequestOperation];
     }
 }
+
+
+
+-(NSString* )pathInCacheDirectory:(NSString *)fileName
+{
+    NSArray *cachePaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *cachePath = [cachePaths objectAtIndex:0];
+    return [cachePath stringByAppendingPathComponent:fileName];
+}
+//创建缓存文件夹
+-(BOOL) createDirInCache:(NSString *)dirName
+{
+    NSString *imageDir = [self pathInCacheDirectory:dirName];
+    BOOL isDir = NO;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL existed = [fileManager fileExistsAtPath:imageDir isDirectory:&isDir];
+    BOOL isCreated = NO;
+    if ( !(isDir == YES && existed == YES) )
+    {
+        isCreated = [fileManager createDirectoryAtPath:imageDir withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    if (existed) {
+        isCreated = YES;
+    }
+    return isCreated;
+}
+
+// 删除图片缓存
+- (BOOL) deleteDirInCache:(NSString *)dirName
+{
+    NSString *imageDir = [self pathInCacheDirectory:dirName];
+    BOOL isDir = NO;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL existed = [fileManager fileExistsAtPath:imageDir isDirectory:&isDir];
+    bool isDeleted = false;
+    if ( isDir == YES && existed == YES )
+    {
+        isDeleted = [fileManager removeItemAtPath:imageDir error:nil];
+    }
+    
+    return isDeleted;
+}
+
+// 图片本地缓存
+- (BOOL) saveImageToCacheDir:(NSString *)directoryPath  image:(UIImage *)image imageName:(NSString *)imageName imageType:(NSString *)imageType
+{
+    BOOL isDir = NO;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL existed = [fileManager fileExistsAtPath:directoryPath isDirectory:&isDir];
+    bool isSaved = false;
+    if ( isDir == YES && existed == YES )
+    {
+        if ([[imageType lowercaseString] isEqualToString:@"png"])
+        {
+            isSaved = [UIImagePNGRepresentation(image) writeToFile:[directoryPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", imageName, @"png"]] options:NSAtomicWrite error:nil];
+        }
+        else if ([[imageType lowercaseString] isEqualToString:@"jpg"] || [[imageType lowercaseString] isEqualToString:@"jpeg"])
+        {
+            isSaved = [UIImageJPEGRepresentation(image, 1.0) writeToFile:[directoryPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", imageName, @"jpg"]] options:NSAtomicWrite error:nil];
+        }
+        else
+        {
+            NSLog(@"Image Save Failed\nExtension: (%@) is not recognized, use (PNG/JPG)", imageType);
+        }
+    }
+    return isSaved;
+}
+// 获取缓存图片
+-(NSData*) loadImageData:(NSString *)directoryPath imageName:( NSString *)imageName
+{
+    BOOL isDir = NO;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL dirExisted = [fileManager fileExistsAtPath:directoryPath isDirectory:&isDir];
+    if ( isDir == YES && dirExisted == YES )
+    {
+        NSString *imagePath = [directoryPath stringByAppendingString : imageName];
+        BOOL fileExisted = [fileManager fileExistsAtPath:imagePath];
+        if (!fileExisted) {
+            return NULL;
+        }
+        NSData *imageData = [NSData dataWithContentsOfFile : imagePath];
+        return imageData;
+    }
+    else
+    {
+        return NULL;
+    }
+}
+//- (void)setImageWithURLRequest:(NSURLRequest *)urlRequest
+//              placeholderImage:(UIImage *)placeholderImage
+//                       success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image))success
+//                       failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error))failure
+//{
+//    [self cancelImageRequestOperation];
+//
+//    UIImage *cachedImage = [[[self class] af_sharedImageCache] cachedImageForRequest:urlRequest];
+//    if (cachedImage) {
+//        if (success) {
+//            success(nil, nil, cachedImage);
+//        } else {
+//            self.image = cachedImage;
+//        }
+//
+//        self.af_imageRequestOperation = nil;
+//    } else {
+//        if (placeholderImage) {
+//            self.image = placeholderImage;
+//        }
+//
+//        AFImageRequestOperation *requestOperation = [[AFImageRequestOperation alloc] initWithRequest:urlRequest];
+//        [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+//            if ([urlRequest isEqual:[self.af_imageRequestOperation request]]) {
+//                if (success) {
+//                    success(operation.request, operation.response, responseObject);
+//                } else if (responseObject) {
+//                    self.image = responseObject;
+//                }
+//
+//                if (self.af_imageRequestOperation == operation) {
+//                    self.af_imageRequestOperation = nil;
+//                }
+//            }
+//
+//            [[[self class] af_sharedImageCache] cacheImage:responseObject forRequest:urlRequest];
+//        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//            if ([urlRequest isEqual:[self.af_imageRequestOperation request]]) {
+//                if (failure) {
+//                    failure(operation.request, operation.response, error);
+//                }
+//
+//                if (self.af_imageRequestOperation == operation) {
+//                    self.af_imageRequestOperation = nil;
+//                }
+//            }
+//        }];
+//
+//        self.af_imageRequestOperation = requestOperation;
+//
+//        [[[self class] af_sharedImageRequestOperationQueue] addOperation:self.af_imageRequestOperation];
+//    }
+//}
 
 - (void)cancelImageRequestOperation {
     [self.af_imageRequestOperation cancel];

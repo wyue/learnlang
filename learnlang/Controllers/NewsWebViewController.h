@@ -36,7 +36,7 @@
     
     int buttonY;
     
-    
+    BOOL isAutoPlay;
 }
 
 @property(nonatomic,retain)News *news;
@@ -59,6 +59,8 @@
 
 
 @property (nonatomic) BOOL isChinese;
+
+@property (nonatomic) BOOL isAutoPlay;
 
 
 @end

@@ -126,7 +126,7 @@
         
         NSString* ext =[imageUrl pathExtension];
         NSString *filename=[imageUrl substringToIndex:imageUrl.length-ext.length-1];
-        news.imgUrl=[NSString stringWithFormat:@"%@%@%@",filename,@".",ext];
+        news.imgUrl=[sourceDic objectForKey:@"simgUrl"];//[NSString stringWithFormat:@"%@%@%@",filename,@".",ext];
         news.imgBigUrl=[NSString stringWithFormat:@"%@%@%@",filename,@".",ext];
 //        news.imgUrl=[NSString stringWithFormat:@"%@%@%@",filename,@"-sque.",ext];
 //        news.imgBigUrl=[NSString stringWithFormat:@"%@%@%@",filename,@"-title.",ext];
@@ -307,7 +307,7 @@
      NSMutableDictionary *dic=   [newDic objectForKey:@"NewsSavedDic"];
         NSMutableArray *ary=   [newDic objectForKey:@"NewsSavedAry"];
         if (dic&&ary) {
-            for (int i=0; i<[ary count]; i++) {
+            for (int i=[ary count]-1; i>=0; i--) {
               NSString *key =  [ary objectAtIndex:i];
                 if ([dic objectForKey:key]) {
                     NSError *error = nil;
@@ -328,6 +328,8 @@
         
                
     }
+    
+   
     return newsSaved;
     
     
@@ -734,7 +736,7 @@
     
 }
 
-//获得已收藏news 将dic转换成array
+//获得已录音news 将dic转换成array
 + (NSMutableArray *)readRecordsAryByDic:(NSMutableDictionary *)newDic
 {
     
@@ -748,7 +750,7 @@
         NSMutableDictionary *dic=   [newDic objectForKey:@"NewsSavedDic"];
         NSMutableArray *ary=   [newDic objectForKey:@"NewsSavedAry"];
         if (dic&&ary) {
-            for (int i=0; i<[ary count]; i++) {
+            for (int i=[ary count]-1; i>=0; i--) {
                 NSString *key =  [ary objectAtIndex:i];
                 if ([dic objectForKey:key]) {
                     FileModel *fileModel = [[FileModel alloc]init];

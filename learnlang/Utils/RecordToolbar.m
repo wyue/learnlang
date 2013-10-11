@@ -106,8 +106,7 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
         
         UIImageView *splitline;
         
-       
-        
+      
         
         //添加第1个图标按钮
         shareButton=  [UIButton buttonWithType:UIButtonTypeCustom];
@@ -141,9 +140,42 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
         
         //添加第2个图标按钮
         recordButton =     [UIButton buttonWithType:UIButtonTypeCustom];
+        
+  
+        
         [recordButton setImage:[UIImage imageNamed:@"recording-1.png"] forState:UIControlStateNormal];
         recordButton.frame=CGRectMake(0, kProgressViewHeight, 204, 58.5);
         [recordButton addTarget:self action:@selector(recordingAction:) forControlEvents:UIControlEventTouchUpInside];
+        NSArray* subarray=[recordButton subviews];
+        for (UIView *view in subarray) {
+            if ([view isKindOfClass:[UIImageView class]]&&view.tag==1234) {
+                [view removeFromSuperview];
+            }
+        }
+        
+        //定义数组，存放所有图片对象
+        NSArray *images=[NSArray arrayWithObjects:[UIImage imageNamed:@"recording-1.png"],[UIImage imageNamed:@"recording-2.png"], nil];
+        //定义结构体，方块大小
+        CGRect frame=CGRectMake(0, 0, recordButton.frame.size.width, recordButton.frame.size.height);
+        //初始化图像视图对象，大小是frame
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
+        //imageView的动画图片是数组images
+        imageView.animationImages = images;
+        
+        imageView.tag=1234;
+        //按照原始比例缩放图片，保持纵横比
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
+        //切换动作的时间3秒，来控制图像显示的速度有多快，
+        imageView.animationDuration = 2;
+        //动画的重复次数，想让它无限循环就赋成0
+        imageView.animationRepeatCount = 0;
+        //开始动画
+        [imageView startAnimating];
+        //添加控件
+        [recordButton addSubview:imageView];
+        
+        //释放内存
+        [imageView release];
         
         Item = [[UIBarButtonItem alloc]
                 initWithCustomView:recordButton
@@ -255,6 +287,8 @@ systemItem {
     return button;
     
 }
+
+
 
 - (void)viewDidUnload
 {
@@ -796,6 +830,37 @@ systemItem {
         }
         
         [recordButton setImage:[UIImage imageNamed:@"recording-1.png"] forState:UIControlStateNormal];
+        
+        NSArray* subarray=[recordButton subviews];
+        for (UIView *view in subarray) {
+            if ([view isKindOfClass:[UIImageView class]]&&view.tag==1234) {
+                [view removeFromSuperview];
+            }
+        }
+       
+        
+        //定义数组，存放所有图片对象
+        NSArray *images=[NSArray arrayWithObjects:[UIImage imageNamed:@"recording-1.png"],[UIImage imageNamed:@"recording-2.png"], nil];
+        //定义结构体，方块大小
+        CGRect frame=CGRectMake(0, 0, recordButton.frame.size.width, recordButton.frame.size.height);
+        //初始化图像视图对象，大小是frame
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
+        //imageView的动画图片是数组images
+        imageView.tag=1234;
+        imageView.animationImages = images;
+        //按照原始比例缩放图片，保持纵横比
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
+        //切换动作的时间3秒，来控制图像显示的速度有多快，
+        imageView.animationDuration = 2;
+        //动画的重复次数，想让它无限循环就赋成0
+        imageView.animationRepeatCount = 0;
+        //开始动画
+        [imageView startAnimating];
+        //添加控件
+        [recordButton addSubview:imageView];
+        
+        //释放内存
+        [imageView release];
     [self.playButton setUserInteractionEnabled:NO];
     
     }
@@ -849,6 +914,14 @@ systemItem {
         
          [self.playButton setUserInteractionEnabled:YES];
         [recordButton setImage:[UIImage imageNamed:@"recordoff.png"] forState:UIControlStateNormal];
+        //删除放在button上的动画
+        NSArray* subarray=[recordButton subviews];
+        for (UIView *view in subarray) {
+            if ([view isKindOfClass:[UIImageView class]]&&view.tag==1234) {
+                [view removeFromSuperview];
+            }
+        }
+        
 //        
 //        
 //        

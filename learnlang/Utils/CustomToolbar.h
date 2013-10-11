@@ -74,6 +74,8 @@ MBProgressHUD *HUD;
 -(Float64) currentPlayTime;
 -(int) currentPlayIndex:(NSString*) currentPlaySecond;
 
+- (void)playAudio:(id *)sender;
+
 
 @property (nonatomic, copy) NSURL* URL;
 @property (readwrite, retain, setter=setPlayer:, getter=player) AVPlayer* mPlayer;

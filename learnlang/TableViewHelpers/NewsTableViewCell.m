@@ -15,7 +15,7 @@
 
 
 #define kNewsTableImageHeight 52.5
-#define kNewsTableImageWidth 106
+#define kNewsTableImageWidth 52.5
 
 #define SizeOfTitleText 14.0f
 
@@ -76,7 +76,7 @@ __strong News *_news;
        
    
     
-    titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(16.0f, 5.0f, 182, 30.0f)];//w:240
+    titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(28.0f+kNewsTableImageWidth, 7.0f, 230, 30.0f)];//w:240
    titleLabel.font = [UIFont systemFontOfSize:SizeOfTitleText];
     //titleLabel.adjustsFontSizeToFitWidth = YES;
     titleLabel.textColor = [UIColor colorWithHexString:@"212121"];
@@ -85,7 +85,7 @@ __strong News *_news;
     titleLabel.numberOfLines =0;
     [self.contentView addSubview:titleLabel];
     
-     clickCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(16.0f, 46.0f, 43.0f, 10.0f)];
+     clickCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(28.0f+kNewsTableImageWidth, 50.0f, 50.0f, 10.0f)];
     clickCountLabel.font = [UIFont systemFontOfSize:11.0f];
     clickCountLabel.numberOfLines = 0;
     clickCountLabel.textColor = [UIColor colorWithHexString:@"AE8359"];
@@ -93,11 +93,11 @@ __strong News *_news;
     [self.contentView addSubview:clickCountLabel];
     
    
-    saveCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(58.0f, 46.0f, 53.0f, 10.0f)];
+    saveCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(77.0f+kNewsTableImageWidth, 50.0f, 53.0f, 10.0f)];
     saveCountLabel.font = [UIFont systemFontOfSize:11.0f];
     saveCountLabel.numberOfLines = 0;
     saveCountLabel.textColor = [UIColor colorWithHexString:@"AE8359"];
-    [self.contentView addSubview:saveCountLabel];
+    //[self.contentView addSubview:saveCountLabel];//20131010去掉收藏的显示
     
     
     
@@ -128,11 +128,11 @@ __strong News *_news;
     clickCountLabel.text = [NSString stringWithFormat:@"%d阅读",_news.clickCount];
     saveCountLabel.text = [NSString stringWithFormat:@"|  %d收藏",_news.saveCount];
     //[self.imageView setImageWithURL:[NSURL URLWithString:_news.imgUrl] placeholderImage:[UIImage imageNamed:@"profile-image-placeholder"]];
-     float w = 182;
+     float w = 230;
    
     if (_news.imgUrl&&_news.imgUrl.length>0) {
         if (imageView==nil) {
-            imageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width-8-5-kNewsTableImageWidth, 4.5, kNewsTableImageWidth, kNewsTableImageHeight)];
+            imageView = [[UIImageView alloc] initWithFrame:CGRectMake(8+11, 10, kNewsTableImageWidth, kNewsTableImageHeight)];
             [self.contentView addSubview:imageView];
         }
         [imageView setImageWithURL:[NSURL URLWithString:_news.imgUrl] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
@@ -152,7 +152,8 @@ __strong News *_news;
       
     }else{
          w=288;//w:288
-        titleLabel.frame = CGRectMake(16.0f, 5.0f, 288, 30.0f);
+        titleLabel.frame = CGRectMake(18.0f, 7.0f, 288, 30.0f);
+        
     }
     titleLabel.frame = CGRectMake(titleLabel.frame.origin.x, titleLabel.frame.origin.y, titleLabel.frame.size.width, [NewsTableViewCell heightForLabelWithString:titleLabel.text  andWidth:w]);
    
@@ -162,7 +163,7 @@ __strong News *_news;
 }
 
 + (CGFloat)heightForCellWithNews:(News *)news {
-    float w = 182;
+    float w = 230;
     if (!news.imgUrl) {
         w=288;
     }
@@ -174,7 +175,7 @@ __strong News *_news;
     
 //    CGSize sizeToFit = [news.title sizeWithFont:[UIFont systemFontOfSize:12.0f] constrainedToSize:CGSizeMake(w, 20000) lineBreakMode:UILineBreakModeWordWrap];
     if (sizeToFit>30) {
-        return kNewsTableViewCellHeight+sizeToFit-30;
+        return kNewsTableViewCellHeight+sizeToFit-32;
 
     }
 //    return fmaxf(70.0f, sizeToFit.height + 45.0f);
@@ -208,9 +209,13 @@ __strong News *_news;
     //自适应
      
     whiteRoundedCornerView.frame=CGRectMake(8,0,self.frame.size.width-16,self.frame.size.height-7);
-    
-clickCountLabel.frame=CGRectMake(16.0f,self.frame.size.height-23, 43.0f, 10.0f);
-    saveCountLabel.frame=CGRectMake(58,self.frame.size.height-23, 53.0f, 10.0f);
+    if (_news.imgUrl&&_news.imgUrl.length>0){
+clickCountLabel.frame=CGRectMake(28.0f+kNewsTableImageWidth,self.frame.size.height-27, 50.0f, 10.0f);
+    saveCountLabel.frame=CGRectMake(77+kNewsTableImageWidth,self.frame.size.height-27, 53.0f, 10.0f);
+    }else{
+        clickCountLabel.frame=CGRectMake(18.0f,self.frame.size.height-27, 50.0f, 10.0f);
+        saveCountLabel.frame=CGRectMake(67,self.frame.size.height-27, 53.0f, 10.0f);
+    }
 }
 
 @end

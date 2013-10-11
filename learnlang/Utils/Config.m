@@ -9,6 +9,8 @@
 #import "Config.h"
 #import "AESCrypt.h"
 #import "MainNavigationViewController.h"
+#import "NavigationController.h"
+#import "MyNavigationController.h"
 #import "BDKNotifyHUD.h"
 
 
@@ -234,14 +236,24 @@ static Config * instance = nil;
 
 
 +(id)customControllerWithRootViewController:(UIViewController *)root {
-    UINavigationController *nav = [[[NSBundle mainBundle] loadNibNamed:@"NavigationController" owner:self options:nil] objectAtIndex:0];
-    [nav setViewControllers:[NSArray arrayWithObject:root]];
+    //UINavigationController *nav = [[[NSBundle mainBundle] loadNibNamed:@"NavigationController" owner:self options:nil] objectAtIndex:0];
+    //NavigationController *nav = [[NavigationController alloc]initWithNibName:@"NavigationController" bundle:nil];
+    
+
+    
+    //[nav setViewControllers:[NSArray arrayWithObject:root]];
+    
+      MyNavigationController *nav = [[MyNavigationController alloc] initWithRootViewController:root];
     return nav;
 }
 +(id)customControllerWithRootViewControllerForMain:(UIViewController *)root {
-    MainNavigationViewController *nav = [[[NSBundle mainBundle] loadNibNamed:@"MainNavigationViewController" owner:self options:nil] objectAtIndex:0];
+   // MainNavigationViewController *nav = [[[NSBundle mainBundle] loadNibNamed:@"MainNavigationViewController" owner:self options:nil] objectAtIndex:0];
+//    MainNavigationViewController *nav = [[MainNavigationViewController alloc]initWithNibName:@"MainNavigationViewController" bundle:nil];
+//    
+//    [nav setViewControllers:[NSArray arrayWithObject:root]];
     
-    [nav setViewControllers:[NSArray arrayWithObject:root]];
+    
+    MyNavigationController *nav = [[MyNavigationController alloc] initWithRootViewController:root];
     return nav;
 }
 

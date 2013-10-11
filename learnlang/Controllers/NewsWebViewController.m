@@ -43,6 +43,8 @@
 
 @synthesize isChinese = _isChinese;
 
+@synthesize isAutoPlay;
+
 
 
 
@@ -156,19 +158,36 @@
 //        NSError *error=nil;
 //        NSString * textContent = [NSString stringWithContentsOfFile:lrcPath encoding:NSUTF8StringEncoding error:&error];
         //NSLog(@"textContent = %@",[error debugDescription]);
-        NSString * textContent = news.content;
-        NSArray * tempArray=[textContent componentsSeparatedByString:@"\n"];
-        //NSLog(@"tempArray = %@",tempArray);
         
-        for (NSString * str in tempArray)
-        {
-            if (!str || str.length <= 0)
-                continue;
-            [self parseLrcLine:str];
-            [self parseTempArray:_tempArrayList];
+        
+        
+        
+        
+        
+        
+        @try {
+            NSString * textContent = news.content;
+            NSArray * tempArray=[textContent componentsSeparatedByString:@"\n"];
+            //NSLog(@"tempArray = %@",tempArray);
+            
+            for (NSString * str in tempArray)
+            {
+                if (!str || str.length <= 0)
+                    continue;
+                [self parseLrcLine:str];
+                [self parseTempArray:_tempArrayList];
+            }
+            
+            [self sortAllItem:_arrayItemList];
+                   }
+        @catch (NSException *exception) {
+            
         }
-        
-        [self sortAllItem:_arrayItemList];
+        @finally {
+           
+        }
+
+  
         
         // NSLog(@"_tempArray = %@",_tempArrayList);
         
@@ -223,22 +242,31 @@
         
         
         
-//        NSURL*voiceurl= [DataManager isDownloadFile:news];
-//        if (voiceurl) {
-//            //本地
-//            
-//            [toolBar setupAVPlayerForURL:voiceurl];
-//        }else{
-//            //网络
-//            [toolBar setupAVPlayerForURL:[NSURL URLWithString:news.voiceUrl]];
-//            
-//        }
-      
+
+        if (isAutoPlay&&isAutoPlay==YES) {
+                    NSURL*voiceurl= [DataManager isDownloadFile:news];
+                    if (voiceurl) {
+                        //本地
+            
+                        [toolBar setupAVPlayerForURL:voiceurl];
+                    }else{
+                        //网络
+                        [toolBar setupAVPlayerForURL:[NSURL URLWithString:news.voiceUrl]];
+                       
+                    }
+            [ [NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+[self performSelector:@selector(autoPlay) withObject:nil afterDelay:3.0];
+            
+        }
         
     }
     
     
     
+}
+
+-(void)autoPlay{
+    [toolBar play:nil];
 }
 -(void)viewDidAppear:(BOOL)animated{
     
@@ -662,6 +690,9 @@
                 }else{
                     //网络
                     [toolBar setupAVPlayerForURL:[NSURL URLWithString:news.voiceUrl]];
+                    if ([CheckNetwork isExistence3G]&&[Config getUserSettingFor3gDownload]) {
+                        [Config ToastNotification:@"请注意，您在3G环境下播放音频" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+                    }
                     
                 }
             }
