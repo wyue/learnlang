@@ -7,6 +7,7 @@
 //
 
 #import "AboutViewController.h"
+#import "UIImage+Resize.h"
 
 @interface AboutViewController ()
 
@@ -28,6 +29,13 @@
     [super viewDidLoad];
     self.navigationItem.title=@"关于";
     // Do any additional setup after loading the view from its nib.
+    
+    imageview = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 512)];
+    
+    imageview.image=[UIImage imageNamed:@"help_bg.png"];
+    [scrollView addSubview:imageview];
+    scrollView.contentSize=CGSizeMake(320, 512);
+    
 }
 
 - (void)didReceiveMemoryWarning

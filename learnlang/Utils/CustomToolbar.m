@@ -87,7 +87,7 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
         
         
         
-        
+        isFirst=YES;
         
         //初始化
    
@@ -323,24 +323,68 @@ systemItem {
         [self pause:nil];
     }else{
         
-        if (self.URL==nil) {
+       // if (self.URL==nil) {
             NSURL*voiceurl= [DataManager isDownloadFile:news];
             if (voiceurl) {
                 //本地
                 
+                if (self.URL==nil) {
                 [self setupAVPlayerForURL:voiceurl];
-                
+                    
+                }
+                 [self play:nil];
             }else{
                 //网络
-                [self setupAVPlayerForURL:[NSURL URLWithString:news.voiceUrl]];
-                if ([CheckNetwork isExistence3G]&&[Config getUserSettingFor3gDownload]) {
-                    [Config ToastNotification:@"请注意，您在3G环境下播放音频" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+              
+                if ([CheckNetwork isExistence3G]) {
+                    //[Config ToastNotification:@"请注意，您在3G环境下播放音频" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+                    
+                    
+                    if (isFirst==YES) {
+                        UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"您现在非wifi环境，是否继续下载？"
+                                                                           delegate:nil
+                                                                  cancelButtonTitle:@"取消"
+                                                             destructiveButtonTitle:nil
+                                                                  otherButtonTitles:@"下载",nil];
+                        [sheet showInView:self.parentViewController.view withCompletionHandler:^(NSInteger buttonIndex) {
+                            
+                            if (buttonIndex==1) {
+                                return ;
+                            }else{
+                                if (self.URL==nil) {
+                                    [self setupAVPlayerForURL:[NSURL URLWithString:news.voiceUrl]];
+                                }
+                                [self play:nil];
+                                isFirst=NO;
+                            }
+                            
+                        }];
+                    }else{
+                        if (self.URL==nil) {
+                            [self setupAVPlayerForURL:[NSURL URLWithString:news.voiceUrl]];
+                        }
+                        [self play:nil];
+                        isFirst=NO;
+                    }
+                   
+                    
+                    
+                    
+                }else{
+                    if (self.URL==nil) {
+                        [self setupAVPlayerForURL:[NSURL URLWithString:news.voiceUrl]];
+                    }
+                    
+                    
+                    
+                    
+                    [self play:nil];
                 }
                 
-            }
+           // }
         }
        
-        [self play:nil];
+       
     }
     
    
@@ -1117,18 +1161,18 @@ theAnimation1.delegate = self;
     
     NSArray *shareList = [ShareSDK getShareListWithType:
                           ShareTypeSinaWeibo,
-                          ShareTypeTencentWeibo,
+                          ShareTypeTencentWeibo,ShareTypeWeixiSession,ShareTypeWeixiTimeline,
                           nil];
     
     //NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"ShareSDK"  ofType:@"jpg"];
     
     //构造分享内容
-    id<ISSContent> publishContent = [ShareSDK content:[NSString stringWithFormat:@"我正在通过%@学习%@，快来一起吧 %@",AppTitle,AppLang,AppUrl]
+    id<ISSContent> publishContent = [ShareSDK content:[NSString stringWithFormat:@"我刚刚使用了%@阅读了 %@ %@ %@",AppTitle,news.title,news.subTitle,AppUrl]
                                        defaultContent:@""
                                                 image:nil//[ShareSDK imageWithPath:imagePath]
-                                                title:@"德语达人"
+                                                title:@"德语达人分享"
                                                   url:AppUrl
-                                          description:@""
+                                          description:[NSString stringWithFormat:@"我刚刚使用了%@阅读了 %@ %@ %@",AppTitle,news.title,news.subTitle,AppUrl]
                                             mediaType:SSPublishContentMediaTypeNews];
     
     NSArray *oneKeyShareList = [ShareSDK getShareListWithType:

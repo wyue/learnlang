@@ -112,7 +112,7 @@
 #define TextSizeForSmall @"SMALL"
 #define TextSizeForMiddle @"MIDDLE"
 #define TextSizeForLarge @"LARGE"
-#define TextSizeDictionary [NSDictionary dictionaryWithObjectsAndKeys:@"180",TextSizeForSmall,@"200",TextSizeForMiddle,@"220",TextSizeForLarge,nil] 
+#define TextSizeDictionary [NSDictionary dictionaryWithObjectsAndKeys:@"160",TextSizeForSmall,@"180",TextSizeForMiddle,@"200",TextSizeForLarge,nil] 
 
 
 //分享
@@ -122,5 +122,5 @@
 #define kAppVersion @"AppVersion"
 
 //menu
-#define MainMenuWidth 109
+#define MainMenuWidth 109.5
 

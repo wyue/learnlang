@@ -73,4 +73,6 @@
 +(BOOL)getUserSettingForAudioPlayInBackground ;
 +(BOOL)getUserSettingForReadText ;
 +(int)getUserSettingForTextSize ;
+
++ (NSString*)deviceString;
 @end

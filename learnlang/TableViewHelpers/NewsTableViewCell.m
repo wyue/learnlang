@@ -175,7 +175,7 @@ __strong News *_news;
     
 //    CGSize sizeToFit = [news.title sizeWithFont:[UIFont systemFontOfSize:12.0f] constrainedToSize:CGSizeMake(w, 20000) lineBreakMode:UILineBreakModeWordWrap];
     if (sizeToFit>30) {
-        return kNewsTableViewCellHeight+sizeToFit-32;
+        return kNewsTableViewCellHeight+sizeToFit-28;
 
     }
 //    return fmaxf(70.0f, sizeToFit.height + 45.0f);

@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AboutViewController : BaseViewController
+@interface AboutViewController : BaseViewController{
+    
+@private IBOutlet UIScrollView *scrollView;
+    IBOutlet UIImageView *imageview;
+    
+    
+}
 
 @end

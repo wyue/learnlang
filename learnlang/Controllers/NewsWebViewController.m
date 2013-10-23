@@ -64,6 +64,8 @@
     
     self.navigationItem.title=AppTitle;
     
+    isFirst=YES;
+    
     // Do any additional setup after loading the view from its nib.
 
     
@@ -79,9 +81,9 @@
     //初始化控件
     // titleLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, 320, 50)];
     
-    UIImage *lImg = [UIImage imageNamed:@"myaudio_02.png"];
+    UIImage *lImg = [UIImage imageNamed:@"topbar-btn-return.png"];
     UIButton *lBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    lBtn.frame = CGRectMake(0, 0, 36.5, 45);
+    lBtn.frame = CGRectMake(0, 0, 45, 44);
     [lBtn addTarget:self action:@selector(popViewController) forControlEvents:UIControlEventTouchUpInside];
     [lBtn setImage:lImg forState:UIControlStateNormal];
     lBtn.backgroundColor = [UIColor clearColor];
@@ -98,7 +100,7 @@
     
     UIImage *rImg = [UIImage imageNamed:@"topbar-btn-settxt.png"];
     UIButton *rBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    rBtn.frame = CGRectMake(0, 0, 36.5, 45);
+    rBtn.frame = CGRectMake(0, 0,45, 44);
     [rBtn addTarget:self action:@selector(rightNavButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [rBtn setImage:rImg forState:UIControlStateNormal];
     rBtn.backgroundColor = [UIColor clearColor];
@@ -194,7 +196,18 @@
   
         
         [titleLabel setText:news.title];
-        [imageView setImageWithURL:[NSURL URLWithString:news.imgBigUrl] placeholderImage:[UIImage imageNamed:@"profile-image-placeholder"]];
+        [imageView setImageWithURL:[NSURL URLWithString:news.imgBigUrl] placeholderImage:[UIImage imageNamed:@"placeholder-big.png"]];
+        [Config Instance].isNetworkRunning = [CheckNetwork isExistenceNetwork];
+        
+        if (![Config Instance].isNetworkRunning){
+            UITapGestureRecognizer *myTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(gestureTapEvent:)];
+            imageView.userInteractionEnabled = YES;
+            [imageView addGestureRecognizer:myTapGesture];
+            [myTapGesture release];
+        }
+       
+        
+        
         
         //切换按钮
         isChinese = false;
@@ -249,18 +262,68 @@
                         //本地
             
                         [toolBar setupAVPlayerForURL:voiceurl];
+                           [ [NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+                        [self performSelector:@selector(autoPlay) withObject:nil afterDelay:3.0];
                     }else{
                         //网络
-                        [toolBar setupAVPlayerForURL:[NSURL URLWithString:news.voiceUrl]];
+                                               
+                        
+                        if ([CheckNetwork isExistence3G]&&isFirst==YES) {
+                            //[Config ToastNotification:@"请注意，您在3G环境下播放音频" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+                            
+                            UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"您现在非wifi环境，是否继续播放？"
+                                                                               delegate:nil
+                                                                      cancelButtonTitle:@"取消"
+                                                                 destructiveButtonTitle:nil
+                                                                      otherButtonTitles:@"播放",nil];
+                            [sheet showInView:self.parentViewController.view withCompletionHandler:^(NSInteger buttonIndex) {
+                                
+                                if (buttonIndex==1) {
+                                    return ;
+                                }else{
+                                    [toolBar setupAVPlayerForURL:[NSURL URLWithString:news.voiceUrl]];
+
+                                    [ [NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+                                    [self performSelector:@selector(autoPlay) withObject:nil afterDelay:3.0];
+                                    isFirst=NO;
+                                }
+                                
+                            }];
+                            
+                            
+                            
+                        }else{
+                            [toolBar setupAVPlayerForURL:[NSURL URLWithString:news.voiceUrl]];
+                            
+                            [ [NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+                            [self performSelector:@selector(autoPlay) withObject:nil afterDelay:3.0];
+                        }
                        
                     }
-            [ [NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
-[self performSelector:@selector(autoPlay) withObject:nil afterDelay:3.0];
+         
+            
+            
+            
+            
+            
+      
+
+            
+            
+
             
         }
         
     }
     
+    
+    
+}
+
+-(void)gestureTapEvent:(UITapGestureRecognizer *)gesture {
+    
+    UIImageView* myImageView = (UIImageView*)gesture.view ;
+    [myImageView setImageWithURL:[NSURL URLWithString:news.imgBigUrl] placeholderImage:[UIImage imageNamed:@"placeholder-big.png"]];
     
     
 }
@@ -446,7 +509,10 @@
         NSString * htmlFile = [[NSBundle mainBundle] pathForResource:@"news_detail" ofType:@"html"];
         NSString * htmlString = [NSString stringWithContentsOfFile:htmlFile encoding:(NSUTF8StringEncoding) error:nil];
         
-        htmlString=[NSString stringWithFormat:htmlString ,[NSString stringWithFormat:@"<font >%@</font>" ,news.subContent]];
+        
+        NSString *replace = [news.subContent stringByReplacingOccurrencesOfString:@"\n" withString:@"<br/>"];
+        htmlString=[NSString stringWithFormat:htmlString ,[NSString stringWithFormat:@"<font >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %@</font>" ,replace]];
+        
         
         [webView loadHTMLString:htmlString baseURL:baseURL];
         
@@ -680,25 +746,76 @@
         if (indexStr) {
             
             
-            if (toolBar.URL==nil) {
+           
                 NSURL*voiceurl= [DataManager isDownloadFile:news];
                 if (voiceurl) {
                     //本地
-                    
+                     if (toolBar.URL==nil) {
                     [toolBar setupAVPlayerForURL:voiceurl];
+                     }
+                    [toolBar playToTime:indexStr.intValue];
+                    [toolBar play:nil];
                     
                 }else{
                     //网络
-                    [toolBar setupAVPlayerForURL:[NSURL URLWithString:news.voiceUrl]];
-                    if ([CheckNetwork isExistence3G]&&[Config getUserSettingFor3gDownload]) {
-                        [Config ToastNotification:@"请注意，您在3G环境下播放音频" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+                    
+                    if ([CheckNetwork isExistence3G]) {
+                        //[Config ToastNotification:@"请注意，您在3G环境下播放音频" andView:self.parentViewController.view andLoading:NO andIsBottom:NO];
+                        if (isFirst==YES) {
+                            UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"您现在非wifi环境，是否继续播放？"
+                                                                               delegate:nil
+                                                                      cancelButtonTitle:@"取消"
+                                                                 destructiveButtonTitle:nil
+                                                                      otherButtonTitles:@"播放",nil];
+                            [sheet showInView:self.parentViewController.view withCompletionHandler:^(NSInteger buttonIndex) {
+                                
+                                if (buttonIndex==1) {
+                                    return ;
+                                }else{
+                                    
+                                    if (toolBar.URL==nil) {
+                                        [toolBar setupAVPlayerForURL:[NSURL URLWithString:news.voiceUrl]];
+                                    }
+                                    
+                                    
+                                    isFirst=NO;
+                                    [toolBar playToTime:indexStr.intValue];
+                                    [toolBar play:nil];
+                                }
+                                
+                            }];
+                        }else{
+                            if (toolBar.URL==nil) {
+                                [toolBar setupAVPlayerForURL:[NSURL URLWithString:news.voiceUrl]];
+                            }
+                            
+                            
+                            isFirst=NO;
+                            [toolBar playToTime:indexStr.intValue];
+                            [toolBar play:nil];
+
+                        }
+                        
+                      
+
+                        
+                        
+                    }else{
+                        if (toolBar.URL==nil) {
+                            [toolBar setupAVPlayerForURL:[NSURL URLWithString:news.voiceUrl]];
+                        }
+                        
+                        
+                        
+                        [toolBar playToTime:indexStr.intValue];
+                        [toolBar play:nil];
                     }
                     
-                }
+                
             }
             
-            [toolBar playToTime:indexStr.intValue];
-            [toolBar play:nil];
+//            [toolBar playToTime:indexStr.intValue];
+//            [toolBar play:nil];
             
             
         }

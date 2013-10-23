@@ -33,15 +33,17 @@
     
 	// Do any additional setup after loading the view.
     if ([self.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)]){
-        [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"topbar-bg_02"] forBarMetrics:UIBarMetricsDefault];
+        [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"topbar-bg_02.png"] forBarMetrics:UIBarMetricsDefault];
         self.navigationBar.layer.masksToBounds = NO;
         //设置阴影的高度
         self.navigationBar.layer.shadowOffset = CGSizeMake(0, 3);
         //设置透明度
-        self.navigationBar.layer.shadowOpacity = 0.6;
+        self.navigationBar.layer.shadowOpacity = 0.3;
         self.navigationBar.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.navigationBar.bounds].CGPath;
     }
     //self.navigationBar.tintColor=[UIColor colorWithHexString:@"EB9500"];
+    
+
     
    
 }

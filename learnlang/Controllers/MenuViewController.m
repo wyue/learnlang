@@ -40,7 +40,7 @@
     //默认1为首页
     
       [dic setObject:self.mm_drawerController.centerViewController forKey:@"0"];
-    self.tableView.separatorColor = [UIColor colorWithHexString:@"444444"];
+    self.tableView.separatorColor = [UIColor colorWithHexString:@"454545"];
     self.tableView.backgroundColor=[UIColor colorWithHexString:@"444444"];
     
     // Uncomment the following line to preserve selection between presentations.

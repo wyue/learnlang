@@ -731,6 +731,7 @@ systemItem {
         if (viewController.toolBar) {
             
             [viewController.toolBar setHidden:NO];
+            [viewController.toolBar pause:nil];
             
         }
         [self setHidden:YES];

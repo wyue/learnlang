@@ -206,6 +206,10 @@
     
      FileModel *n = [array objectAtIndex:self.currentIndex.row];
     if (n) {
+        
+//        if (toolBar.isPlaying==YES) {
+//            [toolBar pause:nil];
+//        }
         NewsWebViewController *newsDetailViewController = [[[NewsWebViewController alloc] initWithNibName:@"NewsWebViewController" bundle:nil] autorelease];
         newsDetailViewController.news = n.news;
         [self.navigationController pushViewController:newsDetailViewController animated:YES];

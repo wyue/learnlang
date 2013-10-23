@@ -41,8 +41,22 @@
 }
 
 -(void)setupLeftMenuButton{
-    MMDrawerBarButtonItem * leftDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(leftDrawerButtonPress:)];
-    [self.navigationItem setLeftBarButtonItem:leftDrawerButton animated:YES];
+    
+    
+    UIImage *lImg = [UIImage imageNamed:@"topbar-btn-nav.png"];
+    UIButton *lBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    lBtn.frame = CGRectMake(0, 0, 45, 44);
+    [lBtn addTarget:self action:@selector(leftDrawerButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [lBtn setImage:lImg forState:UIControlStateNormal];
+    lBtn.backgroundColor = [UIColor clearColor];
+    UIBarButtonItem *lBarBtn = [[UIBarButtonItem alloc] initWithCustomView:lBtn];
+    [self.navigationItem setLeftBarButtonItem:lBarBtn animated:YES];
+    
+    
+    [lBtn release];
+    [lBarBtn release];
+    //MMDrawerBarButtonItem * leftDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(leftDrawerButtonPress:)];
+    //[self.navigationItem setLeftBarButtonItem:leftDrawerButton animated:YES];
 }
 
 -(void)leftDrawerButtonPress:(id)sender{

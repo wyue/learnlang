@@ -8,6 +8,8 @@
 
 #import "WZGuideViewController.h"
 
+#import "UIImage+Resize.h"
+
 @interface WZGuideViewController ()
 
 @end
@@ -151,11 +153,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSString*imgname=@"cover960-640_02.png";
     
-    NSArray *imageNameArray = [NSArray arrayWithObjects:@"1", @"2", @"3", @"4", nil];
+    if ([[Config deviceString]isEqualToString:@"iphone5"]) {
+        imgname=@"cover1136-640_02.png";
+    }
+    
+    NSArray *imageNameArray = [NSArray arrayWithObjects:imgname, nil];
     
     
-    _pageScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
+    _pageScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.frame.size.height)];
     self.pageScroll.pagingEnabled = YES;
     self.pageScroll.contentSize = CGSizeMake(self.view.frame.size.width * imageNameArray.count, self.view.frame.size.height);
     [self.view addSubview:self.pageScroll];
@@ -165,7 +172,9 @@
     for (int i = 0; i < imageNameArray.count; i++) {
         imgName = [imageNameArray objectAtIndex:i];
         view = [[UIView alloc] initWithFrame:CGRectMake((self.view.frame.size.width * i), 0.f, self.view.frame.size.width, self.view.frame.size.height)];
-        view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:imgName]];
+        
+       
+        view.backgroundColor = [UIColor colorWithPatternImage: [[UIImage imageNamed:imgName] resizedImageToSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height)]];
         [self.pageScroll addSubview:view];
         
         if (i == imageNameArray.count - 1) {            
