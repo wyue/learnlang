@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import <ShareSDK/ShareSDK.h>
+#import "WXApi.h"
 
 #import "MasterViewController.h"
 
@@ -18,6 +19,8 @@
 #import "DataManager.h"
 
 #import "WZGuideViewController.h"
+
+#import "MobClick.h"
 
 @implementation AppDelegate
 
@@ -44,10 +47,13 @@
 {
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     
+     [MobClick startWithAppkey:@"52647e7d56240b87a514b893"];
+    
+    
     [ShareSDK registerApp:@"9b3db77f3b0"];     //参数为ShareSDK官网中添加应用后得到的AppKey
     //添加新浪微博应用
-    [ShareSDK connectSinaWeiboWithAppKey:@"3201194191"
-                               appSecret:@"0334252914651e8f76bad63337b3b78f"
+    [ShareSDK connectSinaWeiboWithAppKey:@"4206644476"
+                               appSecret:@"5ac76cbf7e4309f1defc15d2babc852a"
                              redirectUri:@"http://appgo.cn"];
     
     //添加腾讯微博应用
@@ -57,7 +63,8 @@
     
     
     
-    
+    [ShareSDK connectWeChatWithAppId:@"wxbe5a8900226867a0"        //此参数为申请的微信AppID
+                           wechatCls:[WXApi class]];
     
     //增加标识，用于判断是否是第一次启动应用...
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"everLaunched"]) {
@@ -111,6 +118,23 @@
     }
     
     return YES;
+}
+
+- (BOOL)application:(UIApplication *)application  handleOpenURL:(NSURL *)url
+{
+    return [ShareSDK handleOpenURL:url
+                        wxDelegate:self];
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    return [ShareSDK handleOpenURL:url
+                 sourceApplication:sourceApplication
+                        annotation:annotation
+                        wxDelegate:self];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

@@ -56,6 +56,8 @@
     NSString *sharingText;
     UIImage *sharingImage;
 MBProgressHUD *HUD;
+    
+    BOOL isFirst;
 }
 
 @property(nonatomic,retain)  News* news;

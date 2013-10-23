@@ -1064,13 +1064,13 @@ systemItem {
    
     NSArray *shareList = [ShareSDK getShareListWithType:
                           ShareTypeSinaWeibo,
-                          ShareTypeTencentWeibo,
+                          ShareTypeTencentWeibo,ShareTypeWeixiSession,ShareTypeWeixiTimeline,
                           nil];
     
     //NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"ShareSDK"  ofType:@"jpg"];
     
     //构造分享内容
-    id<ISSContent> publishContent = [ShareSDK content:[NSString stringWithFormat:@"我正在通过%@分享一段学习音频，快来听听说的怎么样 %@",AppTitle,shareurl]
+    id<ISSContent> publishContent = [ShareSDK content:[NSString stringWithFormat:@"我刚刚使用了%@进行了跟读训练，下载链接：%@",AppTitle,shareurl]
                                        defaultContent:@""
                                                 image:nil//[ShareSDK imageWithPath:imagePath]
                                                 title:@"德语达人"

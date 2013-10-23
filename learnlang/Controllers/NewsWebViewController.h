@@ -37,6 +37,8 @@
     int buttonY;
     
     BOOL isAutoPlay;
+    
+    BOOL isFirst;
 }
 
 @property(nonatomic,retain)News *news;
